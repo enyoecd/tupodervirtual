@@ -1,0 +1,6 @@
+{
+  "name": "Tu Poder Virtual",
+  "description": "Desarrollo Web Moderno y Soporte Técnico Computacional en Antofagasta, Chile. Atención presencial y asistencia remota con efectos visuales Matrix en modo oscuro y claro.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
