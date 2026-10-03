@@ -7,7 +7,7 @@ export const translations = {
       soporteTI: 'Soporte TI',
       contacto: 'Contacto',
       cotizar: 'Cotizar Ahora',
-      phone: '+56 9 1234 5678',
+      phone: '+56 9 8767 6879',
     },
     hero: {
       tag: 'Atención Presencial en Antofagasta & Remota a Todo el País y el Mundo',
@@ -90,7 +90,7 @@ export const translations = {
     cta: {
       title: '¿Necesitas Reparar tu Computador o Lanzar la Web de tu Negocio?',
       subtitle: 'Presupuestos claros, diagnóstico transparente y servicio garantizado tanto presencial en Antofagasta como remoto para cualquier ciudad.',
-      callBtn: 'Llamar: +56 9 1234 5678',
+      callBtn: 'Llamar: +56 9 8767 6879',
       waBtn: 'Escribir a WhatsApp',
     },
     contact: {
@@ -128,7 +128,7 @@ export const translations = {
       soporteTI: 'IT Support',
       contacto: 'Contact',
       cotizar: 'Get a Quote',
-      phone: '+56 9 1234 5678',
+      phone: '+56 9 8767 6879',
     },
     hero: {
       tag: 'On-site in Antofagasta & Remote Support Nationwide and Worldwide',
@@ -211,7 +211,7 @@ export const translations = {
     cta: {
       title: 'Need Computer Repair or Want to Launch Your Business Website?',
       subtitle: 'Clear quotes, transparent diagnostics, and guaranteed work in Antofagasta or remotely worldwide.',
-      callBtn: 'Call: +56 9 1234 5678',
+      callBtn: 'Call: +56 9 8767 6879',
       waBtn: 'Write on WhatsApp',
     },
     contact: {

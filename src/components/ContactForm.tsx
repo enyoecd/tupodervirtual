@@ -74,10 +74,10 @@ export const ContactForm: React.FC = () => {
                   {t.phoneTitle}
                 </h4>
                 <a
-                  href="tel:+56912345678"
+                  href="tel:+56987676879"
                   className="text-pink-600 dark:text-pink-400 font-semibold text-sm mt-0.5 hover:underline block"
                 >
-                  +56 9 1234 5678
+                  +56 9 8767 6879
                 </a>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                   {t.phoneHours}
@@ -94,12 +94,12 @@ export const ContactForm: React.FC = () => {
                   {t.waTitle}
                 </h4>
                 <a
-                  href="https://wa.me/56912345678"
+                  href="https://wa.me/56987676879"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-emerald-600 dark:text-emerald-400 font-semibold text-sm mt-0.5 hover:underline block"
                 >
-                  +56 9 1234 5678
+                  +56 9 8767 6879
                 </a>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                   {t.waSub}
@@ -353,7 +353,7 @@ export const ContactForm: React.FC = () => {
 
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
               <a
-                href="https://wa.me/56912345678"
+                href="https://wa.me/56987676879"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs text-center transition-colors shadow"

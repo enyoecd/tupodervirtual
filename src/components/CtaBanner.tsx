@@ -26,7 +26,7 @@ export const CtaBanner: React.FC = () => {
         <div className="flex flex-wrap justify-center items-center gap-4 pt-2">
           <a
             className="inline-flex items-center gap-2 px-6 py-3.5 bg-white text-slate-900 font-bold rounded-xl shadow-lg hover:bg-slate-100 transition-all text-sm group"
-            href="tel:+56912345678"
+            href="tel:+56987676879"
           >
             <Phone className="w-4 h-4 text-pink-600 group-hover:scale-110 transition-transform" />
             {t.callBtn}
@@ -34,7 +34,7 @@ export const CtaBanner: React.FC = () => {
 
           <a
             className="inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-pink-600 via-rose-600 to-amber-500 hover:from-pink-700 hover:to-amber-600 text-white font-bold rounded-xl shadow-lg hover:opacity-95 transition-all text-sm group"
-            href="https://wa.me/56912345678"
+            href="https://wa.me/56987676879"
             rel="noopener noreferrer"
             target="_blank"
           >

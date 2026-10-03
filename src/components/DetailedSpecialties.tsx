@@ -112,7 +112,7 @@ export const DetailedSpecialties: React.FC = () => {
               </a>
               <a
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold transition-colors shadow-md"
-                href="https://wa.me/56912345678"
+                href="https://wa.me/56987676879"
                 target="_blank"
                 rel="noopener noreferrer"
               >

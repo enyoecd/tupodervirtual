@@ -75,7 +75,7 @@ export const Hero: React.FC = () => {
 
               <a
                 className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-lg shadow-emerald-600/20 transition-all text-sm group"
-                href="https://wa.me/56912345678"
+                href="https://wa.me/56987676879"
                 rel="noopener noreferrer"
                 target="_blank"
               >

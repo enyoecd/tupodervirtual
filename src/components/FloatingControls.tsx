@@ -42,7 +42,7 @@ export const FloatingControls: React.FC = () => {
         aria-label="Contactar por WhatsApp a Tu Poder Virtual"
         className="w-14 h-14 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300 relative group"
         data-purpose="floating-whatsapp"
-        href="https://wa.me/56912345678"
+        href="https://wa.me/56987676879"
         rel="noopener noreferrer"
         target="_blank"
         title="Escríbenos a WhatsApp"
