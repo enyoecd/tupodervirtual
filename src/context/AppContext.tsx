@@ -22,9 +22,17 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setThemeState] = useState<Theme>(() => {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('tpv-theme');
-      if (saved === 'light' || saved === 'dark') return saved;
-      return 'dark'; // Default to dark as requested in the design
+      try {
+        // Clean up any stale localStorage from past test iterations
+        localStorage.removeItem('tpv-theme');
+        const sessionTheme = sessionStorage.getItem('tpv-theme');
+        if (sessionTheme === 'light' || sessionTheme === 'dark') {
+          return sessionTheme;
+        }
+      } catch (e) {
+        // ignore
+      }
+      return 'dark'; // Always default to dark mode
     }
     return 'dark';
   });
@@ -51,15 +59,32 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } else {
       root.classList.remove('dark');
     }
-    localStorage.setItem('tpv-theme', theme);
+    try {
+      sessionStorage.setItem('tpv-theme', theme);
+    } catch (e) {
+      // ignore
+    }
   }, [theme]);
 
   const toggleTheme = useCallback(() => {
-    setThemeState(prev => (prev === 'dark' ? 'light' : 'dark'));
+    setThemeState(prev => {
+      const nextTheme = prev === 'dark' ? 'light' : 'dark';
+      try {
+        sessionStorage.setItem('tpv-theme', nextTheme);
+      } catch (e) {
+        // ignore
+      }
+      return nextTheme;
+    });
   }, []);
 
   const setTheme = useCallback((t: Theme) => {
     setThemeState(t);
+    try {
+      sessionStorage.setItem('tpv-theme', t);
+    } catch (e) {
+      // ignore
+    }
   }, []);
 
   const setLanguage = useCallback((lang: Language) => {

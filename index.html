@@ -12,6 +12,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <script>
+      (function() {
+        try {
+          // Clear any old testing flag in localStorage
+          localStorage.removeItem('tpv-theme');
+          var userTheme = sessionStorage.getItem('tpv-theme');
+          if (userTheme === 'light') {
+            document.documentElement.classList.remove('dark');
+          } else {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
   </head>
   <body class="bg-white dark:bg-[#0B0F17] text-slate-800 dark:text-slate-100 font-sans antialiased selection:bg-pink-900 selection:text-pink-100 transition-colors duration-300">
     <div id="root"></div>
