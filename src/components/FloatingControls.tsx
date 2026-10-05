@@ -8,10 +8,17 @@ export const FloatingControls: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 300);
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      // Solo útil a partir de la mitad de la página hacia abajo
+      setShowScrollTop(scrollable > 0 && window.scrollY >= scrollable / 2);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
+    handleScroll();
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
   }, []);
 
   const scrollToTop = () => {
