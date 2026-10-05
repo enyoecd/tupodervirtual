@@ -11,7 +11,7 @@ export const DetailedSpecialties: React.FC = () => {
     <section className="py-20 bg-white dark:bg-[#0B0F17] transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24">
         {/* Specialty 1: Soporte Técnico Informático */}
-        <div className="grid lg:grid-cols-12 gap-12 items-center" id="soporte-tecnico">
+        <div className="grid lg:grid-cols-12 gap-12 items-center scroll-mt-24" id="soporte-tecnico">
           <div className="lg:col-span-6 space-y-6">
             <span className="text-xs uppercase font-extrabold tracking-wider text-pink-700 dark:text-pink-300 bg-pink-50 dark:bg-pink-950/60 px-3 py-1 rounded-md border border-pink-200 dark:border-pink-800/80">
               {isEs ? 'Soporte Informático' : 'IT & Computer Support'}
@@ -137,7 +137,7 @@ export const DetailedSpecialties: React.FC = () => {
         </div>
 
         {/* Specialty 2: Soluciones Web & Menús QR */}
-        <div className="grid lg:grid-cols-12 gap-12 items-center" id="desarrollo-web">
+        <div className="grid lg:grid-cols-12 gap-12 items-center scroll-mt-24" id="desarrollo-web">
           <div className="lg:col-span-6 order-2 lg:order-1">
             <div className="bg-slate-100 dark:bg-[#0F172A] rounded-3xl p-4 sm:p-6 border border-slate-200 dark:border-[#1E293B] shadow-lg relative group">
               <img

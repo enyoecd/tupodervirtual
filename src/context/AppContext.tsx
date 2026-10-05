@@ -27,10 +27,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [currentPage, setCurrentPageState] = useState<PageType>(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.toLowerCase();
-      if (hash.startsWith('#desarrollo-web') || hash.startsWith('#diseno-web')) {
+      if (hash.startsWith('#pagina-desarrollo-web') || hash.startsWith('#pagina-diseno-web')) {
         return 'web-design';
       }
-      if (hash.startsWith('#soporte-tecnico') || hash.startsWith('#soporte-remoto')) {
+      if (hash.startsWith('#pagina-soporte-tecnico') || hash.startsWith('#pagina-soporte-remoto')) {
         return 'technical-support';
       }
     }
@@ -72,17 +72,41 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => {
     const handleHash = () => {
       const hash = window.location.hash.toLowerCase();
-      if (hash.startsWith('#desarrollo-web') || hash.startsWith('#diseno-web')) {
+      if (hash.startsWith('#pagina-desarrollo-web') || hash.startsWith('#pagina-diseno-web')) {
         setCurrentPageState('web-design');
-      } else if (hash.startsWith('#soporte-tecnico') || hash.startsWith('#soporte-remoto')) {
+      } else if (hash.startsWith('#pagina-soporte-tecnico') || hash.startsWith('#pagina-soporte-remoto')) {
         setCurrentPageState('technical-support');
-      } else if (hash === '#inicio' || hash === '' || hash === '#' || hash === '#servicios' || hash === '#contacto') {
+      } else {
         setCurrentPageState('home');
+        const targetId = hash.replace(/^#/, '');
+        if (targetId && targetId !== 'inicio') {
+          setTimeout(() => {
+            const el = document.getElementById(targetId);
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth' });
+            }
+          }, 100);
+        }
       }
     };
 
     window.addEventListener('hashchange', handleHash);
     return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
+
+  // Smooth scroll to initial section on page load if hash exists
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const targetId = window.location.hash.toLowerCase().replace(/^#/, '');
+      if (targetId && targetId !== 'inicio' && !targetId.startsWith('pagina-')) {
+        setTimeout(() => {
+          const el = document.getElementById(targetId);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 300);
+      }
+    }
   }, []);
 
   const setCurrentPage = useCallback((page: PageType) => {
@@ -91,17 +115,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const navigateTo = useCallback((page: PageType, targetHash?: string) => {
     setCurrentPageState(page);
+    const cleanHash = targetHash ? targetHash.replace(/^#/, '') : '';
+
     if (page === 'web-design') {
-      window.location.hash = targetHash || 'desarrollo-web';
+      window.location.hash = cleanHash || 'pagina-desarrollo-web';
     } else if (page === 'technical-support') {
-      window.location.hash = targetHash || 'soporte-tecnico';
+      window.location.hash = cleanHash || 'pagina-soporte-tecnico';
     } else {
-      window.location.hash = targetHash || 'inicio';
+      window.location.hash = cleanHash || 'inicio';
     }
 
-    if (targetHash && targetHash !== 'desarrollo-web' && targetHash !== 'soporte-tecnico' && targetHash !== 'inicio') {
+    if (cleanHash && cleanHash !== 'inicio') {
       setTimeout(() => {
-        const el = document.getElementById(targetHash.replace('#', ''));
+        const el = document.getElementById(cleanHash);
         if (el) {
           el.scrollIntoView({ behavior: 'smooth' });
         } else {

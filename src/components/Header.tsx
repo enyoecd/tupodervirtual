@@ -100,22 +100,14 @@ export const Header: React.FC = () => {
               {t.servicios}
             </button>
             <button
-              onClick={() => navigateTo('web-design')}
-              className={`transition-colors whitespace-nowrap cursor-pointer ${
-                currentPage === 'web-design'
-                  ? 'text-pink-600 dark:text-pink-400 font-bold border-b-2 border-pink-500 pb-0.5'
-                  : 'hover:text-pink-600 dark:hover:text-pink-400 font-medium'
-              }`}
+              onClick={() => navigateTo('home', 'desarrollo-web')}
+              className="hover:text-pink-600 dark:hover:text-pink-400 transition-colors whitespace-nowrap cursor-pointer font-medium"
             >
               {t.desarrolloWeb}
             </button>
             <button
-              onClick={() => navigateTo('technical-support')}
-              className={`transition-colors whitespace-nowrap cursor-pointer ${
-                currentPage === 'technical-support'
-                  ? 'text-blue-600 dark:text-sky-400 font-bold border-b-2 border-sky-400 pb-0.5'
-                  : 'hover:text-blue-600 dark:hover:text-sky-400 font-medium'
-              }`}
+              onClick={() => navigateTo('home', 'soporte-tecnico')}
+              className="hover:text-pink-600 dark:hover:text-pink-400 transition-colors whitespace-nowrap cursor-pointer font-medium"
             >
               {t.soporteTI}
             </button>
@@ -280,26 +272,18 @@ export const Header: React.FC = () => {
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
-                navigateTo('web-design');
+                navigateTo('home', 'desarrollo-web');
               }}
-              className={`block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold transition-colors cursor-pointer ${
-                currentPage === 'web-design'
-                  ? 'text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/40'
-                  : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
-              }`}
+              className="block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
             >
               {t.desarrolloWeb}
             </button>
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
-                navigateTo('technical-support');
+                navigateTo('home', 'soporte-tecnico');
               }}
-              className={`block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold transition-colors cursor-pointer ${
-                currentPage === 'technical-support'
-                  ? 'text-blue-600 dark:text-sky-400 bg-blue-50 dark:bg-blue-950/40'
-                  : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
-              }`}
+              className="block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
             >
               {t.soporteTI}
             </button>
