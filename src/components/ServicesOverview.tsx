@@ -4,7 +4,7 @@ import { useApp } from '../context/AppContext';
 import { translations } from '../data/translations';
 
 export const ServicesOverview: React.FC = () => {
-  const { language } = useApp();
+  const { language, navigateTo } = useApp();
   const t = translations[language].servicesOverview;
 
   const supportBullets = [
@@ -84,20 +84,22 @@ export const ServicesOverview: React.FC = () => {
               </ul>
             </div>
 
-            <div className="pt-8 mt-6 border-t border-slate-200 dark:border-[#1E293B] flex items-center justify-between">
-              <a
-                className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 dark:text-sky-400 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors"
-                href="#soporte-tecnico"
+            <div className="pt-8 mt-6 border-t border-slate-200 dark:border-[#1E293B] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+              <button
+                type="button"
+                onClick={() => navigateTo('technical-support')}
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-blue-600/25 hover:scale-105 cursor-pointer"
               >
-                {t.supportLink}
+                <span>{language === 'ES' ? 'Ver más a detalle' : 'Ver más a detalle'}</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a
-                className="text-xs font-semibold bg-white dark:bg-[#1E293B] text-slate-800 dark:text-slate-200 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 transition-colors"
-                href="#contacto"
+              </button>
+              <button
+                type="button"
+                onClick={() => navigateTo('technical-support', 'contacto-rapido')}
+                className="text-xs font-semibold text-center bg-white dark:bg-[#1E293B] text-slate-800 dark:text-slate-200 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer"
               >
                 {t.supportAction}
-              </a>
+              </button>
             </div>
           </div>
 
@@ -137,20 +139,22 @@ export const ServicesOverview: React.FC = () => {
               </ul>
             </div>
 
-            <div className="pt-8 mt-6 border-t border-slate-200 dark:border-[#1E293B] flex items-center justify-between">
-              <a
-                className="inline-flex items-center gap-2 text-sm font-bold text-pink-600 dark:text-pink-400 group-hover:text-pink-700 transition-colors"
-                href="#desarrollo-web"
+            <div className="pt-8 mt-6 border-t border-slate-200 dark:border-[#1E293B] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+              <button
+                type="button"
+                onClick={() => navigateTo('web-design')}
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-pink-600 hover:bg-pink-500 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-pink-600/25 hover:scale-105 cursor-pointer"
               >
-                {t.webLink}
+                <span>{language === 'ES' ? 'Ver más sobre las soluciones' : 'Explore web solutions'}</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a
-                className="text-xs font-semibold bg-pink-50 dark:bg-pink-950/60 text-pink-700 dark:text-pink-300 hover:bg-pink-600 hover:text-white px-3 py-1.5 rounded-lg border border-pink-200 dark:border-pink-800 transition-colors"
-                href="#contacto"
+              </button>
+              <button
+                type="button"
+                onClick={() => navigateTo('web-design', 'formulario-cotizacion')}
+                className="text-xs font-semibold text-center bg-white dark:bg-[#1E293B] text-slate-800 dark:text-slate-200 hover:bg-pink-600 hover:text-white dark:hover:bg-pink-600 dark:hover:text-white px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer"
               >
                 {t.webAction}
-              </a>
+              </button>
             </div>
           </div>
         </div>

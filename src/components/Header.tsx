@@ -37,7 +37,7 @@ const UsaFlag: React.FC<{ className?: string }> = ({ className = 'w-5 h-3.5' }) 
 );
 
 export const Header: React.FC = () => {
-  const { theme, toggleTheme, language, setLanguage } = useApp();
+  const { theme, toggleTheme, language, setLanguage, currentPage, navigateTo } = useApp();
   const t = translations[language].nav;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
@@ -60,9 +60,13 @@ export const Header: React.FC = () => {
         <div className="flex items-center justify-between h-20 gap-3 xl:gap-6">
           {/* Brand Logo */}
           <a
-            className="flex items-center gap-2.5 sm:gap-3 shrink-0 group"
+            className="flex items-center gap-2.5 sm:gap-3 shrink-0 group cursor-pointer"
             data-purpose="site-brand"
             href="#inicio"
+            onClick={(e) => {
+              e.preventDefault();
+              navigateTo('home', 'inicio');
+            }}
           >
             <div className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center group-hover:scale-105 transition-transform">
               <img
@@ -91,36 +95,56 @@ export const Header: React.FC = () => {
             className="hidden lg:flex items-center gap-4 xl:gap-7 text-sm font-medium text-slate-600 dark:text-slate-300"
             data-purpose="main-nav"
           >
-            <a
-              className="text-pink-600 dark:text-pink-400 font-semibold hover:text-pink-700 dark:hover:text-pink-300 transition-colors whitespace-nowrap"
-              href="#inicio"
+            <button
+              onClick={() => navigateTo('home', 'inicio')}
+              className={`transition-colors whitespace-nowrap cursor-pointer ${
+                currentPage === 'home'
+                  ? 'text-pink-600 dark:text-pink-400 font-bold border-b-2 border-pink-500 pb-0.5'
+                  : 'hover:text-pink-600 dark:hover:text-pink-400 font-medium'
+              }`}
             >
               {t.inicio}
-            </a>
-            <a
-              className="hover:text-pink-600 dark:hover:text-pink-400 transition-colors whitespace-nowrap"
-              href="#servicios"
+            </button>
+            <button
+              onClick={() => navigateTo('home', 'servicios')}
+              className="hover:text-pink-600 dark:hover:text-pink-400 transition-colors whitespace-nowrap cursor-pointer font-medium"
             >
               {t.servicios}
-            </a>
-            <a
-              className="hover:text-pink-600 dark:hover:text-pink-400 transition-colors whitespace-nowrap"
-              href="#desarrollo-web"
+            </button>
+            <button
+              onClick={() => navigateTo('web-design')}
+              className={`transition-colors whitespace-nowrap cursor-pointer ${
+                currentPage === 'web-design'
+                  ? 'text-pink-600 dark:text-pink-400 font-bold border-b-2 border-pink-500 pb-0.5'
+                  : 'hover:text-pink-600 dark:hover:text-pink-400 font-medium'
+              }`}
             >
               {t.desarrolloWeb}
-            </a>
-            <a
-              className="hover:text-pink-600 dark:hover:text-pink-400 transition-colors whitespace-nowrap"
-              href="#soporte-tecnico"
+            </button>
+            <button
+              onClick={() => navigateTo('technical-support')}
+              className={`transition-colors whitespace-nowrap cursor-pointer ${
+                currentPage === 'technical-support'
+                  ? 'text-blue-600 dark:text-sky-400 font-bold border-b-2 border-sky-400 pb-0.5'
+                  : 'hover:text-blue-600 dark:hover:text-sky-400 font-medium'
+              }`}
             >
               {t.soporteTI}
-            </a>
-            <a
-              className="hover:text-pink-600 dark:hover:text-pink-400 transition-colors whitespace-nowrap"
-              href="#contacto"
+            </button>
+            <button
+              onClick={() => {
+                if (currentPage === 'web-design') {
+                  navigateTo('web-design', 'formulario-cotizacion');
+                } else if (currentPage === 'technical-support') {
+                  navigateTo('technical-support', 'contacto-rapido');
+                } else {
+                  navigateTo('home', 'contacto');
+                }
+              }}
+              className="hover:text-pink-600 dark:hover:text-pink-400 transition-colors whitespace-nowrap cursor-pointer font-medium"
             >
               {t.contacto}
-            </a>
+            </button>
           </nav>
 
           {/* Header Actions */}
@@ -212,13 +236,22 @@ export const Header: React.FC = () => {
             </a>
 
             {/* Cotizar Ahora / Contacto CTA Button */}
-            <a
-              className="inline-flex items-center justify-center px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 rounded-xl shadow-md shadow-pink-600/25 transition-all whitespace-nowrap shrink-0"
-              href="#contacto"
+            <button
+              type="button"
+              onClick={() => {
+                if (currentPage === 'web-design') {
+                  navigateTo('web-design', 'formulario-cotizacion');
+                } else if (currentPage === 'technical-support') {
+                  navigateTo('technical-support', 'contacto-rapido');
+                } else {
+                  navigateTo('home', 'contacto');
+                }
+              }}
+              className="inline-flex items-center justify-center px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 rounded-xl shadow-md shadow-pink-600/25 transition-all whitespace-nowrap shrink-0 cursor-pointer hover:scale-105"
             >
               <span className="sm:hidden">{language === 'ES' ? 'Contacto' : 'Contact'}</span>
               <span className="hidden sm:inline">{t.cotizar}</span>
-            </a>
+            </button>
 
             {/* Mobile menu hamburger (Prominent, cleanly visible, no overlap) */}
             <button
@@ -234,41 +267,69 @@ export const Header: React.FC = () => {
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
           <div className="lg:hidden py-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
-            <a
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-sm font-semibold text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/40"
-              href="#inicio"
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                navigateTo('home', 'inicio');
+              }}
+              className={`block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold transition-colors cursor-pointer ${
+                currentPage === 'home'
+                  ? 'text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/40'
+                  : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
+              }`}
             >
               {t.inicio}
-            </a>
-            <a
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
-              href="#servicios"
+            </button>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                navigateTo('home', 'servicios');
+              }}
+              className="block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
             >
               {t.servicios}
-            </a>
-            <a
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
-              href="#desarrollo-web"
+            </button>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                navigateTo('web-design');
+              }}
+              className={`block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold transition-colors cursor-pointer ${
+                currentPage === 'web-design'
+                  ? 'text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/40'
+                  : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
+              }`}
             >
               {t.desarrolloWeb}
-            </a>
-            <a
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
-              href="#soporte-tecnico"
+            </button>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                navigateTo('technical-support');
+              }}
+              className={`block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold transition-colors cursor-pointer ${
+                currentPage === 'technical-support'
+                  ? 'text-blue-600 dark:text-sky-400 bg-blue-50 dark:bg-blue-950/40'
+                  : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
+              }`}
             >
               {t.soporteTI}
-            </a>
-            <a
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
-              href="#contacto"
+            </button>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                if (currentPage === 'web-design') {
+                  navigateTo('web-design', 'formulario-cotizacion');
+                } else if (currentPage === 'technical-support') {
+                  navigateTo('technical-support', 'contacto-rapido');
+                } else {
+                  navigateTo('home', 'contacto');
+                }
+              }}
+              className="block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
             >
               {t.contacto}
-            </a>
+            </button>
 
             {/* Mobile Language and Theme Options */}
             <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between px-3">

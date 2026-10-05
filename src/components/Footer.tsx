@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext';
 import { translations } from '../data/translations';
 
 export const Footer: React.FC = () => {
-  const { language } = useApp();
+  const { language, navigateTo } = useApp();
   const t = translations[language].footer;
   const isEs = language === 'ES';
 
@@ -16,10 +16,14 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-[#1E293B]">
           {/* Brand Description */}
           <div className="lg:col-span-4 space-y-4">
-            <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => navigateTo('home', 'inicio')}
+              className="flex items-center gap-3 text-left cursor-pointer group"
+            >
               <img
                 alt="Tu Poder Virtual"
-                className="w-10 h-10 object-contain"
+                className="w-10 h-10 object-contain group-hover:scale-105 transition-transform"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpMALzfOADiw7xdE4q0xRYk3EDqMedECgQLdvCmJj6n17W-j6N1XrvM1MQjMV2kpiICRWvRiotS_Q5hywS0DFwdVRHOaVuNT3a8V1CHh_uW2Unn_SUzF2Pq47XyknXAKlk7Z1LOhSU2tNQTHuHAgEer1HyYCJjlBDCHy_2iemHC4VqvQoFT719DID21RKBU_Q_cDeEFj5nsKBE0GjtlfrU-1A00wulkh0rYq68A6cK_iDljYQ1EDIjQAl5dqfCkoNDBw"
               />
               <span className="font-extrabold text-xl text-white tracking-tight">
@@ -28,7 +32,7 @@ export const Footer: React.FC = () => {
                   Virtual
                 </span>
               </span>
-            </div>
+            </button>
             <p className="text-sm text-slate-400 leading-relaxed">
               {t.desc}
             </p>
@@ -45,39 +49,67 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-xs sm:text-sm text-slate-400">
               <li>
-                <a className="hover:text-pink-400 transition-colors" href="#soporte-tecnico">
+                <button
+                  type="button"
+                  onClick={() => navigateTo('technical-support')}
+                  className="hover:text-sky-400 transition-colors text-left cursor-pointer"
+                >
                   • {isEs ? 'Reparación y mantenimiento de computadores (PC y notebooks)' : 'Computer and laptop maintenance & repair'}
-                </a>
+                </button>
               </li>
               <li>
-                <a className="hover:text-pink-400 transition-colors" href="#soporte-tecnico">
+                <button
+                  type="button"
+                  onClick={() => navigateTo('technical-support')}
+                  className="hover:text-sky-400 transition-colors text-left cursor-pointer"
+                >
                   • {isEs ? 'Formateo e instalación de Windows' : 'Windows installation and driver configuration'}
-                </a>
+                </button>
               </li>
               <li>
-                <a className="hover:text-pink-400 transition-colors" href="#soporte-tecnico">
+                <button
+                  type="button"
+                  onClick={() => navigateTo('technical-support')}
+                  className="hover:text-sky-400 transition-colors text-left cursor-pointer"
+                >
                   • {isEs ? 'Instalación y configuración de software' : 'Software setup and licensing config'}
-                </a>
+                </button>
               </li>
               <li>
-                <a className="hover:text-pink-400 transition-colors" href="#soporte-tecnico">
+                <button
+                  type="button"
+                  onClick={() => navigateTo('technical-support')}
+                  className="hover:text-sky-400 transition-colors text-left cursor-pointer"
+                >
                   • {isEs ? 'Eliminación de virus y malware' : 'Malware isolation and removal'}
-                </a>
+                </button>
               </li>
               <li>
-                <a className="hover:text-pink-400 transition-colors" href="#soporte-tecnico">
+                <button
+                  type="button"
+                  onClick={() => navigateTo('technical-support')}
+                  className="hover:text-sky-400 transition-colors text-left cursor-pointer"
+                >
                   • {isEs ? 'Optimización de computadores y aceleración' : 'Computer system optimization'}
-                </a>
+                </button>
               </li>
               <li>
-                <a className="hover:text-pink-400 transition-colors" href="#soporte-tecnico">
+                <button
+                  type="button"
+                  onClick={() => navigateTo('technical-support')}
+                  className="hover:text-sky-400 transition-colors text-left cursor-pointer"
+                >
                   • {isEs ? 'Recuperación de datos y diagnóstico' : 'Data recovery and diagnostics'}
-                </a>
+                </button>
               </li>
               <li>
-                <a className="hover:text-pink-400 transition-colors" href="#soporte-tecnico">
+                <button
+                  type="button"
+                  onClick={() => navigateTo('technical-support')}
+                  className="hover:text-sky-400 transition-colors text-left cursor-pointer"
+                >
                   • {isEs ? 'Asistencia y soporte técnico remoto' : 'Remote desktop technical support'}
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -89,34 +121,58 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-xs sm:text-sm text-slate-400">
               <li>
-                <a className="hover:text-amber-400 transition-colors" href="#desarrollo-web">
+                <button
+                  type="button"
+                  onClick={() => navigateTo('web-design')}
+                  className="hover:text-pink-400 transition-colors text-left cursor-pointer"
+                >
                   • {isEs ? 'Creación de páginas web para empresas y negocios' : 'Corporate website design and development'}
-                </a>
+                </button>
               </li>
               <li>
-                <a className="hover:text-amber-400 transition-colors" href="#desarrollo-web">
+                <button
+                  type="button"
+                  onClick={() => navigateTo('web-design')}
+                  className="hover:text-pink-400 transition-colors text-left cursor-pointer"
+                >
                   • {isEs ? 'Diseño de sitios web profesionales' : 'High-impact professional websites'}
-                </a>
+                </button>
               </li>
               <li>
-                <a className="hover:text-amber-400 transition-colors" href="#desarrollo-web">
+                <button
+                  type="button"
+                  onClick={() => navigateTo('web-design')}
+                  className="hover:text-pink-400 transition-colors text-left cursor-pointer"
+                >
                   • {isEs ? 'Creación de menús digitales para restaurantes' : 'Interactive QR digital menus for restaurants'}
-                </a>
+                </button>
               </li>
               <li>
-                <a className="hover:text-amber-400 transition-colors" href="#desarrollo-web">
+                <button
+                  type="button"
+                  onClick={() => navigateTo('web-design')}
+                  className="hover:text-pink-400 transition-colors text-left cursor-pointer"
+                >
                   • {isEs ? 'Soluciones web personalizadas para PyMEs' : 'Tailored web solutions for SMEs'}
-                </a>
+                </button>
               </li>
               <li>
-                <a className="hover:text-amber-400 transition-colors" href="#desarrollo-web">
+                <button
+                  type="button"
+                  onClick={() => navigateTo('web-design')}
+                  className="hover:text-pink-400 transition-colors text-left cursor-pointer"
+                >
                   • {isEs ? 'Sitios 100% responsivos optimizados para celulares' : '100% mobile-first responsive web design'}
-                </a>
+                </button>
               </li>
               <li>
-                <a className="hover:text-amber-400 transition-colors" href="#cobertura">
+                <button
+                  type="button"
+                  onClick={() => navigateTo('home', 'cobertura')}
+                  className="hover:text-amber-400 transition-colors text-left cursor-pointer"
+                >
                   • {isEs ? 'Atención Presencial en Antofagasta y Remota' : 'On-site Antofagasta & global remote support'}
-                </a>
+                </button>
               </li>
             </ul>
           </div>

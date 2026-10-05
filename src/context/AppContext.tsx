@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { MatrixSpill, Language, Theme } from '../types/matrix';
+import { PageType } from '../types/navigation';
 
 interface AppContextType {
   theme: Theme;
@@ -7,6 +8,9 @@ interface AppContextType {
   setTheme: (t: Theme) => void;
   language: Language;
   setLanguage: (lang: Language) => void;
+  currentPage: PageType;
+  setCurrentPage: (page: PageType) => void;
+  navigateTo: (page: PageType, targetHash?: string) => void;
   matrixEnabled: boolean;
   setMatrixEnabled: (enabled: boolean) => void;
   matrixSpeed: number; // 1 = normal, 2 = fast, 0.5 = slow
@@ -20,6 +24,19 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [currentPage, setCurrentPageState] = useState<PageType>(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.toLowerCase();
+      if (hash.startsWith('#desarrollo-web') || hash.startsWith('#diseno-web')) {
+        return 'web-design';
+      }
+      if (hash.startsWith('#soporte-tecnico') || hash.startsWith('#soporte-remoto')) {
+        return 'technical-support';
+      }
+    }
+    return 'home';
+  });
+
   const [theme, setThemeState] = useState<Theme>(() => {
     if (typeof window !== 'undefined') {
       try {
@@ -50,6 +67,51 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [spills, setSpills] = useState<MatrixSpill[]>([]);
   const [showEndWave, setShowEndWave] = useState(false);
   const [lastWaveTime, setLastWaveTime] = useState(0);
+
+  // Sync with browser URL hash
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.toLowerCase();
+      if (hash.startsWith('#desarrollo-web') || hash.startsWith('#diseno-web')) {
+        setCurrentPageState('web-design');
+      } else if (hash.startsWith('#soporte-tecnico') || hash.startsWith('#soporte-remoto')) {
+        setCurrentPageState('technical-support');
+      } else if (hash === '#inicio' || hash === '' || hash === '#' || hash === '#servicios' || hash === '#contacto') {
+        setCurrentPageState('home');
+      }
+    };
+
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
+
+  const setCurrentPage = useCallback((page: PageType) => {
+    setCurrentPageState(page);
+  }, []);
+
+  const navigateTo = useCallback((page: PageType, targetHash?: string) => {
+    setCurrentPageState(page);
+    if (page === 'web-design') {
+      window.location.hash = targetHash || 'desarrollo-web';
+    } else if (page === 'technical-support') {
+      window.location.hash = targetHash || 'soporte-tecnico';
+    } else {
+      window.location.hash = targetHash || 'inicio';
+    }
+
+    if (targetHash && targetHash !== 'desarrollo-web' && targetHash !== 'soporte-tecnico' && targetHash !== 'inicio') {
+      setTimeout(() => {
+        const el = document.getElementById(targetHash.replace('#', ''));
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, []);
 
   // Sync theme with html root class
   useEffect(() => {
@@ -110,16 +172,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, [matrixEnabled]);
 
   const triggerEndWave = useCallback(() => {
-    if (!matrixEnabled) return;
-    const now = Date.now();
-    // Cooldown 4 seconds
-    if (now - lastWaveTime < 4000) return;
-    setLastWaveTime(now);
-    setShowEndWave(true);
-    setTimeout(() => {
-      setShowEndWave(false);
-    }, 2200);
-  }, [matrixEnabled, lastWaveTime]);
+    // Disabled as requested
+  }, []);
 
   // Global click listener on buttons and links for the Matrix Spill Effect (Requirement 2)
   useEffect(() => {
@@ -142,21 +196,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return () => window.removeEventListener('click', handleClick);
   }, [triggerSpill]);
 
-  // Scroll listener for Requirement 4: Indicador de Final de Página
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPos = window.innerHeight + window.scrollY;
-      const totalHeight = document.documentElement.scrollHeight;
-      // Trigger wave when within 80px of bottom or right before footer
-      if (totalHeight - scrollPos < 100) {
-        triggerEndWave();
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [triggerEndWave]);
-
   return (
     <AppContext.Provider
       value={{
@@ -165,6 +204,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setTheme,
         language,
         setLanguage,
+        currentPage,
+        setCurrentPage,
+        navigateTo,
         matrixEnabled,
         setMatrixEnabled,
         matrixSpeed,

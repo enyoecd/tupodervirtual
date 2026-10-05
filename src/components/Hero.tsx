@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Zap, MessageSquare, Terminal as TerminalIcon, Sparkles } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { translations } from '../data/translations';
+import { HeroMatrixCanvas } from './matrix/HeroMatrixCanvas';
 
-const MATRIX_CHARS = 'ｦｱｳｴｵｶｷｹｺｻｼｽｾｿﾀﾂﾃﾅﾆﾇﾈﾊﾋﾎﾏﾐﾑﾒﾓﾔﾕﾗﾘﾜ0123456789%#@*!<>{}[]';
+const MATRIX_CHARS =
+  '电网智算码通云速力恒信道机核光端数界流元维宇空宙极星微源联科度迅灵超龙华泰胜安乾坤天地日月山川风雷海0123456789%#@*<>';
 
 export const Hero: React.FC = () => {
   const { language, triggerSpill } = useApp();
@@ -40,6 +42,9 @@ export const Hero: React.FC = () => {
       className="relative pt-10 pb-16 lg:pt-16 lg:pb-24 overflow-hidden bg-white dark:bg-[#0B0F17] transition-colors duration-300"
       id="inicio"
     >
+      {/* Targeted Hero Matrix Rain Canvas (Top Strip, Inverted 'L' & Behind Terminal) */}
+      <HeroMatrixCanvas />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-10 items-center">
           {/* Left Column: Copywriting, CTAs y Fila de Métricas */}

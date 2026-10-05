@@ -3,7 +3,7 @@ import { ArrowUp, Sparkles } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const FloatingControls: React.FC = () => {
-  const { triggerSpill, triggerEndWave } = useApp();
+  const { triggerSpill } = useApp();
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
