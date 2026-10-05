@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowUp, Sparkles } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const FloatingControls: React.FC = () => {
@@ -8,13 +8,24 @@ export const FloatingControls: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-      // Solo útil a partir de la mitad de la página hacia abajo
-      setShowScrollTop(scrollable > 0 && window.scrollY >= scrollable / 2);
+      const scrollHeight = document.documentElement.scrollHeight;
+      const innerHeight = window.innerHeight;
+      const maxScroll = scrollHeight - innerHeight;
+
+      // Only show when the user reaches the halfway mark (50% or more down the page)
+      if (maxScroll <= 0) {
+        setShowScrollTop(false);
+        return;
+      }
+
+      const halfwayThreshold = maxScroll / 2;
+      setShowScrollTop(window.scrollY >= halfwayThreshold);
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll);
+    window.addEventListener('resize', handleScroll, { passive: true });
     handleScroll();
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
@@ -31,18 +42,20 @@ export const FloatingControls: React.FC = () => {
       className="fixed bottom-6 right-6 z-40 flex flex-col items-center gap-3"
       data-purpose="floating-controls"
     >
-      {/* Scroll to Top Button */}
-      {showScrollTop && (
-        <button
-          aria-label="Subir arriba"
-          className="w-12 h-12 rounded-full bg-slate-900/90 hover:bg-slate-800 text-white dark:bg-[#1E293B]/95 dark:hover:bg-[#283852] border border-slate-700/60 shadow-xl flex items-center justify-center transition-all hover:scale-110 cursor-pointer backdrop-blur-md hover:border-emerald-500/50"
-          onClick={scrollToTop}
-          title="Subir al inicio"
-          type="button"
-        >
-          <ArrowUp className="w-5 h-5" />
-        </button>
-      )}
+      {/* Scroll to Top Button (Only visible from halfway down the page downwards) */}
+      <button
+        aria-label="Subir al inicio de la página"
+        className={`w-12 h-12 rounded-full bg-slate-900/90 hover:bg-slate-800 text-white dark:bg-[#1E293B]/95 dark:hover:bg-[#283852] border border-slate-700/60 shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer backdrop-blur-md hover:border-pink-500/50 ${
+          showScrollTop
+            ? 'opacity-100 translate-y-0 pointer-events-auto scale-100'
+            : 'opacity-0 translate-y-4 pointer-events-none scale-75'
+        }`}
+        onClick={scrollToTop}
+        title="Subir al inicio"
+        type="button"
+      >
+        <ArrowUp className="w-5 h-5" />
+      </button>
 
       {/* Floating WhatsApp Button */}
       <a
