@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Sun, Moon, Phone, Menu, X, Check } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { translations } from '../data/translations';
+import logo from '../assets/tu-poder-virtual-logo.png';
 
 // Crisp SVG Flags (guarantees perfect display across Windows, Mac, iOS, Android)
 const SpainFlag: React.FC<{ className?: string }> = ({ className = 'w-5 h-3.5' }) => (
@@ -60,7 +61,7 @@ export const Header: React.FC = () => {
         <div className="flex items-center justify-between h-20 gap-3 xl:gap-6">
           {/* Brand Logo */}
           <a
-            className="flex items-center gap-2.5 sm:gap-3 shrink-0 group cursor-pointer"
+            className="flex items-center shrink-0 group cursor-pointer"
             data-purpose="site-brand"
             href="#inicio"
             onClick={(e) => {
@@ -68,26 +69,13 @@ export const Header: React.FC = () => {
               navigateTo('home', 'inicio');
             }}
           >
-            <div className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center group-hover:scale-105 transition-transform">
-              <img
-                alt="Tu Poder Virtual Logo"
-                className="w-10 h-10 sm:w-11 sm:h-11 object-contain drop-shadow-xs"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9aHZKITbW2V70cbRfpC-v5dSraeJKh9xx2gR15owjUjwhXje8mrkwl8s2YkhCeXxg2CcCbZHJ72SCHz0L68CWTs9iGcM-7EBORWcbkfE9iRIxDP10suACu0YiE4KPWv8CZgPVsm5MUFN-_9fRNRE8tAoSBLKkI_M2FRIR46bhOonxWJGqHghzMQAwYzYsxX7hL00ZtfIekKESK5jM4wPM7qN9Ef-Uqqd2uwVTexjNEKObrImGAyQsSF5DlRjAZ8y24w"
-              />
-            </div>
-            <div className="flex flex-col justify-center">
-              <div className="flex flex-col sm:flex-row sm:items-baseline leading-tight sm:leading-none">
-                <span className="font-extrabold text-base sm:text-xl tracking-tight text-slate-900 dark:text-white">
-                  Tu Poder
-                </span>
-                <span className="font-extrabold text-base sm:text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-pink-600 via-rose-500 to-amber-500 dark:from-pink-500 dark:to-amber-400 sm:ml-1.5">
-                  Virtual
-                </span>
-              </div>
-              <span className="hidden sm:block text-[10px] font-semibold tracking-wider text-slate-400 dark:text-slate-400 uppercase mt-0.5">
-                Web & Soporte Informático
-              </span>
-            </div>
+            <img
+              alt="Tu Poder Virtual"
+              className="w-[8.5rem] sm:w-40 md:w-44 xl:w-48 h-auto max-h-[4.5rem] object-contain group-hover:scale-105 transition-transform"
+              height={291}
+              src={logo}
+              width={777}
+            />
           </a>
 
           {/* Desktop Navigation Links */}
