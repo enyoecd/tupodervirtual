@@ -29,7 +29,7 @@ export const ServicesOverview: React.FC = () => {
 
   return (
     <section
-      className="py-20 bg-white dark:bg-[#0B0F17] border-b border-slate-200 dark:border-[#1E293B] transition-colors duration-300"
+      className="py-20 bg-white dark:bg-[#0B0F17] border-b border-slate-200 dark:border-[#1E293B] transition-colors duration-300 scroll-mt-24"
       id="servicios"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

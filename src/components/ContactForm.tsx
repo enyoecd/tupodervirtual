@@ -49,7 +49,7 @@ export const ContactForm: React.FC = () => {
 
   return (
     <section
-      className="py-20 bg-slate-50 dark:bg-[#0F172A] border-t border-slate-200 dark:border-[#1E293B] transition-colors duration-300"
+      className="py-20 bg-slate-50 dark:bg-[#0F172A] border-t border-slate-200 dark:border-[#1E293B] transition-colors duration-300 scroll-mt-24"
       id="contacto"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

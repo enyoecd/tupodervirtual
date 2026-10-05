@@ -37,12 +37,86 @@ const UsaFlag: React.FC<{ className?: string }> = ({ className = 'w-5 h-3.5' }) 
   </svg>
 );
 
+type NavSection = 'inicio' | 'servicios' | 'desarrollo-web' | 'soporte-tecnico' | 'contacto';
+
 export const Header: React.FC = () => {
   const { theme, toggleTheme, language, setLanguage, currentPage, navigateTo } = useApp();
   const t = translations[language].nav;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const langDropdownRef = useRef<HTMLDivElement | null>(null);
+
+  const [activeSection, setActiveSection] = useState<NavSection>(() => {
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const h = window.location.hash.replace('#', '').toLowerCase();
+      if (h === 'inicio' || h === 'servicios' || h === 'desarrollo-web' || h === 'soporte-tecnico' || h === 'contacto') {
+        return h as NavSection;
+      }
+    }
+    return 'inicio';
+  });
+
+  // ScrollSpy: Dynamically colorize the menu item for the section where the user is currently positioned
+  useEffect(() => {
+    if (currentPage !== 'home') {
+      if (currentPage === 'web-design') setActiveSection('desarrollo-web');
+      else if (currentPage === 'technical-support') setActiveSection('soporte-tecnico');
+      return;
+    }
+
+    const sectionIds: NavSection[] = ['inicio', 'servicios', 'soporte-tecnico', 'desarrollo-web', 'contacto'];
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+
+      // Bottom of page -> Contacto
+      if (scrollY + windowHeight >= docHeight - 140) {
+        setActiveSection('contacto');
+        return;
+      }
+
+      // Very top of page -> Inicio
+      if (scrollY < 120) {
+        setActiveSection('inicio');
+        return;
+      }
+
+      // Find section currently in view closest to header
+      const offsetThreshold = 180;
+      let matched: NavSection = 'inicio';
+
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= offsetThreshold) {
+            matched = id;
+          }
+        }
+      }
+
+      setActiveSection(matched);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    const handleHash = () => {
+      const h = window.location.hash.replace('#', '').toLowerCase();
+      if (h === 'inicio' || h === 'servicios' || h === 'desarrollo-web' || h === 'soporte-tecnico' || h === 'contacto') {
+        setActiveSection(h as NavSection);
+      }
+    };
+    window.addEventListener('hashchange', handleHash);
+
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('hashchange', handleHash);
+    };
+  }, [currentPage]);
 
   // Close language dropdown when clicking outside
   useEffect(() => {
@@ -66,6 +140,7 @@ export const Header: React.FC = () => {
             href="#inicio"
             onClick={(e) => {
               e.preventDefault();
+              setActiveSection('inicio');
               navigateTo('home', 'inicio');
             }}
           >
@@ -84,35 +159,60 @@ export const Header: React.FC = () => {
             data-purpose="main-nav"
           >
             <button
-              onClick={() => navigateTo('home', 'inicio')}
-              className={`transition-colors whitespace-nowrap cursor-pointer ${
-                currentPage === 'home'
+              onClick={() => {
+                setActiveSection('inicio');
+                navigateTo('home', 'inicio');
+              }}
+              className={`transition-all whitespace-nowrap cursor-pointer ${
+                activeSection === 'inicio'
                   ? 'text-pink-600 dark:text-pink-400 font-bold border-b-2 border-pink-500 pb-0.5'
-                  : 'hover:text-pink-600 dark:hover:text-pink-400 font-medium'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-pink-600 dark:hover:text-pink-400 font-medium'
               }`}
             >
               {t.inicio}
             </button>
             <button
-              onClick={() => navigateTo('home', 'servicios')}
-              className="hover:text-pink-600 dark:hover:text-pink-400 transition-colors whitespace-nowrap cursor-pointer font-medium"
+              onClick={() => {
+                setActiveSection('servicios');
+                navigateTo('home', 'servicios');
+              }}
+              className={`transition-all whitespace-nowrap cursor-pointer ${
+                activeSection === 'servicios'
+                  ? 'text-amber-500 dark:text-amber-400 font-bold border-b-2 border-amber-500 pb-0.5'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-amber-500 dark:hover:text-amber-400 font-medium'
+              }`}
             >
               {t.servicios}
             </button>
             <button
-              onClick={() => navigateTo('home', 'desarrollo-web')}
-              className="hover:text-pink-600 dark:hover:text-pink-400 transition-colors whitespace-nowrap cursor-pointer font-medium"
-            >
-              {t.desarrolloWeb}
-            </button>
-            <button
-              onClick={() => navigateTo('home', 'soporte-tecnico')}
-              className="hover:text-pink-600 dark:hover:text-pink-400 transition-colors whitespace-nowrap cursor-pointer font-medium"
+              onClick={() => {
+                setActiveSection('soporte-tecnico');
+                navigateTo('home', 'soporte-tecnico');
+              }}
+              className={`transition-all whitespace-nowrap cursor-pointer ${
+                activeSection === 'soporte-tecnico'
+                  ? 'text-blue-600 dark:text-sky-400 font-bold border-b-2 border-blue-500 dark:border-sky-400 pb-0.5'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-sky-400 font-medium'
+              }`}
             >
               {t.soporteTI}
             </button>
             <button
               onClick={() => {
+                setActiveSection('desarrollo-web');
+                navigateTo('home', 'desarrollo-web');
+              }}
+              className={`transition-all whitespace-nowrap cursor-pointer ${
+                activeSection === 'desarrollo-web'
+                  ? 'text-pink-600 dark:text-pink-400 font-bold border-b-2 border-pink-500 pb-0.5'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-pink-600 dark:hover:text-pink-400 font-medium'
+              }`}
+            >
+              {t.desarrolloWeb}
+            </button>
+            <button
+              onClick={() => {
+                setActiveSection('contacto');
                 if (currentPage === 'web-design') {
                   navigateTo('web-design', 'formulario-cotizacion');
                 } else if (currentPage === 'technical-support') {
@@ -121,7 +221,11 @@ export const Header: React.FC = () => {
                   navigateTo('home', 'contacto');
                 }
               }}
-              className="hover:text-pink-600 dark:hover:text-pink-400 transition-colors whitespace-nowrap cursor-pointer font-medium"
+              className={`transition-all whitespace-nowrap cursor-pointer ${
+                activeSection === 'contacto'
+                  ? 'text-emerald-600 dark:text-emerald-400 font-bold border-b-2 border-emerald-500 pb-0.5'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 font-medium'
+              }`}
             >
               {t.contacto}
             </button>
@@ -247,49 +351,75 @@ export const Header: React.FC = () => {
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
           <div className="lg:hidden py-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
+            {/* Mobile Inicio */}
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
+                setActiveSection('inicio');
                 navigateTo('home', 'inicio');
               }}
               className={`block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold transition-colors cursor-pointer ${
-                currentPage === 'home'
-                  ? 'text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/40'
+                activeSection === 'inicio'
+                  ? 'text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/40 font-bold border-l-4 border-pink-500'
                   : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
               }`}
             >
               {t.inicio}
             </button>
+
+            {/* Mobile Servicios */}
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
+                setActiveSection('servicios');
                 navigateTo('home', 'servicios');
               }}
-              className="block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+              className={`block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold transition-colors cursor-pointer ${
+                activeSection === 'servicios'
+                  ? 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 font-bold border-l-4 border-amber-500'
+                  : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
+              }`}
             >
               {t.servicios}
             </button>
+
+            {/* Mobile Soporte TI */}
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
-                navigateTo('home', 'desarrollo-web');
-              }}
-              className="block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-            >
-              {t.desarrolloWeb}
-            </button>
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
+                setActiveSection('soporte-tecnico');
                 navigateTo('home', 'soporte-tecnico');
               }}
-              className="block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+              className={`block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold transition-colors cursor-pointer ${
+                activeSection === 'soporte-tecnico'
+                  ? 'text-blue-600 dark:text-sky-400 bg-blue-50 dark:bg-blue-950/40 font-bold border-l-4 border-blue-500 dark:border-sky-400'
+                  : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
+              }`}
             >
               {t.soporteTI}
             </button>
+
+            {/* Mobile Desarrollo Web */}
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
+                setActiveSection('desarrollo-web');
+                navigateTo('home', 'desarrollo-web');
+              }}
+              className={`block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold transition-colors cursor-pointer ${
+                activeSection === 'desarrollo-web'
+                  ? 'text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/40 font-bold border-l-4 border-pink-500'
+                  : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
+              }`}
+            >
+              {t.desarrolloWeb}
+            </button>
+
+            {/* Mobile Contacto */}
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setActiveSection('contacto');
                 if (currentPage === 'web-design') {
                   navigateTo('web-design', 'formulario-cotizacion');
                 } else if (currentPage === 'technical-support') {
@@ -298,7 +428,11 @@ export const Header: React.FC = () => {
                   navigateTo('home', 'contacto');
                 }
               }}
-              className="block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+              className={`block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold transition-colors cursor-pointer ${
+                activeSection === 'contacto'
+                  ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 font-bold border-l-4 border-emerald-500'
+                  : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
+              }`}
             >
               {t.contacto}
             </button>
