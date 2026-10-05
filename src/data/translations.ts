@@ -11,9 +11,9 @@ export const translations = {
     },
     hero: {
       tag: 'Atención Presencial en Antofagasta & Remota a Todo el País y el Mundo',
-      title1: 'Desarrollo Web Moderno &',
+      title1: 'Desarrollo Web &',
       titleHighlight: 'Soporte Técnico',
-      title2: 'Especializado',
+      title2: '',
       description1: 'En',
       brandName: 'Tu Poder Virtual',
       description2: 'creamos sitios web profesionales y menús QR de alta velocidad para negocios, además de brindar diagnóstico certero, mantención preventiva y reparación computacional integral con total garantía.',
