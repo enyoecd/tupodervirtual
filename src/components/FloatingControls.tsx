@@ -5,6 +5,7 @@ import { useApp } from '../context/AppContext';
 export const FloatingControls: React.FC = () => {
   const { triggerSpill } = useApp();
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -12,14 +13,18 @@ export const FloatingControls: React.FC = () => {
       const innerHeight = window.innerHeight;
       const maxScroll = scrollHeight - innerHeight;
 
-      // Only show when the user reaches the halfway mark (50% or more down the page)
       if (maxScroll <= 0) {
         setShowScrollTop(false);
+        setScrollProgress(0);
         return;
       }
 
-      const halfwayThreshold = maxScroll / 2;
-      setShowScrollTop(window.scrollY >= halfwayThreshold);
+      // Calculate scroll progress from 0 (top) to 1 (bottom)
+      const progress = Math.min(Math.max(window.scrollY / maxScroll, 0), 1);
+      setScrollProgress(progress);
+
+      // Only show when the user has scrolled down to 30% or more of the page
+      setShowScrollTop(progress >= 0.3);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -37,25 +42,75 @@ export const FloatingControls: React.FC = () => {
     triggerSpill(window.innerHeight - 80, false);
   };
 
+  // SVG Circular progress constants
+  const radius = 22;
+  const circumference = 2 * Math.PI * radius; // ~138.23
+  const strokeDashoffset = circumference - scrollProgress * circumference;
+
   return (
     <div
       className="fixed bottom-6 right-6 z-40 flex flex-col items-center gap-3"
       data-purpose="floating-controls"
     >
-      {/* Scroll to Top Button (Only visible from halfway down the page downwards) */}
-      <button
-        aria-label="Subir al inicio de la página"
-        className={`w-12 h-12 rounded-full bg-slate-900/90 hover:bg-slate-800 text-white dark:bg-[#1E293B]/95 dark:hover:bg-[#283852] border border-slate-700/60 shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer backdrop-blur-md hover:border-pink-500/50 ${
+      {/* Scroll to Top Button with Circular Progress Ring (Appears at 30% scroll progress onwards) */}
+      <div
+        className={`relative w-13 h-13 flex items-center justify-center transition-all duration-300 ${
           showScrollTop
             ? 'opacity-100 translate-y-0 pointer-events-auto scale-100'
             : 'opacity-0 translate-y-4 pointer-events-none scale-75'
         }`}
-        onClick={scrollToTop}
-        title="Subir al inicio"
-        type="button"
       >
-        <ArrowUp className="w-5 h-5" />
-      </button>
+        {/* SVG Circular Progress Ring */}
+        <svg
+          className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none drop-shadow-sm"
+          viewBox="0 0 52 52"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="scrollProgressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#ec4899" />
+              <stop offset="50%" stopColor="#f43f5e" />
+              <stop offset="100%" stopColor="#f59e0b" />
+            </linearGradient>
+          </defs>
+
+          {/* Background Track Circle */}
+          <circle
+            cx="26"
+            cy="26"
+            r={radius}
+            stroke="currentColor"
+            strokeWidth="3"
+            fill="none"
+            className="text-slate-300/40 dark:text-slate-700/60"
+          />
+
+          {/* Animated Progress Circle */}
+          <circle
+            cx="26"
+            cy="26"
+            r={radius}
+            stroke="url(#scrollProgressGradient)"
+            strokeWidth="3.2"
+            strokeDasharray={circumference}
+            strokeDashoffset={strokeDashoffset}
+            strokeLinecap="round"
+            fill="none"
+            className="transition-[stroke-dashoffset] duration-150 ease-out"
+          />
+        </svg>
+
+        {/* Center Button */}
+        <button
+          aria-label={`Subir al inicio de la página (${Math.round(scrollProgress * 100)}% de avance)`}
+          className="w-10 h-10 rounded-full bg-slate-900/90 hover:bg-slate-800 text-white dark:bg-[#1E293B]/95 dark:hover:bg-[#283852] border border-slate-700/60 shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-md group"
+          onClick={scrollToTop}
+          title={`Subir al inicio (${Math.round(scrollProgress * 100)}%)`}
+          type="button"
+        >
+          <ArrowUp className="w-4.5 h-4.5 group-hover:-translate-y-0.5 transition-transform" />
+        </button>
+      </div>
 
       {/* Floating WhatsApp Button */}
       <a
