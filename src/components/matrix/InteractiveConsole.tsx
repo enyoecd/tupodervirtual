@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Terminal, Play, RotateCcw, Sparkles, CheckCircle2 } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Terminal, RotateCcw, Sparkles, CheckCircle2 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
-
-const MATRIX_CHARS = 'ｦｱｳｴｵｶｷｹｺｻｼｽｾｿﾀﾂﾃﾅﾆﾇﾈﾊﾋﾎﾏﾐﾑﾒﾓﾔﾕﾗﾘﾜ0123456789%#@*!<>{}[]';
+import { TerminalMatrixRain } from './TerminalMatrixRain';
 
 const DEFAULT_LOGS = [
   { text: '$ tpv-system --check-nodes --location "Antofagasta-Ecuador-1438"', color: 'text-brandMagenta-400 font-bold' },
@@ -15,9 +14,8 @@ const DEFAULT_LOGS = [
 ];
 
 export const InteractiveConsole: React.FC = () => {
-  const { theme, triggerSpill } = useApp();
+  const { triggerSpill } = useApp();
   const [isGlitching, setIsGlitching] = useState(false);
-  const [matrixMatrixLines, setMatrixLines] = useState<string[]>([]);
   const [commandInput, setCommandInput] = useState('');
   const [customLogs, setCustomLogs] = useState<{ text: string; color: string }[]>([]);
   const [burstCount, setBurstCount] = useState(0);
@@ -29,30 +27,11 @@ export const InteractiveConsole: React.FC = () => {
     setIsGlitching(true);
     setBurstCount(prev => prev + 1);
 
-    // Also trigger global right-hand spill for feedback
+    // Trigger global right-hand spill for feedback
     if (consoleRef.current) {
       const rect = consoleRef.current.getBoundingClientRect();
       triggerSpill(rect.top + rect.height / 2, false);
     }
-
-    // Generate rapidly cycling Matrix character lines for 900ms
-    const interval = setInterval(() => {
-      const lines: string[] = [];
-      for (let i = 0; i < 7; i++) {
-        let line = '';
-        const len = 48 + Math.floor(Math.random() * 24);
-        for (let j = 0; j < len; j++) {
-          line += MATRIX_CHARS.charAt(Math.floor(Math.random() * MATRIX_CHARS.length));
-        }
-        lines.push(line);
-      }
-      setMatrixLines(lines);
-    }, 45);
-
-    setTimeout(() => {
-      clearInterval(interval);
-      setIsGlitching(false);
-    }, 850);
   };
 
   const handleCommandSubmit = (e: React.FormEvent) => {
@@ -170,77 +149,59 @@ export const InteractiveConsole: React.FC = () => {
           {/* Title bar */}
           <div className="bg-[#0C172B] px-4 py-2.5 border-b border-slate-800/80 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
-              <span className="w-3 h-3 rounded-full bg-amber-400 inline-block"></span>
-              <span className="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
-              <span className="text-xs text-slate-400 font-mono ml-2">
+              <Terminal className="w-3.5 h-3.5 text-slate-400" />
+              <span className="text-xs text-slate-300 font-mono">
                 tpv@core-antofagasta: ~ (CLI Telemetría)
               </span>
             </div>
-            <div className="flex items-center gap-3 text-[11px] font-mono">
-              <span className="text-emerald-400/80 flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-                ONLINE 24/7
-              </span>
-              <span className="text-slate-500 hidden sm:inline">Ráfagas: {burstCount}</span>
+            {/* Controles de ventana en la esquina derecha: Amarillo, Verde y Rojo más pegado a la derecha */}
+            <div className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-full bg-amber-400 inline-block shadow-xs" title="Minimizar"></span>
+              <span className="w-3 h-3 rounded-full bg-emerald-500 inline-block shadow-xs" title="Maximizar"></span>
+              <span className="w-3 h-3 rounded-full bg-rose-500 inline-block shadow-xs" title="Cerrar"></span>
             </div>
           </div>
 
           {/* Terminal Body with CRT effect */}
           <div className="p-5 sm:p-6 font-mono text-xs sm:text-sm min-h-[260px] relative overflow-hidden crt-overlay">
-            {isGlitching ? (
-              /* Matrix Code Rapid Typing / Glitch View */
-              <div className="space-y-1 text-emerald-400 select-none animate-pulse">
-                <div className="text-xs text-emerald-300/80 mb-2 font-bold flex items-center gap-2">
-                  <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                  [TRANSMISIÓN MATRIX ACTIVA // DECODIFICANDO FLUJO EN TIEMPO REAL...]
+            {/* Ráfaga Matrix Overlay (sin saltos de altura) */}
+            <TerminalMatrixRain
+              isActive={isGlitching}
+              onFinish={() => setIsGlitching(false)}
+              durationMs={850}
+            />
+
+            {/* Stabilized Normal Command History */}
+            <div className="space-y-2">
+              {DEFAULT_LOGS.map((item, idx) => (
+                <div key={idx} className={`${item.color} leading-relaxed flex items-start gap-2`}>
+                  <span className="break-all">{item.text}</span>
                 </div>
-                {matrixMatrixLines.map((line, idx) => (
-                  <div
-                    key={idx}
-                    className="truncate tracking-widest text-emerald-400 font-bold"
-                    style={{
-                      textShadow: '0 0 8px rgba(16, 185, 129, 0.9), 0 0 14px rgba(5, 150, 105, 0.6)',
-                      opacity: 0.85 + (idx % 2) * 0.15,
-                    }}
-                  >
-                    {line}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              /* Stabilized Normal Command History */
-              <div className="space-y-2">
-                {DEFAULT_LOGS.map((item, idx) => (
-                  <div key={idx} className={`${item.color} leading-relaxed flex items-start gap-2`}>
-                    <span className="break-all">{item.text}</span>
-                  </div>
-                ))}
+              ))}
 
-                {customLogs.map((item, idx) => (
-                  <div key={`custom-${idx}`} className={`${item.color} leading-relaxed`}>
-                    {item.text}
-                  </div>
-                ))}
+              {customLogs.map((item, idx) => (
+                <div key={`custom-${idx}`} className={`${item.color} leading-relaxed`}>
+                  {item.text}
+                </div>
+              ))}
 
-                {/* Input prompt line */}
-                <form
-                  onSubmit={handleCommandSubmit}
-                  onClick={e => e.stopPropagation()}
-                  className="pt-3 flex items-center gap-2 text-emerald-400"
-                >
-                  <span className="text-brandMagenta-400 font-bold shrink-0">$</span>
-                  <input
-                    type="text"
-                    value={commandInput}
-                    onChange={e => setCommandInput(e.target.value)}
-                    placeholder="Escribe 'help', 'diagnose', 'matrix' o pulsa enter..."
-                    className="bg-transparent border-none text-emerald-300 placeholder-emerald-800/80 focus:outline-none focus:ring-0 w-full font-mono text-xs sm:text-sm p-0"
-                  />
-                  <span className="inline-block w-2.5 h-4 bg-emerald-400 animate-pulse-terminal shrink-0"></span>
-                </form>
-              </div>
-            )}
+              {/* Input prompt line */}
+              <form
+                onSubmit={handleCommandSubmit}
+                onClick={e => e.stopPropagation()}
+                className="pt-3 flex items-center gap-2 text-emerald-400"
+              >
+                <span className="text-brandMagenta-400 font-bold shrink-0">$</span>
+                <input
+                  type="text"
+                  value={commandInput}
+                  onChange={e => setCommandInput(e.target.value)}
+                  placeholder="Escribe 'help', 'diagnose', 'matrix' o pulsa enter..."
+                  className="bg-transparent border-none text-emerald-300 placeholder-emerald-800/80 focus:outline-none focus:ring-0 w-full font-mono text-xs sm:text-sm p-0"
+                />
+                <span className="inline-block w-2.5 h-4 bg-emerald-400 animate-pulse-terminal shrink-0"></span>
+              </form>
+            </div>
           </div>
 
           {/* Terminal Footer status */}

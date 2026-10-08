@@ -3,38 +3,18 @@ import { Zap, MessageSquare, Terminal as TerminalIcon, Sparkles } from 'lucide-r
 import { useApp } from '../context/AppContext';
 import { translations } from '../data/translations';
 import { HeroMatrixCanvas } from './matrix/HeroMatrixCanvas';
-
-const MATRIX_CHARS =
-  '电网智算码通云速力恒信道机核光端数界流元维宇空宙极星微源联科度迅灵超龙华泰胜安乾坤天地日月山川风雷海0123456789%#@*<>';
+import { TerminalMatrixRain } from './matrix/TerminalMatrixRain';
 
 export const Hero: React.FC = () => {
   const { language, triggerSpill } = useApp();
   const t = translations[language].hero;
   const termT = translations[language].terminal;
   const [isConsoleGlitching, setIsConsoleGlitching] = useState(false);
-  const [glitchLines, setGlitchLines] = useState<string[]>([]);
 
   const handleConsoleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     triggerSpill(e.clientY, false);
-
     if (isConsoleGlitching) return;
     setIsConsoleGlitching(true);
-
-    const interval = setInterval(() => {
-      const lines = [
-        Array.from({ length: 42 }, () => MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)]).join(''),
-        Array.from({ length: 38 }, () => MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)]).join(''),
-        Array.from({ length: 45 }, () => MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)]).join(''),
-        Array.from({ length: 36 }, () => MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)]).join(''),
-        Array.from({ length: 40 }, () => MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)]).join(''),
-      ];
-      setGlitchLines(lines);
-    }, 45);
-
-    setTimeout(() => {
-      clearInterval(interval);
-      setIsConsoleGlitching(false);
-    }, 850);
   };
 
   return (
@@ -145,92 +125,89 @@ export const Hero: React.FC = () => {
               title="Haz clic para activar ráfaga Matrix"
               className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-700/80 dark:border-[#1E293B] bg-[#0B132B] text-slate-100 font-mono text-xs sm:text-sm cursor-pointer group transition-all hover:border-emerald-500/60 hover:shadow-emerald-950/30"
             >
-              {/* Window Titlebar with 3 dots */}
+              {/* Window Titlebar with 3 control dots on the right */}
               <div className="bg-[#152238] px-4 py-3 border-b border-slate-800 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
-                  <span className="w-3 h-3 rounded-full bg-amber-400 inline-block"></span>
-                  <span className="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
-                  <span className="text-xs text-slate-400 font-mono ml-2">
+                  <TerminalIcon className="w-3.5 h-3.5 text-slate-400" />
+                  <span className="text-xs text-slate-300 font-mono">
                     {termT.title}
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                    {termT.online}
-                  </span>
+
+                {/* Controles de ventana en la esquina derecha: Amarillo, Verde y Rojo más pegado a la derecha */}
+                <div className="flex items-center gap-2" aria-label="Controles de ventana">
+                  <span
+                    className="w-3 h-3 rounded-full bg-amber-400 inline-block shadow-xs"
+                    title="Minimizar"
+                  ></span>
+                  <span
+                    className="w-3 h-3 rounded-full bg-emerald-500 inline-block shadow-xs"
+                    title="Maximizar"
+                  ></span>
+                  <span
+                    className="w-3 h-3 rounded-full bg-rose-500 inline-block shadow-xs"
+                    title="Cerrar"
+                  ></span>
                 </div>
               </div>
 
-              {/* Terminal Content Lines */}
-              <div className="p-5 sm:p-6 space-y-2.5 font-mono leading-relaxed bg-[#0B132B]/95 min-h-[260px] relative">
-                {isConsoleGlitching ? (
-                  <div className="space-y-1 text-emerald-400 select-none animate-pulse">
-                    <div className="text-[11px] text-emerald-300 font-bold mb-1 flex items-center gap-1.5">
-                      <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-                      [RÁFAGA MATRIX ACTIVADA // RECALIBRANDO SENSORES]
-                    </div>
-                    {glitchLines.map((line, idx) => (
-                      <div
-                        key={idx}
-                        className="truncate text-emerald-400 font-bold tracking-widest text-xs"
-                        style={{ textShadow: '0 0 6px #10b981' }}
-                      >
-                        {line}
-                      </div>
-                    ))}
+              {/* Terminal Content Lines with rock-solid stable height */}
+              <div className="p-5 sm:p-6 space-y-2.5 font-mono leading-relaxed bg-[#0B132B]/95 min-h-[260px] relative overflow-hidden">
+                {/* Ráfaga Matrix Rápida Overlay (sin saltos de altura) */}
+                <TerminalMatrixRain
+                  isActive={isConsoleGlitching}
+                  onFinish={() => setIsConsoleGlitching(false)}
+                  durationMs={850}
+                />
+
+                {/* Contenido Diagnóstico Estable - Siempre visible sin cambios de altura */}
+                <div className="text-slate-400 flex items-center justify-between">
+                  <div>
+                    <span className="text-pink-400 font-bold">$</span> tpv-diagnose --device &quot;Cliente-Laptop&quot;
                   </div>
-                ) : (
-                  <>
-                    <div className="text-slate-400 flex items-center justify-between">
-                      <div>
-                        <span className="text-pink-400 font-bold">$</span> tpv-diagnose --device &quot;Cliente-Laptop&quot;
-                      </div>
-                      <span className="text-[10px] text-slate-500 opacity-60 hidden sm:inline">
-                        (toca para ráfaga)
-                      </span>
-                    </div>
+                  <span className="text-[10px] text-slate-500 opacity-60 hidden sm:inline">
+                    (toca para ráfaga)
+                  </span>
+                </div>
 
-                    <div className="text-slate-300 flex items-center justify-between">
-                      <span>&gt; {termT.hardware}</span>
-                      <span className="text-emerald-400 font-bold">{termT.hardwareVal}</span>
-                    </div>
+                <div className="text-slate-300 flex items-center justify-between">
+                  <span>&gt; {termT.hardware}</span>
+                  <span className="text-emerald-400 font-bold">{termT.hardwareVal}</span>
+                </div>
 
-                    <div className="text-slate-300 flex items-center justify-between">
-                      <span>&gt; {termT.ssd}</span>
-                      <span className="text-amber-400 font-bold">{termT.ssdVal}</span>
-                    </div>
+                <div className="text-slate-300 flex items-center justify-between">
+                  <span>&gt; {termT.ssd}</span>
+                  <span className="text-amber-400 font-bold">{termT.ssdVal}</span>
+                </div>
 
-                    <div className="text-slate-300 flex items-center justify-between">
-                      <span>&gt; {termT.malware}</span>
-                      <span className="text-rose-400 font-bold">{termT.malwareVal}</span>
-                    </div>
+                <div className="text-slate-300 flex items-center justify-between">
+                  <span>&gt; {termT.malware}</span>
+                  <span className="text-rose-400 font-bold">{termT.malwareVal}</span>
+                </div>
 
-                    <div className="text-slate-300 flex items-center justify-between">
-                      <span>&gt; {termT.cooling}</span>
-                      <span className="text-emerald-400 font-bold">{termT.coolingVal}</span>
-                    </div>
+                <div className="text-slate-300 flex items-center justify-between">
+                  <span>&gt; {termT.cooling}</span>
+                  <span className="text-emerald-400 font-bold">{termT.coolingVal}</span>
+                </div>
 
-                    <div className="text-slate-300 flex items-center justify-between">
-                      <span>&gt; {termT.web}</span>
-                      <span className="text-sky-400 font-bold">{termT.webVal}</span>
-                    </div>
+                <div className="text-slate-300 flex items-center justify-between">
+                  <span>&gt; {termT.web}</span>
+                  <span className="text-sky-400 font-bold">{termT.webVal}</span>
+                </div>
 
-                    <div className="pt-3 border-t border-slate-800/80 text-slate-300">
-                      <p>
-                        <span className="text-amber-400 font-bold">{termT.timeLabel}</span> {termT.timeVal}
-                      </p>
-                      <p>
-                        <span className="text-pink-400 font-bold">{termT.diagLabel}</span> {termT.diagVal}
-                      </p>
-                    </div>
+                <div className="pt-3 border-t border-slate-800/80 text-slate-300">
+                  <p>
+                    <span className="text-amber-400 font-bold">{termT.timeLabel}</span> {termT.timeVal}
+                  </p>
+                  <p>
+                    <span className="text-pink-400 font-bold">{termT.diagLabel}</span> {termT.diagVal}
+                  </p>
+                </div>
 
-                    <div className="pt-2 text-emerald-400 flex items-center gap-1 font-bold">
-                      <span>{termT.status}</span>
-                      <span className="inline-block w-2.5 h-4 bg-emerald-400 animate-pulse-terminal ml-1"></span>
-                    </div>
-                  </>
-                )}
+                <div className="pt-2 text-emerald-400 flex items-center gap-1 font-bold">
+                  <span>{termT.status}</span>
+                  <span className="inline-block w-2.5 h-4 bg-emerald-400 animate-pulse-terminal ml-1"></span>
+                </div>
               </div>
 
               {/* Bottom Console Status Bar */}
