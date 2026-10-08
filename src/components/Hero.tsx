@@ -16,7 +16,12 @@ export const Hero: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [scanProgress, setScanProgress] = useState(0);
   const [isConsoleGlitching, setIsConsoleGlitching] = useState(false);
+  const [userLines, setUserLines] = useState<string[]>([]);
+  const [inputCmd, setInputCmd] = useState('');
+
   const animTimeoutsRef = useRef<NodeJS.Timeout[]>([]);
+  const terminalBodyRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   // Types command and reveals diagnostic lines progressively
   const runTypingSequence = (initialDelay = 100) => {
@@ -26,6 +31,9 @@ export const Hero: React.FC = () => {
     setTypedCommand('');
     setActiveStep(0);
     setScanProgress(0);
+    setUserLines([]);
+    setInputCmd('');
+    terminalBodyRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
 
     const commandChars = FULL_COMMAND.split('');
     commandChars.forEach((_, idx) => {
@@ -90,9 +98,47 @@ export const Hero: React.FC = () => {
     setTypedCommand('');
     setActiveStep(-1);
     setScanProgress(0);
+    setUserLines([]);
+    setInputCmd('');
+    terminalBodyRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
 
     // Trigger single-pass Matrix rain
     setIsConsoleGlitching(true);
+  };
+
+  const handleCommandKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const entered = inputCmd;
+
+      if (entered.trim().toLowerCase() === 'matrix') {
+        setUserLines(prev => [...prev, entered]);
+        setInputCmd('');
+        handleConsoleClick();
+        return;
+      }
+
+      if (entered.trim().toLowerCase() === 'clear') {
+        setUserLines([]);
+        setInputCmd('');
+        runTypingSequence(100);
+        return;
+      }
+
+      // Add the entered command line
+      setUserLines(prev => [...prev, entered]);
+      setInputCmd('');
+
+      // Smoothly scroll down so the first line scrolls up and disappears
+      setTimeout(() => {
+        if (terminalBodyRef.current) {
+          terminalBodyRef.current.scrollTo({
+            top: terminalBodyRef.current.scrollHeight,
+            behavior: 'smooth',
+          });
+        }
+      }, 50);
+    }
   };
 
   const handleMatrixRainFinish = useCallback(() => {
@@ -245,10 +291,10 @@ export const Hero: React.FC = () => {
                 </div>
               </div>
 
-              {/* Terminal Content Lines with rock-solid stable height */}
+              {/* Terminal Content Lines with rock-solid stable height and smooth scroll */}
               <div
-                onClick={handleConsoleClick}
-                className="p-5 sm:p-6 space-y-2.5 font-mono leading-relaxed bg-[#0B132B]/95 min-h-[285px] sm:min-h-[300px] relative overflow-hidden select-none cursor-pointer"
+                ref={terminalBodyRef}
+                className="p-5 sm:p-6 space-y-2.5 font-mono leading-relaxed bg-[#0B132B]/95 h-[315px] sm:h-[325px] relative overflow-hidden select-none"
               >
                 {/* Ráfaga Matrix de una sola pasada hacia abajo */}
                 <TerminalMatrixRain
@@ -257,15 +303,18 @@ export const Hero: React.FC = () => {
                   durationMs={900}
                 />
 
-                {/* Línea de comando simulando escritura en tiempo real */}
+                {/* Primera línea: X:\source> estilo Windows con diagnóstico device a la derecha */}
                 <div className="text-slate-400 flex items-center justify-between">
                   <div className="flex items-center">
-                    <span className="text-pink-400 font-bold mr-2">$</span>
+                    <span className="text-emerald-400 font-bold mr-2">X:\source&gt;</span>
                     <span className="text-slate-200">{typedCommand}</span>
                     {activeStep === 0 && (
-                      <span className="inline-block w-2 h-4 bg-pink-400 animate-pulse ml-0.5"></span>
+                      <span className="inline-block w-2 h-4 bg-emerald-400 animate-pulse ml-0.5"></span>
                     )}
                   </div>
+                  <span className="text-[11px] font-mono text-slate-500 opacity-80 hidden sm:inline">
+                    diagnóstico device
+                  </span>
                 </div>
 
                 {/* Línea 1: Hardware */}
@@ -341,16 +390,43 @@ export const Hero: React.FC = () => {
                       <span className="text-pink-400 font-bold">{termT.diagLabel}</span> {termT.diagVal}
                     </p>
                   </div>
-
-                  {/* Prompt de sistema donde NO se activa el efecto al hacer clic */}
-                  <div
-                    onClick={e => e.stopPropagation()}
-                    className="pt-2 text-emerald-400 flex items-center gap-1 font-bold cursor-default select-text"
-                  >
-                    <span>root@system:~#</span>
-                    <span className="inline-block w-2.5 h-4 bg-emerald-400 animate-pulse-terminal ml-1"></span>
-                  </div>
                 </div>
+
+                {/* Historial de comandos ingresados por el usuario */}
+                {userLines.map((line, idx) => (
+                  <div key={idx} className="pt-1 text-emerald-400 flex items-center gap-1 font-bold">
+                    <span className="text-emerald-400 font-bold shrink-0">root@system:~#</span>
+                    <span className="text-slate-200 font-normal ml-1 break-all">{line}</span>
+                  </div>
+                ))}
+
+                {/* Línea interactiva con input editable estilo Windows CMD */}
+                {activeStep >= 6 && (
+                  <div
+                    onClick={e => {
+                      e.stopPropagation();
+                      inputRef.current?.focus();
+                    }}
+                    className="pt-2 text-emerald-400 flex items-center gap-1.5 font-bold cursor-text select-text"
+                  >
+                    <span className="text-emerald-400 font-bold shrink-0">root@system:~#</span>
+                    <div className="relative flex-1 flex items-center min-w-[60px]">
+                      <input
+                        ref={inputRef}
+                        type="text"
+                        value={inputCmd}
+                        onChange={e => setInputCmd(e.target.value)}
+                        onKeyDown={handleCommandKeyDown}
+                        className="w-full bg-transparent border-none text-slate-100 focus:outline-none focus:ring-0 p-0 font-mono text-xs sm:text-sm caret-emerald-400"
+                        spellCheck="false"
+                        autoComplete="off"
+                      />
+                      {inputCmd.length === 0 && (
+                        <span className="pointer-events-none absolute left-0 inline-block w-2.5 h-4 bg-emerald-400 animate-pulse-terminal"></span>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Bottom Console Status Bar */}
