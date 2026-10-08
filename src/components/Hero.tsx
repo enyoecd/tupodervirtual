@@ -210,9 +210,13 @@ export const Hero: React.FC = () => {
               className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-700/80 dark:border-[#1E293B] bg-[#0B132B] text-slate-100 font-mono text-xs sm:text-sm cursor-pointer group transition-all hover:border-emerald-500/60 hover:shadow-emerald-950/30"
             >
               {/* Window Titlebar with 3 control dots on the right */}
-              <div className="bg-[#152238] px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+              <div
+                onClick={handleConsoleClick}
+                className="bg-[#152238] px-4 py-3 border-b border-slate-800 flex items-center justify-between cursor-pointer select-none group"
+                title="Haz clic para activar ráfaga Matrix"
+              >
                 <div className="flex items-center gap-2">
-                  <TerminalIcon className="w-3.5 h-3.5 text-slate-400" />
+                  <TerminalIcon className="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-400 transition-colors" />
                   <span className="text-xs text-slate-300 font-mono">
                     {termT.title}
                   </span>
@@ -220,23 +224,32 @@ export const Hero: React.FC = () => {
 
                 {/* Controles de ventana en la esquina derecha: Amarillo, Verde y Rojo más pegado a la derecha */}
                 <div className="flex items-center gap-2" aria-label="Controles de ventana">
-                  <span
-                    className="w-3 h-3 rounded-full bg-amber-400 inline-block shadow-xs"
-                    title="Minimizar"
-                  ></span>
-                  <span
-                    className="w-3 h-3 rounded-full bg-emerald-500 inline-block shadow-xs"
-                    title="Maximizar"
-                  ></span>
-                  <span
-                    className="w-3 h-3 rounded-full bg-rose-500 inline-block shadow-xs"
-                    title="Cerrar"
-                  ></span>
+                  <button
+                    type="button"
+                    onClick={handleConsoleClick}
+                    className="w-3 h-3 rounded-full bg-amber-400 inline-block shadow-xs hover:brightness-110 active:scale-90 transition-all cursor-pointer"
+                    title="Minimizar (Activar Matrix)"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleConsoleClick}
+                    className="w-3 h-3 rounded-full bg-emerald-500 inline-block shadow-xs hover:brightness-110 active:scale-90 transition-all cursor-pointer"
+                    title="Maximizar (Activar Matrix)"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleConsoleClick}
+                    className="w-3 h-3 rounded-full bg-rose-500 inline-block shadow-xs hover:brightness-110 active:scale-90 transition-all cursor-pointer"
+                    title="Cerrar (Activar Matrix)"
+                  />
                 </div>
               </div>
 
               {/* Terminal Content Lines with rock-solid stable height */}
-              <div className="p-5 sm:p-6 space-y-2.5 font-mono leading-relaxed bg-[#0B132B]/95 min-h-[285px] sm:min-h-[300px] relative overflow-hidden select-none">
+              <div
+                onClick={handleConsoleClick}
+                className="p-5 sm:p-6 space-y-2.5 font-mono leading-relaxed bg-[#0B132B]/95 min-h-[285px] sm:min-h-[300px] relative overflow-hidden select-none cursor-pointer"
+              >
                 {/* Ráfaga Matrix de una sola pasada hacia abajo */}
                 <TerminalMatrixRain
                   isActive={isConsoleGlitching}
@@ -253,9 +266,6 @@ export const Hero: React.FC = () => {
                       <span className="inline-block w-2 h-4 bg-pink-400 animate-pulse ml-0.5"></span>
                     )}
                   </div>
-                  <span className="text-[10px] text-slate-500 opacity-60 hidden sm:inline">
-                    (toca para ráfaga)
-                  </span>
                 </div>
 
                 {/* Línea 1: Hardware */}
@@ -278,20 +288,20 @@ export const Hero: React.FC = () => {
                   <span className="text-amber-400 font-bold">{termT.ssdVal}</span>
                 </div>
 
-                {/* Línea 3: Escaneo malware y virus con barra al 100% y 2 amenazas encontradas */}
+                {/* Línea 3: Escaneo & virus con barra al 100% y 2 amenazas encontradas a la derecha sin saltar de línea */}
                 <div
-                  className={`text-slate-300 flex flex-wrap items-center justify-between gap-1 transition-opacity duration-200 ${
+                  className={`text-slate-300 flex items-center justify-between gap-2 whitespace-nowrap transition-opacity duration-200 ${
                     activeStep >= 3 ? 'opacity-100' : 'opacity-0'
                   }`}
                 >
-                  <span className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 shrink-0">
                     <span>&gt; {termT.malware}</span>
-                    <span className="text-xs font-mono text-emerald-400 font-bold">
+                    <span className="text-[11px] sm:text-xs font-mono text-emerald-400 font-bold">
                       [{'█'.repeat(Math.floor(scanProgress / 10))}{'░'.repeat(10 - Math.floor(scanProgress / 10))}] {scanProgress}%
                     </span>
-                  </span>
+                  </div>
                   {scanProgress >= 100 && (
-                    <span className="text-rose-500 font-bold">
+                    <span className="text-rose-500 font-bold shrink-0 text-right">
                       {termT.malwareVal}
                     </span>
                   )}
@@ -332,15 +342,23 @@ export const Hero: React.FC = () => {
                     </p>
                   </div>
 
-                  <div className="pt-2 text-emerald-400 flex items-center gap-1 font-bold">
-                    <span>{termT.status}</span>
+                  {/* Prompt de sistema donde NO se activa el efecto al hacer clic */}
+                  <div
+                    onClick={e => e.stopPropagation()}
+                    className="pt-2 text-emerald-400 flex items-center gap-1 font-bold cursor-default select-text"
+                  >
+                    <span>root@system:~#</span>
                     <span className="inline-block w-2.5 h-4 bg-emerald-400 animate-pulse-terminal ml-1"></span>
                   </div>
                 </div>
               </div>
 
               {/* Bottom Console Status Bar */}
-              <div className="bg-[#0e172a] px-4 py-2 text-[11px] text-slate-400 border-t border-slate-800 flex items-center justify-between">
+              <div
+                onClick={handleConsoleClick}
+                className="bg-[#0e172a] px-4 py-2 text-[11px] text-slate-400 hover:text-slate-200 border-t border-slate-800 flex items-center justify-between cursor-pointer transition-colors"
+                title="Haz clic para activar ráfaga Matrix"
+              >
                 <span>{termT.footer1}</span>
               </div>
             </div>
