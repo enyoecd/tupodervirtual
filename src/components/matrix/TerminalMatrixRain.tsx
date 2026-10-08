@@ -15,9 +15,14 @@ interface TerminalMatrixRainProps {
 export const TerminalMatrixRain: React.FC<TerminalMatrixRainProps> = ({
   isActive,
   onFinish,
-  durationMs = 800,
+  durationMs = 900,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const onFinishRef = useRef(onFinish);
+
+  useEffect(() => {
+    onFinishRef.current = onFinish;
+  }, [onFinish]);
 
   useEffect(() => {
     if (!isActive) return;
@@ -32,13 +37,19 @@ export const TerminalMatrixRain: React.FC<TerminalMatrixRainProps> = ({
     const height = (canvas.height = rect.height || 280);
 
     const fontSize = 13;
-    const colStep = 16;
+    const colStep = 15;
     const columns = Math.max(12, Math.floor(width / colStep));
+    const totalRows = Math.ceil(height / fontSize);
+    const TRAIL_LEN = 8;
 
-    // Dynamic drops falling with rapid velocity
-    const drops = Array.from({ length: columns }, () => ({
-      y: Math.random() * -12,
-      speed: 1.1 + Math.random() * 1.5,
+    // Single-pass drops: Staggered start above the canvas, steady graceful downward speed
+    const drops = Array.from({ length: columns }, (_, i) => ({
+      x: i * colStep + 6,
+      // Stagger above the canvas for a natural downward sweep
+      y: -Math.floor(Math.random() * 6) - 1,
+      speed: 0.38 + Math.random() * 0.16, // Smooth, elegant single-pass speed
+      trail: [] as { char: string; y: number }[],
+      isDone: false,
     }));
 
     let animationFrameId: number;
@@ -46,55 +57,80 @@ export const TerminalMatrixRain: React.FC<TerminalMatrixRainProps> = ({
 
     const render = (now: number) => {
       const elapsed = now - startTime;
-      if (elapsed > durationMs) {
-        if (onFinish) onFinish();
-        return;
-      }
 
-      // Semi-transparent wash for smooth rain trails
-      ctx.fillStyle = 'rgba(11, 19, 43, 0.28)';
-      ctx.fillRect(0, 0, width, height);
-
+      // Crystal clear transparent canvas: no dark wash flashing or background flickering
+      ctx.clearRect(0, 0, width, height);
       ctx.font = 'bold 12.5px monospace';
+
+      let allDone = true;
 
       for (let i = 0; i < drops.length; i++) {
         const drop = drops[i];
-        const x = i * colStep + 6;
-        const yPx = drop.y * fontSize;
+        if (drop.isDone) continue;
+
+        allDone = false;
+
+        const yRow = Math.floor(drop.y);
+        const yPx = yRow * fontSize;
 
         const char = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
 
-        // Glowing white-mint head character
-        ctx.fillStyle = '#f2fff6';
-        ctx.shadowColor = '#34d399';
-        ctx.shadowBlur = 8;
-        ctx.fillText(char, x, yPx);
+        // Save trail history
+        if (yRow >= 0 && yRow < totalRows + 10) {
+          drop.trail.unshift({ char, y: yPx });
+          if (drop.trail.length > TRAIL_LEN) {
+            drop.trail.pop();
+          }
+        }
 
-        // Bright green first trail
-        ctx.fillStyle = '#10b981';
-        ctx.shadowBlur = 4;
-        const prevChar = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
-        ctx.fillText(prevChar, x, yPx - fontSize);
+        // Draw trail with explicit alpha fading
+        for (let t = 0; t < drop.trail.length; t++) {
+          const item = drop.trail[t];
+          if (item.y < -fontSize || item.y > height + fontSize) continue;
 
-        // Medium green secondary trail
-        ctx.fillStyle = '#059669';
-        ctx.shadowBlur = 0;
-        const olderChar = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
-        ctx.fillText(olderChar, x, yPx - fontSize * 2);
+          if (t === 0) {
+            // Glowing white-mint lead character
+            ctx.fillStyle = '#ffffff';
+            ctx.shadowColor = '#34d399';
+            ctx.shadowBlur = 8;
+            ctx.fillText(item.char, drop.x, item.y);
+          } else if (t <= 2) {
+            // Primary vibrant emerald
+            ctx.fillStyle = '#10b981';
+            ctx.shadowColor = '#059669';
+            ctx.shadowBlur = 4;
+            ctx.fillText(item.char, drop.x, item.y);
+          } else if (t <= 5) {
+            // Medium green
+            ctx.fillStyle = 'rgba(5, 150, 105, 0.75)';
+            ctx.shadowBlur = 0;
+            ctx.fillText(item.char, drop.x, item.y);
+          } else {
+            // Deep trailing fade
+            ctx.fillStyle = 'rgba(4, 120, 87, 0.45)';
+            ctx.shadowBlur = 0;
+            ctx.fillText(item.char, drop.x, item.y);
+          }
+        }
 
-        // Deeper fade trail
-        ctx.fillStyle = '#047857';
-        const oldestChar = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
-        ctx.fillText(oldestChar, x, yPx - fontSize * 3);
-
+        // Advance downward
         drop.y += drop.speed;
-        if (drop.y * fontSize > height + 40 && elapsed < durationMs - 150) {
-          drop.y = Math.random() * -4;
-          drop.speed = 1.1 + Math.random() * 1.5;
+
+        // Mark done when whole trail clears off the bottom (single pass, no loop)
+        if (drop.y - TRAIL_LEN > totalRows + 2) {
+          drop.isDone = true;
         }
       }
 
       ctx.shadowBlur = 0;
+
+      // End when all drops have cleared off the bottom or duration elapsed
+      if (allDone || elapsed >= durationMs) {
+        ctx.clearRect(0, 0, width, height);
+        onFinishRef.current?.();
+        return;
+      }
+
       animationFrameId = requestAnimationFrame(render);
     };
 
@@ -103,21 +139,16 @@ export const TerminalMatrixRain: React.FC<TerminalMatrixRainProps> = ({
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [isActive, durationMs, onFinish]);
+  }, [isActive, durationMs]);
 
   return (
     <div
-      className={`absolute inset-0 pointer-events-none transition-opacity duration-300 z-20 overflow-hidden rounded-b-2xl ${
+      className={`absolute inset-0 pointer-events-none z-20 overflow-hidden rounded-b-2xl ${
         isActive ? 'opacity-100' : 'opacity-0'
       }`}
       aria-hidden="true"
     >
       <canvas ref={canvasRef} className="w-full h-full block" />
-      {/* Dynamic Cyber Burst Badge in top corner */}
-      <div className="absolute top-2.5 left-4 text-[10px] font-mono font-bold text-emerald-300 bg-emerald-950/90 px-2.5 py-0.5 rounded-md border border-emerald-500/50 flex items-center gap-1.5 shadow-md backdrop-blur-xs">
-        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-        [RÁFAGA MATRIX // RECALIBRANDO SISTEMA]
-      </div>
     </div>
   );
 };

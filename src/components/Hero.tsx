@@ -1,21 +1,105 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Zap, MessageSquare, Terminal as TerminalIcon, Sparkles } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { translations } from '../data/translations';
 import { HeroMatrixCanvas } from './matrix/HeroMatrixCanvas';
 import { TerminalMatrixRain } from './matrix/TerminalMatrixRain';
 
+const FULL_COMMAND = 'tpv-diagnose --device "Cliente-Laptop"';
+
 export const Hero: React.FC = () => {
-  const { language, triggerSpill } = useApp();
+  const { language } = useApp();
   const t = translations[language].hero;
   const termT = translations[language].terminal;
-  const [isConsoleGlitching, setIsConsoleGlitching] = useState(false);
 
-  const handleConsoleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    triggerSpill(e.clientY, false);
+  const [typedCommand, setTypedCommand] = useState('');
+  const [activeStep, setActiveStep] = useState(0);
+  const [scanProgress, setScanProgress] = useState(0);
+  const [isConsoleGlitching, setIsConsoleGlitching] = useState(false);
+  const animTimeoutsRef = useRef<NodeJS.Timeout[]>([]);
+
+  // Types command and reveals diagnostic lines progressively
+  const runTypingSequence = (initialDelay = 100) => {
+    animTimeoutsRef.current.forEach(clearTimeout);
+    animTimeoutsRef.current = [];
+
+    setTypedCommand('');
+    setActiveStep(0);
+    setScanProgress(0);
+
+    const commandChars = FULL_COMMAND.split('');
+    commandChars.forEach((_, idx) => {
+      const timeout = setTimeout(() => {
+        setTypedCommand(FULL_COMMAND.slice(0, idx + 1));
+      }, initialDelay + idx * 20);
+      animTimeoutsRef.current.push(timeout);
+    });
+
+    const commandDoneTime = initialDelay + commandChars.length * 20 + 80;
+
+    // Step 1: Hardware
+    const t1 = setTimeout(() => setActiveStep(1), commandDoneTime + 80);
+    animTimeoutsRef.current.push(t1);
+
+    // Step 2: SSD
+    const t2 = setTimeout(() => setActiveStep(2), commandDoneTime + 220);
+    animTimeoutsRef.current.push(t2);
+
+    // Step 3: Malware Scan with progress bar 0% -> 100%
+    const t3 = setTimeout(() => {
+      setActiveStep(3);
+      [20, 45, 70, 90, 100].forEach((val, i) => {
+        const pt = setTimeout(() => {
+          setScanProgress(val);
+        }, i * 60);
+        animTimeoutsRef.current.push(pt);
+      });
+    }, commandDoneTime + 360);
+    animTimeoutsRef.current.push(t3);
+
+    // Step 4: Amenazas encontradas / Limpieza realizada
+    const t4 = setTimeout(() => setActiveStep(4), commandDoneTime + 740);
+    animTimeoutsRef.current.push(t4);
+
+    // Step 5: Web en construcción
+    const t5 = setTimeout(() => setActiveStep(5), commandDoneTime + 880);
+    animTimeoutsRef.current.push(t5);
+
+    // Step 6: Summary & ready status
+    const t6 = setTimeout(() => setActiveStep(6), commandDoneTime + 1020);
+    animTimeoutsRef.current.push(t6);
+  };
+
+  useEffect(() => {
+    // Initial run on mount: directly starts typing command and displaying results
+    runTypingSequence(350);
+    return () => {
+      animTimeoutsRef.current.forEach(clearTimeout);
+    };
+  }, []);
+
+  const handleConsoleClick = () => {
+    // If matrix rain is currently active, avoid re-triggering
     if (isConsoleGlitching) return;
+
+    // Clear any active typing timeouts
+    animTimeoutsRef.current.forEach(clearTimeout);
+    animTimeoutsRef.current = [];
+
+    // Reset lines so matrix single sweep has full visibility
+    setTypedCommand('');
+    setActiveStep(-1);
+    setScanProgress(0);
+
+    // Trigger single-pass Matrix rain
     setIsConsoleGlitching(true);
   };
+
+  const handleMatrixRainFinish = useCallback(() => {
+    setIsConsoleGlitching(false);
+    // After matrix rain finishes, start typing and display lines progressively
+    runTypingSequence(80);
+  }, []);
 
   return (
     <section
@@ -152,68 +236,112 @@ export const Hero: React.FC = () => {
               </div>
 
               {/* Terminal Content Lines with rock-solid stable height */}
-              <div className="p-5 sm:p-6 space-y-2.5 font-mono leading-relaxed bg-[#0B132B]/95 min-h-[260px] relative overflow-hidden">
-                {/* Ráfaga Matrix Rápida Overlay (sin saltos de altura) */}
+              <div className="p-5 sm:p-6 space-y-2.5 font-mono leading-relaxed bg-[#0B132B]/95 min-h-[285px] sm:min-h-[300px] relative overflow-hidden select-none">
+                {/* Ráfaga Matrix de una sola pasada hacia abajo */}
                 <TerminalMatrixRain
                   isActive={isConsoleGlitching}
-                  onFinish={() => setIsConsoleGlitching(false)}
-                  durationMs={850}
+                  onFinish={handleMatrixRainFinish}
+                  durationMs={900}
                 />
 
-                {/* Contenido Diagnóstico Estable - Siempre visible sin cambios de altura */}
+                {/* Línea de comando simulando escritura en tiempo real */}
                 <div className="text-slate-400 flex items-center justify-between">
-                  <div>
-                    <span className="text-pink-400 font-bold">$</span> tpv-diagnose --device &quot;Cliente-Laptop&quot;
+                  <div className="flex items-center">
+                    <span className="text-pink-400 font-bold mr-2">$</span>
+                    <span className="text-slate-200">{typedCommand}</span>
+                    {activeStep === 0 && (
+                      <span className="inline-block w-2 h-4 bg-pink-400 animate-pulse ml-0.5"></span>
+                    )}
                   </div>
                   <span className="text-[10px] text-slate-500 opacity-60 hidden sm:inline">
                     (toca para ráfaga)
                   </span>
                 </div>
 
-                <div className="text-slate-300 flex items-center justify-between">
+                {/* Línea 1: Hardware */}
+                <div
+                  className={`text-slate-300 flex items-center justify-between transition-opacity duration-200 ${
+                    activeStep >= 1 ? 'opacity-100' : 'opacity-0'
+                  }`}
+                >
                   <span>&gt; {termT.hardware}</span>
                   <span className="text-emerald-400 font-bold">{termT.hardwareVal}</span>
                 </div>
 
-                <div className="text-slate-300 flex items-center justify-between">
+                {/* Línea 2: SSD */}
+                <div
+                  className={`text-slate-300 flex items-center justify-between transition-opacity duration-200 ${
+                    activeStep >= 2 ? 'opacity-100' : 'opacity-0'
+                  }`}
+                >
                   <span>&gt; {termT.ssd}</span>
                   <span className="text-amber-400 font-bold">{termT.ssdVal}</span>
                 </div>
 
-                <div className="text-slate-300 flex items-center justify-between">
-                  <span>&gt; {termT.malware}</span>
-                  <span className="text-rose-400 font-bold">{termT.malwareVal}</span>
+                {/* Línea 3: Escaneo malware y virus con barra al 100% y 2 amenazas encontradas */}
+                <div
+                  className={`text-slate-300 flex flex-wrap items-center justify-between gap-1 transition-opacity duration-200 ${
+                    activeStep >= 3 ? 'opacity-100' : 'opacity-0'
+                  }`}
+                >
+                  <span className="flex items-center gap-2">
+                    <span>&gt; {termT.malware}</span>
+                    <span className="text-xs font-mono text-emerald-400 font-bold">
+                      [{'█'.repeat(Math.floor(scanProgress / 10))}{'░'.repeat(10 - Math.floor(scanProgress / 10))}] {scanProgress}%
+                    </span>
+                  </span>
+                  {scanProgress >= 100 && (
+                    <span className="text-rose-500 font-bold">
+                      {termT.malwareVal}
+                    </span>
+                  )}
                 </div>
 
-                <div className="text-slate-300 flex items-center justify-between">
+                {/* Línea 4: Amenazas encontradas / Limpieza realizada (en letras verdes) */}
+                <div
+                  className={`text-slate-300 flex items-center justify-between transition-opacity duration-200 ${
+                    activeStep >= 4 ? 'opacity-100' : 'opacity-0'
+                  }`}
+                >
                   <span>&gt; {termT.cooling}</span>
                   <span className="text-emerald-400 font-bold">{termT.coolingVal}</span>
                 </div>
 
-                <div className="text-slate-300 flex items-center justify-between">
+                {/* Línea 5: Web en construcción (en letras azules) */}
+                <div
+                  className={`text-slate-300 flex items-center justify-between transition-opacity duration-200 ${
+                    activeStep >= 5 ? 'opacity-100' : 'opacity-0'
+                  }`}
+                >
                   <span>&gt; {termT.web}</span>
                   <span className="text-sky-400 font-bold">{termT.webVal}</span>
                 </div>
 
-                <div className="pt-3 border-t border-slate-800/80 text-slate-300">
-                  <p>
-                    <span className="text-amber-400 font-bold">{termT.timeLabel}</span> {termT.timeVal}
-                  </p>
-                  <p>
-                    <span className="text-pink-400 font-bold">{termT.diagLabel}</span> {termT.diagVal}
-                  </p>
-                </div>
+                {/* Línea 6: Resumen y diagnóstico 100% remoto */}
+                <div
+                  className={`transition-opacity duration-200 ${
+                    activeStep >= 6 ? 'opacity-100' : 'opacity-0'
+                  }`}
+                >
+                  <div className="pt-3 border-t border-slate-800/80 text-slate-300">
+                    <p>
+                      <span className="text-amber-400 font-bold">{termT.timeLabel}</span> {termT.timeVal}
+                    </p>
+                    <p>
+                      <span className="text-pink-400 font-bold">{termT.diagLabel}</span> {termT.diagVal}
+                    </p>
+                  </div>
 
-                <div className="pt-2 text-emerald-400 flex items-center gap-1 font-bold">
-                  <span>{termT.status}</span>
-                  <span className="inline-block w-2.5 h-4 bg-emerald-400 animate-pulse-terminal ml-1"></span>
+                  <div className="pt-2 text-emerald-400 flex items-center gap-1 font-bold">
+                    <span>{termT.status}</span>
+                    <span className="inline-block w-2.5 h-4 bg-emerald-400 animate-pulse-terminal ml-1"></span>
+                  </div>
                 </div>
               </div>
 
               {/* Bottom Console Status Bar */}
               <div className="bg-[#0e172a] px-4 py-2 text-[11px] text-slate-400 border-t border-slate-800 flex items-center justify-between">
                 <span>{termT.footer1}</span>
-                <span className="text-slate-500 font-mono">{termT.footer2}</span>
               </div>
             </div>
           </div>
