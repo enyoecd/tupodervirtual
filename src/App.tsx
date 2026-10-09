@@ -2,7 +2,6 @@ import React from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import { MatrixBackground } from './components/matrix/MatrixBackground';
 import { MatrixClickSpill } from './components/matrix/MatrixClickSpill';
-import { InteractiveConsole } from './components/matrix/InteractiveConsole';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ClientMarquee } from './components/ClientMarquee';
@@ -41,7 +40,6 @@ const AppContent: React.FC = () => {
             <CoverageSection />
             <CtaBanner />
             <LocationMap />
-            <InteractiveConsole />
             <ContactForm />
             <ClientMarquee />
           </>
