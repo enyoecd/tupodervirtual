@@ -159,15 +159,11 @@ export const Hero: React.FC = () => {
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-10 items-center">
           {/* Left Column: Copywriting, CTAs y Fila de Métricas */}
           <div className="lg:col-span-6 space-y-6">
-            {/* Badges de Estado y Cobertura */}
+            {/* Badges de Estado */}
             <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/15 dark:bg-amber-400/20 text-amber-900 dark:text-amber-300 text-xs font-extrabold tracking-wide border border-amber-500/40 shadow-xs">
                 <span className="inline-block animate-pulse text-sm leading-none">🚧</span>
                 <span className="uppercase tracking-wider">{language === 'ES' ? 'Web en Construcción' : 'Website Under Construction'}</span>
-              </div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pink-50 dark:bg-pink-950/60 text-pink-700 dark:text-pink-300 text-xs font-semibold tracking-wide border border-pink-200 dark:border-pink-800/80">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                {t.tag}
               </div>
             </div>
 
