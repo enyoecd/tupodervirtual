@@ -49,7 +49,7 @@ export const ServicesOverview: React.FC = () => {
         {/* 2 Big Category Overview Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Soporte Técnico Card */}
-          <div className="bg-slate-50 dark:bg-[#0F172A] rounded-3xl p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-xl transition-all flex flex-col justify-between group">
+          <div className="bg-slate-50 dark:bg-[#0F172A] rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-xl transition-all flex flex-col justify-between group">
             <div>
               <div className="flex items-center justify-between mb-6">
                 <div className="w-14 h-14 rounded-2xl bg-blue-500/10 text-blue-600 dark:bg-blue-900/30 dark:text-sky-400 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
@@ -104,7 +104,7 @@ export const ServicesOverview: React.FC = () => {
           </div>
 
           {/* Desarrollo y Soluciones Web Card */}
-          <div className="bg-slate-50 dark:bg-[#0F172A] rounded-3xl p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-xl transition-all flex flex-col justify-between group">
+          <div className="bg-slate-50 dark:bg-[#0F172A] rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-xl transition-all flex flex-col justify-between group">
             <div>
               <div className="flex items-center justify-between mb-6">
                 <div className="w-14 h-14 rounded-2xl bg-pink-50 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 flex items-center justify-center group-hover:bg-pink-600 group-hover:text-white transition-colors">

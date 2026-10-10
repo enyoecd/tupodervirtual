@@ -152,7 +152,7 @@ export const LocationMap: React.FC = () => {
               </svg>
 
               {/* Tarjeta flotante simulada de negocio en Google Maps */}
-              <div className="absolute top-5 left-5 z-10 bg-white dark:bg-[#0B0F17] p-3.5 rounded-2xl shadow-xl border border-slate-200 dark:border-[#1E293B] max-w-xs">
+              <div className="absolute top-3 left-3 right-3 sm:right-auto sm:top-5 sm:left-5 z-10 bg-white dark:bg-[#0B0F17] p-3 sm:p-3.5 rounded-2xl shadow-xl border border-slate-200 dark:border-[#1E293B] max-w-full sm:max-w-xs">
                 <div className="flex items-start gap-3">
                   <img
                     alt="Tu Poder Virtual"

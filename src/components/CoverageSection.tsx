@@ -24,7 +24,7 @@ export const CoverageSection: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Box 1: Presencial Antofagasta */}
-          <div className="bg-white dark:bg-[#0B0F17] rounded-3xl p-8 border-2 border-pink-200 dark:border-pink-800/80 shadow-sm relative overflow-hidden group hover:border-pink-500 transition-colors">
+          <div className="bg-white dark:bg-[#0B0F17] rounded-2xl sm:rounded-3xl p-5 sm:p-8 border-2 border-pink-200 dark:border-pink-800/80 shadow-sm relative overflow-hidden group hover:border-pink-500 transition-colors">
             <div className="absolute top-0 right-0 bg-pink-600 text-white text-[10px] font-extrabold uppercase px-3.5 py-1.5 rounded-bl-xl tracking-wider">
               {t.presencialBadge}
             </div>
@@ -41,7 +41,7 @@ export const CoverageSection: React.FC = () => {
               {t.presencialDesc}
             </p>
 
-            <div className="bg-slate-50 dark:bg-[#0F172A] p-4 rounded-xl text-xs space-y-2 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-[#1E293B]">
+            <div className="bg-slate-50 dark:bg-[#0F172A] p-3.5 sm:p-4 rounded-xl text-xs space-y-2 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-[#1E293B]">
               <p className="flex items-start gap-1.5">
                 <span className="shrink-0">📍</span>
                 <span>
@@ -64,7 +64,7 @@ export const CoverageSection: React.FC = () => {
           </div>
 
           {/* Box 2: Remoto Nacional y Mundial */}
-          <div className="bg-white dark:bg-[#0B0F17] rounded-3xl p-8 border-2 border-slate-200 dark:border-[#1E293B] shadow-sm relative overflow-hidden group hover:border-sky-500 transition-colors">
+          <div className="bg-white dark:bg-[#0B0F17] rounded-2xl sm:rounded-3xl p-5 sm:p-8 border-2 border-slate-200 dark:border-[#1E293B] shadow-sm relative overflow-hidden group hover:border-sky-500 transition-colors">
             <div className="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-extrabold uppercase px-3.5 py-1.5 rounded-bl-xl tracking-wider">
               {t.remoteBadge}
             </div>

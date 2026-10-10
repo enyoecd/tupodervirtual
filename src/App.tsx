@@ -21,7 +21,7 @@ const AppContent: React.FC = () => {
   const { currentPage } = useApp();
 
   return (
-    <div className="min-h-screen relative bg-white dark:bg-[#0B0F17] text-slate-800 dark:text-slate-100 transition-colors duration-300">
+    <div className="min-h-screen relative w-full overflow-x-hidden bg-white dark:bg-[#0B0F17] text-slate-800 dark:text-slate-100 transition-colors duration-300">
       {/* 1. Global Subtle Matrix Rain Background Layer */}
       <MatrixBackground />
 
@@ -32,7 +32,7 @@ const AppContent: React.FC = () => {
       <Header />
 
       {/* Main Content Sections Based on Current Page */}
-      <main className="relative z-10">
+      <main className="relative z-10 w-full overflow-x-hidden">
         {currentPage === 'home' && (
           <>
             <Hero />

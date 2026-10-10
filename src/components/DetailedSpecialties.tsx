@@ -103,15 +103,15 @@ export const DetailedSpecialties: React.FC = () => {
               </div>
             </div>
 
-            <div className="pt-4 flex flex-wrap gap-4">
+            <div className="pt-4 flex flex-col sm:flex-row gap-3 sm:gap-4">
               <a
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 dark:bg-pink-600 hover:bg-slate-800 dark:hover:bg-pink-700 text-white text-sm font-semibold transition-colors shadow-md"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-slate-900 dark:bg-pink-600 hover:bg-slate-800 dark:hover:bg-pink-700 text-white text-sm font-semibold transition-colors shadow-md text-center"
                 href="#contacto"
               >
                 {isEs ? 'Agendar Diagnóstico Técnico' : 'Book Diagnostic Check'}
               </a>
               <a
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold transition-colors shadow-md"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold transition-colors shadow-md text-center"
                 href="https://wa.me/56987676879"
                 target="_blank"
                 rel="noopener noreferrer"
