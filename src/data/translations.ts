@@ -1,3 +1,7 @@
+const START_YEAR = 2002;
+const currentYear = new Date().getFullYear();
+const experienceYears = `+${Math.max(1, currentYear - START_YEAR)}`;
+
 export const translations = {
   ES: {
     nav: {
@@ -22,7 +26,7 @@ export const translations = {
       clientsCount: '+1500',
       clientsLabel: 'Clientes',
       clientsSub: 'Confianza garantizada',
-      expCount: '+25',
+      expCount: experienceYears,
       expLabel: 'Años experiencia',
       expSub: 'Trayectoria en TI',
       availCount: '24/7',
@@ -150,7 +154,7 @@ export const translations = {
       clientsCount: '+1500',
       clientsLabel: 'Clients',
       clientsSub: 'Guaranteed trust',
-      expCount: '+25',
+      expCount: experienceYears,
       expLabel: 'Years of experience',
       expSub: 'Proven IT track record',
       availCount: '24/7',
