@@ -181,14 +181,6 @@ export const Footer: React.FC = () => {
         {/* Bottom Credits */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <p>{t.rights}</p>
-          <div className="flex items-center gap-6">
-            <a
-              className="hover:text-white transition-colors cursor-pointer"
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            >
-              {t.toTop}
-            </a>
-          </div>
         </div>
       </div>
     </footer>
