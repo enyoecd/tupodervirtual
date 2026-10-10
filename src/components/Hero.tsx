@@ -373,7 +373,7 @@ export const Hero: React.FC = () => {
                   <span className="text-emerald-400 font-bold">{termT.ssdVal}</span>
                 </div>
 
-                {/* Línea 3: Escaneo & virus con barra al 100% */}
+                {/* Línea 3: Escaneo & virus con barra al 100% y OK */}
                 <div
                   className={`text-slate-300 flex items-center justify-between transition-opacity duration-200 ${
                     activeStep >= 3 ? 'opacity-100' : 'opacity-0'
@@ -385,6 +385,9 @@ export const Hero: React.FC = () => {
                       [{'█'.repeat(Math.floor(scanProgress / 10))}{'░'.repeat(10 - Math.floor(scanProgress / 10))}] {scanProgress}%
                     </span>
                   </div>
+                  {scanProgress >= 100 && (
+                    <span className="text-emerald-400 font-bold">OK</span>
+                  )}
                 </div>
 
                 {/* Historial de comandos ingresados por el usuario */}
