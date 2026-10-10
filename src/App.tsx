@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import { MatrixBackground } from './components/matrix/MatrixBackground';
 import { MatrixClickSpill } from './components/matrix/MatrixClickSpill';
@@ -16,9 +16,31 @@ import { FloatingControls } from './components/FloatingControls';
 import { WebDesignPage } from './pages/WebDesignPage';
 import { TechnicalSupportPage } from './pages/TechnicalSupportPage';
 import { ToolsOnlinePage } from './pages/ToolsOnlinePage';
+import { MatrixPasswordGate } from './components/matrix/MatrixPasswordGate';
 
 const AppContent: React.FC = () => {
-  const { currentPage } = useApp();
+  const { currentPage, isEnyoAuthorized, unlockEnyo } = useApp();
+
+  // Prevención de indexación web para /enyo (noindex, nofollow)
+  useEffect(() => {
+    let robotsMeta = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
+    if (currentPage === 'tools-online') {
+      if (!robotsMeta) {
+        robotsMeta = document.createElement('meta');
+        robotsMeta.name = 'robots';
+        document.head.appendChild(robotsMeta);
+      }
+      robotsMeta.content = 'noindex, nofollow, noarchive, nosnippet';
+    } else if (robotsMeta) {
+      robotsMeta.content = 'index, follow';
+    }
+  }, [currentPage]);
+
+  // Cuando se accede a /enyo sin autenticar, se muestra SOLAMENTE la pantalla en negro estilo Neo Matrix.
+  // Sin header, sin footer, sin controles flotantes ni contenedores externos.
+  if (currentPage === 'tools-online' && !isEnyoAuthorized) {
+    return <MatrixPasswordGate onUnlock={unlockEnyo} />;
+  }
 
   return (
     <div className="min-h-screen relative w-full overflow-x-hidden bg-white dark:bg-[#0B0F17] text-slate-800 dark:text-slate-100 transition-colors duration-300">

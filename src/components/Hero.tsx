@@ -16,7 +16,7 @@ interface ConsoleHistoryItem {
 }
 
 export const Hero: React.FC = () => {
-  const { language, navigateTo } = useApp();
+  const { language, navigateTo, unlockEnyo } = useApp();
   const t = translations[language].hero;
   const termT = translations[language].terminal;
 
@@ -153,15 +153,34 @@ export const Hero: React.FC = () => {
         return;
       }
 
-      if (clean === 'enyo') {
-        const urlToDisplay = 'https://tupodervirtual.pages.dev/#enyo';
+      if (
+        clean === 'enyo' ||
+        clean === '/enyo' ||
+        clean === 'enyo/' ||
+        clean === 'enjo' ||
+        clean === '/enjo' ||
+        clean === 'enjo/'
+      ) {
+        // Generamos la URL directa y dinámica adaptada a cualquier entorno donde se suba
+        // (Google Studio AI, GitHub Pages, Cloudflare Pages, o servidor personalizado)
+        let originUrl = 'https://tupodervirtual.pages.dev';
+        let basePath = '';
+        if (typeof window !== 'undefined' && window.location.origin && window.location.origin !== 'null') {
+          originUrl = window.location.origin;
+          const segments = window.location.pathname
+            .split('/')
+            .filter(Boolean)
+            .filter(seg => {
+              const s = seg.toLowerCase();
+              return s !== 'index.html' && s !== 'enyo' && s !== 'enjo';
+            });
+          basePath = segments.length > 0 ? '/' + segments.join('/') : '';
+        }
+        const fullUrl = `${originUrl}${basePath}/enyo`;
+        const urlToDisplay = fullUrl;
 
         // Autorizar la sesión para que el enlace de la consola ingrese 100% directo
-        try {
-          sessionStorage.setItem('enyo_authorized', 'true');
-        } catch (e) {
-          // ignore
-        }
+        unlockEnyo();
 
         setHistoryItems(prev => [
           ...prev,
@@ -485,14 +504,16 @@ export const Hero: React.FC = () => {
                     {item.isLink && item.targetPage && (
                       <div className="pl-4 pt-0.5">
                         <a
-                          href="#enyo"
+                          href={item.url || '/enyo'}
                           onClick={e => {
                             e.preventDefault();
                             e.stopPropagation();
+                            unlockEnyo();
                             try {
-                              sessionStorage.setItem('enyo_authorized', 'true');
+                              const parsed = new URL(item.url || '/enyo', window.location.href);
+                              window.history.pushState(null, '', parsed.pathname + parsed.search + parsed.hash);
                             } catch (err) {
-                              // ignore
+                              window.history.pushState(null, '', item.url || '/enyo');
                             }
                             if (item.targetPage) {
                               navigateTo(item.targetPage, 'enyo');
@@ -500,7 +521,7 @@ export const Hero: React.FC = () => {
                           }}
                           className="text-emerald-400 hover:text-emerald-300 underline font-mono text-xs sm:text-sm inline-block break-all cursor-pointer transition-colors"
                         >
-                          {item.url || `${typeof window !== 'undefined' ? window.location.origin : ''}/#enyo`}
+                          {item.url || '/enyo'}
                         </a>
                       </div>
                     )}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Phone, MessageSquare, MapPin, Send, ShieldCheck, CheckCircle2, X, Sparkles } from 'lucide-react';
+import { Phone, MessageSquare, MapPin, Mail, Send, ShieldCheck, CheckCircle2, X, Sparkles } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { translations } from '../data/translations';
 
@@ -124,27 +124,49 @@ export const ContactForm: React.FC = () => {
               </div>
             </div>
 
-            {/* Coverage Tags */}
-            <div className="bg-white dark:bg-[#0B0F17] rounded-2xl p-6 border border-slate-200/80 dark:border-[#1E293B] shadow-sm">
-              <h5 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-3">
-                {t.coverageTitle}
-              </h5>
-              <div className="flex flex-wrap gap-2">
-                <span className="text-xs bg-slate-100 dark:bg-[#1E293B] text-slate-700 dark:text-slate-300 px-3 py-1 rounded-full">
-                  Antofagasta Presencial
-                </span>
-                <span className="text-xs bg-slate-100 dark:bg-[#1E293B] text-slate-700 dark:text-slate-300 px-3 py-1 rounded-full">
-                  Sector Centro y Norte
-                </span>
-                <span className="text-xs bg-slate-100 dark:bg-[#1E293B] text-slate-700 dark:text-slate-300 px-3 py-1 rounded-full">
-                  Sector Sur
-                </span>
-                <span className="text-xs bg-pink-50 dark:bg-pink-950/80 text-pink-700 dark:text-pink-300 font-semibold px-3 py-1 rounded-full border border-pink-200 dark:border-pink-800">
-                  Soporte Remoto a Todo Chile
-                </span>
-                <span className="text-xs bg-slate-900 dark:bg-blue-900/60 text-white font-semibold px-3 py-1 rounded-full">
-                  Soporte Remoto Internacional
-                </span>
+            {/* Telegram Card */}
+            <div className="bg-white dark:bg-[#0B0F17] rounded-2xl p-6 border border-slate-200/80 dark:border-[#1E293B] shadow-sm flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-sky-50 dark:bg-sky-950/60 text-sky-500 dark:text-sky-400 flex items-center justify-center shrink-0">
+                <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.121l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.458c.538-.196 1.006.128.832.923z"/>
+                </svg>
+              </div>
+              <div>
+                <h4 className="font-bold text-slate-900 dark:text-white text-sm">
+                  {t.telegramTitle || 'Telegram Directo'}
+                </h4>
+                <a
+                  href="https://t.me/tupodervirtual"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sky-500 dark:text-sky-400 font-semibold text-sm mt-0.5 hover:underline block"
+                >
+                  @tupodervirtual
+                </a>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  {t.telegramSub || 'Consultas y soporte vía mensajería'}
+                </p>
+              </div>
+            </div>
+
+            {/* Email Card (enyoecd@gmail.com) */}
+            <div className="bg-white dark:bg-[#0B0F17] rounded-2xl p-6 border border-slate-200/80 dark:border-[#1E293B] shadow-sm flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
+                <Mail className="w-6 h-6" />
+              </div>
+              <div>
+                <h4 className="font-bold text-slate-900 dark:text-white text-sm">
+                  {t.emailTitle || 'Correo Electrónico'}
+                </h4>
+                <a
+                  href="mailto:enyoecd@gmail.com"
+                  className="text-purple-600 dark:text-purple-400 font-semibold text-sm mt-0.5 hover:underline block break-all"
+                >
+                  enyoecd@gmail.com
+                </a>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  {t.emailSub || 'Contacto formal y envío de requerimientos'}
+                </p>
               </div>
             </div>
           </div>

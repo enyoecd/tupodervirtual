@@ -176,21 +176,11 @@ const YOUTUBE_CHANNELS: ToolLink[] = [
 ];
 
 export const ToolsOnlinePage: React.FC = () => {
-  const { navigateTo } = useApp();
-  const [isAuthorized, setIsAuthorized] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        return sessionStorage.getItem('enyo_authorized') === 'true';
-      } catch (e) {
-        return false;
-      }
-    }
-    return false;
-  });
+  const { navigateTo, isEnyoAuthorized, unlockEnyo, lockEnyo } = useApp();
 
   // Si no está autenticado, muestra la pantalla negra estilo Matrix de Neo
-  if (!isAuthorized) {
-    return <MatrixPasswordGate onUnlock={() => setIsAuthorized(true)} />;
+  if (!isEnyoAuthorized) {
+    return <MatrixPasswordGate onUnlock={unlockEnyo} />;
   }
 
   return (
@@ -214,14 +204,7 @@ export const ToolsOnlinePage: React.FC = () => {
             </div>
 
             <button
-              onClick={() => {
-                try {
-                  sessionStorage.removeItem('enyo_authorized');
-                } catch (e) {
-                  // ignore
-                }
-                setIsAuthorized(false);
-              }}
+              onClick={() => lockEnyo()}
               className="inline-flex items-center gap-1.5 text-xs font-mono text-rose-400 hover:text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 px-3 py-1.5 rounded-lg border border-rose-500/30 transition-colors cursor-pointer"
               title="Bloquear acceso y volver a la pantalla Matrix"
             >

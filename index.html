@@ -21,6 +21,30 @@
     <script>
       (function() {
         try {
+          // Soporte SPA para GitHub Pages u hostings estáticos sin reescritura directa
+          var params = new URLSearchParams(window.location.search);
+          var spaPath = params.get('spa_path');
+          if (spaPath) {
+            spaPath = decodeURIComponent(spaPath);
+            var isGithub = window.location.hostname.indexOf('github.io') !== -1;
+            var segments = window.location.pathname.split('/').filter(Boolean);
+            var repoBase = (isGithub && segments.length > 0 && segments[0].toLowerCase() !== 'enyo' && segments[0].toLowerCase() !== 'enjo') ? '/' + segments[0] : '';
+            var cleanSub = spaPath.startsWith('/') ? spaPath : '/' + spaPath;
+            window.history.replaceState(null, '', repoBase + cleanSub);
+          }
+
+          // Prevenir indexación si la URL contiene /enyo o /enjo
+          var p = window.location.pathname.toLowerCase();
+          var h = window.location.hash.toLowerCase();
+          var s = window.location.search.toLowerCase();
+          if (p.indexOf('enyo') !== -1 || h.indexOf('enyo') !== -1 || s.indexOf('enyo') !== -1 ||
+              p.indexOf('enjo') !== -1 || h.indexOf('enjo') !== -1 || s.indexOf('enjo') !== -1) {
+            var meta = document.createElement('meta');
+            meta.name = 'robots';
+            meta.content = 'noindex, nofollow, noarchive, nosnippet';
+            document.head.appendChild(meta);
+          }
+
           // Clear any old testing flag in localStorage
           localStorage.removeItem('tpv-theme');
           var userTheme = sessionStorage.getItem('tpv-theme');

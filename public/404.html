@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Tu Poder Virtual</title>
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <script>
+    // Soporte SPA para GitHub Pages u hostings estáticos sin reescritura en servidor
+    (function() {
+      var l = window.location;
+      var path = l.pathname;
+      var search = l.search;
+      var hash = l.hash;
+
+      // Detectar si estamos en un repositorio de GitHub Pages (ej: usuario.github.io/repo/)
+      var segments = path.split('/').filter(Boolean);
+      var isGithub = l.hostname.indexOf('github.io') !== -1;
+      var repoBase = (isGithub && segments.length > 0) ? '/' + segments[0] : '';
+      var subPath = (isGithub && segments.length > 0) ? '/' + segments.slice(1).join('/') : path;
+
+      // Redirigir hacia la página principal pasando la subruta para restaurarla
+      var target = l.origin + repoBase + '/?spa_path=' + encodeURIComponent(subPath + search + hash);
+      window.location.replace(target);
+    })();
+  </script>
+</head>
+<body style="background-color: #0B0F17; color: #00FF41; font-family: monospace; padding: 2rem;">
+  <p>Cargando Tu Poder Virtual...</p>
+</body>
+</html>

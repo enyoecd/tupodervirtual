@@ -19,6 +19,9 @@ interface AppContextType {
   triggerSpill: (startY: number, isDense?: boolean) => void;
   showEndWave: boolean;
   triggerEndWave: () => void;
+  isEnyoAuthorized: boolean;
+  unlockEnyo: () => void;
+  lockEnyo: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -27,8 +30,31 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [currentPage, setCurrentPageState] = useState<PageType>(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.toLowerCase();
-      const pathname = window.location.pathname.toLowerCase();
-      if (pathname === '/enyo' || pathname === '/enyo/' || pathname.endsWith('/enyo')) {
+      const pathname = window.location.pathname.toLowerCase().replace(/\/+$/, '');
+      const search = window.location.search.toLowerCase();
+
+      if (
+        pathname === '/enyo' ||
+        pathname === '/enjo' ||
+        pathname.endsWith('/enyo') ||
+        pathname.endsWith('/enjo') ||
+        pathname.includes('/enyo') ||
+        pathname.includes('/enjo') ||
+        hash === '#enyo' ||
+        hash === '#enjo' ||
+        hash === '#/enyo' ||
+        hash === '#/enjo' ||
+        hash.startsWith('#enyo') ||
+        hash.startsWith('#enjo') ||
+        hash.startsWith('#/enyo') ||
+        hash.startsWith('#/enjo') ||
+        hash.includes('enyo') ||
+        hash.includes('enjo') ||
+        hash.startsWith('#herramientas-online') ||
+        hash.startsWith('#pagina-herramientas') ||
+        search.includes('enyo') ||
+        search.includes('enjo')
+      ) {
         return 'tools-online';
       }
       if (hash.startsWith('#pagina-desarrollo-web') || hash.startsWith('#pagina-diseno-web')) {
@@ -36,9 +62,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
       if (hash.startsWith('#pagina-soporte-tecnico') || hash.startsWith('#pagina-soporte-remoto')) {
         return 'technical-support';
-      }
-      if (hash.startsWith('#enyo') || hash.startsWith('#herramientas-online') || hash.startsWith('#pagina-herramientas')) {
-        return 'tools-online';
       }
     }
     return 'home';
@@ -75,12 +98,47 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [showEndWave, setShowEndWave] = useState(false);
   const [lastWaveTime, setLastWaveTime] = useState(0);
 
-  // Sync with browser URL hash
+  // Private gate authorization for /enyo
+  // Defaults to false on URL load so entering /enyo in address bar ALWAYS requests password on black screen
+  const [isEnyoAuthorized, setIsEnyoAuthorized] = useState<boolean>(false);
+
+  const unlockEnyo = useCallback(() => {
+    setIsEnyoAuthorized(true);
+  }, []);
+
+  const lockEnyo = useCallback(() => {
+    setIsEnyoAuthorized(false);
+  }, []);
+
+  // Sync with browser URL hash and path
   useEffect(() => {
     const handleHash = () => {
       const hash = window.location.hash.toLowerCase();
-      const pathname = window.location.pathname.toLowerCase();
-      if (pathname === '/enyo' || pathname === '/enyo/' || pathname.endsWith('/enyo')) {
+      const pathname = window.location.pathname.toLowerCase().replace(/\/+$/, '');
+      const search = window.location.search.toLowerCase();
+
+      if (
+        pathname === '/enyo' ||
+        pathname === '/enjo' ||
+        pathname.endsWith('/enyo') ||
+        pathname.endsWith('/enjo') ||
+        pathname.includes('/enyo') ||
+        pathname.includes('/enjo') ||
+        hash === '#enyo' ||
+        hash === '#enjo' ||
+        hash === '#/enyo' ||
+        hash === '#/enjo' ||
+        hash.startsWith('#enyo') ||
+        hash.startsWith('#enjo') ||
+        hash.startsWith('#/enyo') ||
+        hash.startsWith('#/enjo') ||
+        hash.includes('enyo') ||
+        hash.includes('enjo') ||
+        hash.startsWith('#herramientas-online') ||
+        hash.startsWith('#pagina-herramientas') ||
+        search.includes('enyo') ||
+        search.includes('enjo')
+      ) {
         setCurrentPageState('tools-online');
         return;
       }
@@ -88,8 +146,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setCurrentPageState('web-design');
       } else if (hash.startsWith('#pagina-soporte-tecnico') || hash.startsWith('#pagina-soporte-remoto')) {
         setCurrentPageState('technical-support');
-      } else if (hash.startsWith('#enyo') || hash.startsWith('#herramientas-online') || hash.startsWith('#pagina-herramientas')) {
-        setCurrentPageState('tools-online');
       } else {
         setCurrentPageState('home');
         const targetId = hash.replace(/^#/, '');
@@ -104,6 +160,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
     };
 
+    handleHash();
     window.addEventListener('hashchange', handleHash);
     window.addEventListener('popstate', handleHash);
     return () => {
@@ -142,6 +199,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } else if (page === 'tools-online') {
       window.location.hash = cleanHash || 'enyo';
     } else {
+      // Al volver al inicio, si la URL contenía /enyo o /enjo en el pathname, restaurar la ruta raíz
+      if (typeof window !== 'undefined') {
+        const path = window.location.pathname;
+        if (path.toLowerCase().includes('enyo') || path.toLowerCase().includes('enjo')) {
+          const isGithub = window.location.hostname.indexOf('github.io') !== -1;
+          const segments = path.split('/').filter(Boolean);
+          const repoBase = (isGithub && segments.length > 0 && segments[0].toLowerCase() !== 'enyo' && segments[0].toLowerCase() !== 'enjo')
+            ? '/' + segments[0]
+            : '';
+          const targetPath = repoBase ? repoBase + '/' : '/';
+          try {
+            window.history.pushState(null, '', targetPath);
+          } catch (e) {}
+        }
+      }
       window.location.hash = cleanHash || 'inicio';
     }
 
@@ -261,6 +333,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         triggerSpill,
         showEndWave,
         triggerEndWave,
+        isEnyoAuthorized,
+        unlockEnyo,
+        lockEnyo,
       }}
     >
       {children}

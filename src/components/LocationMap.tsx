@@ -1,18 +1,68 @@
-import React from 'react';
-import { MapPin, Clock, Car, Laptop, ExternalLink, Star } from 'lucide-react';
+import React, { useState } from 'react';
+import {
+  MapPin,
+  Clock,
+  Car,
+  Laptop,
+  ExternalLink,
+  Star,
+  Navigation,
+  Copy,
+  Check,
+  ZoomIn,
+  ZoomOut,
+  Maximize2
+} from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const LocationMap: React.FC = () => {
   const { language } = useApp();
   const isEs = language === 'ES';
 
+  // Controles de vista interactivos para Google Maps
+  // Zoom 15 es el punto justo pedido: no muy lejos ni muy cerca, se ve mar, cordillera y calles aledañas
+  const [zoomLevel, setZoomLevel] = useState<number>(15);
+  const [mapType, setMapType] = useState<'m' | 'p' | 'k' | 'h'>('m');
+  const [copied, setCopied] = useState<boolean>(false);
+  const [iframeLoaded, setIframeLoaded] = useState<boolean>(false);
+
+  const addressText = 'Ecuador 1438, Antofagasta, Chile';
+  const googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=Ecuador+1438,+Antofagasta,+Chile';
+  const wazeUrl = 'https://waze.com/ul?q=Ecuador%201438,%20Antofagasta';
+
+  // URL del iframe embebido de Google Maps con parámetros reales de ubicación y zoom
+  const embedUrl = `https://maps.google.com/maps?q=Ecuador+1438,+Antofagasta,+Chile&t=${mapType}&z=${zoomLevel}&ie=UTF8&iwloc=&output=embed`;
+
+  const handleCopyAddress = () => {
+    try {
+      navigator.clipboard.writeText(addressText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      // ignore
+    }
+  };
+
+  const handleZoomIn = () => {
+    setZoomLevel(prev => Math.min(prev + 1, 18));
+  };
+
+  const handleZoomOut = () => {
+    setZoomLevel(prev => Math.max(prev - 1, 13));
+  };
+
+  const handleResetZoom = () => {
+    setZoomLevel(15);
+    setMapType('m');
+  };
+
   return (
     <section
-      className="py-20 bg-white dark:bg-[#0B0F17] transition-colors duration-300"
+      className="py-20 bg-white dark:bg-[#0B0F17] transition-colors duration-300 relative"
       id="mapa-ubicacion"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-14">
+        <div className="text-center max-w-3xl mx-auto mb-12">
           <span className="text-xs uppercase font-extrabold tracking-wider text-pink-700 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/60 px-3 py-1 rounded-md border border-pink-200 dark:border-pink-800/80">
             {isEs ? 'Presencial Antofagasta' : 'On-Site Workshop Antofagasta'}
           </span>
@@ -21,14 +71,14 @@ export const LocationMap: React.FC = () => {
           </h2>
           <p className="mt-2 text-base text-slate-600 dark:text-slate-300">
             {isEs
-              ? 'Visítanos directamente en nuestro taller técnico en el corazón de Antofagasta.'
-              : 'Visit us directly at our hardware diagnostic lab located in the heart of Antofagasta.'}
+              ? 'Visítanos directamente en nuestro taller técnico en el corazón de Antofagasta. Fácil acceso por Av. Argentina y Costanera.'
+              : 'Visit us directly at our tech workshop located in the heart of Antofagasta. Convenient access from coastal highway & Av. Argentina.'}
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-w-6xl mx-auto">
           {/* Columna Izquierda: Información de Atención Presencial */}
-          <div className="lg:col-span-5 bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] rounded-3xl p-8 flex flex-col justify-between shadow-sm">
+          <div className="lg:col-span-5 bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] rounded-3xl p-7 sm:p-8 flex flex-col justify-between shadow-sm">
             <div className="space-y-6">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-pink-100 dark:bg-pink-900/60 text-pink-700 dark:text-pink-300 flex items-center justify-center font-bold text-lg">
@@ -49,8 +99,26 @@ export const LocationMap: React.FC = () => {
                   {isEs ? 'Servicio Técnico & Desarrollo' : 'Tech Support & Web Agency'}
                 </p>
                 <p className="text-xl font-bold text-slate-900 dark:text-white">Tu Poder Virtual</p>
-                <p className="text-base text-pink-700 dark:text-pink-400 font-semibold mt-1">
-                  Ecuador 1438, Antofagasta, Chile
+                <div className="flex items-center gap-2 mt-1">
+                  <p className="text-base text-pink-700 dark:text-pink-400 font-bold">
+                    Ecuador 1438, Antofagasta
+                  </p>
+                  <button
+                    onClick={handleCopyAddress}
+                    title={isEs ? 'Copiar dirección' : 'Copy address'}
+                    className="p-1 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors"
+                  >
+                    {copied ? (
+                      <Check className="w-4 h-4 text-emerald-500" />
+                    ) : (
+                      <Copy className="w-4 h-4" />
+                    )}
+                  </button>
+                </div>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                  {isEs
+                    ? 'Sector Centro-Sur (Entre Av. Argentina y Galleguillos Lorca)'
+                    : 'South-Central District (Between Av. Argentina & Galleguillos Lorca)'}
                 </p>
               </div>
 
@@ -74,12 +142,12 @@ export const LocationMap: React.FC = () => {
                   <Car className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
                   <div>
                     <p className="font-bold text-slate-900 dark:text-white">
-                      {isEs ? 'Facilidad de Acceso:' : 'Convenient Access:'}
+                      {isEs ? 'Facilidad de Acceso y Locomoción:' : 'Convenient Access & Transit:'}
                     </p>
                     <p className="text-xs text-slate-600 dark:text-slate-400">
                       {isEs
-                        ? 'Fácil estacionamiento y locomoción expedita en calle Ecuador.'
-                        : 'Convenient street parking and fast public transit along Ecuador Street.'}
+                        ? 'Fácil estacionamiento en calle Ecuador y rápida conectividad por Av. Argentina y Costanera.'
+                        : 'Convenient street parking on Ecuador street and rapid transit connection via Av. Argentina.'}
                     </p>
                   </div>
                 </div>
@@ -92,121 +160,207 @@ export const LocationMap: React.FC = () => {
                     </p>
                     <p className="text-xs text-slate-600 dark:text-slate-400">
                       {isEs
-                        ? 'Recepción para chequeo de hardware, cambio de piezas y presupuesto sin sorpresas.'
-                        : 'Hardware intake voucher, clear diagnostic estimate, no surprise costs.'}
+                        ? 'Chequeo de hardware, diagnóstico en banco de pruebas y presupuesto transparente.'
+                        : 'Hardware bench diagnostic, test checks, clear estimate with no surprises.'}
                     </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="pt-8 mt-6 border-t border-slate-200 dark:border-[#1E293B] flex flex-col sm:flex-row gap-3">
+            <div className="pt-6 mt-6 border-t border-slate-200 dark:border-[#1E293B] flex flex-col sm:flex-row gap-3">
               <a
-                className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-slate-900 dark:bg-pink-600 hover:bg-slate-800 dark:hover:bg-pink-700 text-white font-bold text-sm shadow-md transition-all group"
-                href="https://maps.google.com/?q=Ecuador+1438,+Antofagasta,+Chile"
+                className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-pink-600 hover:bg-pink-700 text-white font-bold text-sm shadow-md transition-all group"
+                href={googleMapsUrl}
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                <MapPin className="w-4 h-4 text-amber-400 dark:text-white group-hover:scale-110 transition-transform" />
-                {isEs ? 'Cómo llegar con Google Maps' : 'Open in Google Maps'}
+                <MapPin className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
+                {isEs ? 'Abrir en Google Maps' : 'Open in Google Maps'}
+              </a>
+              <a
+                className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 text-white font-bold text-sm transition-all"
+                href={wazeUrl}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <Navigation className="w-4 h-4 text-sky-400" />
+                {isEs ? 'Waze' : 'Waze'}
               </a>
             </div>
           </div>
 
-          {/* Columna Derecha: Contenedor estilizado de Google Maps */}
-          <div className="lg:col-span-7 bg-slate-100 dark:bg-[#152238] rounded-3xl border border-slate-200 dark:border-[#1E293B] overflow-hidden relative shadow-inner min-h-[380px] flex flex-col">
-            {/* Barra superior simulada de Google Maps */}
-            <div className="bg-white/95 dark:bg-[#0F172A]/95 backdrop-blur-md px-4 py-3 border-b border-slate-200 dark:border-[#1E293B] flex items-center justify-between z-10">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <div className="w-3 h-3 rounded-full bg-amber-400"></div>
-                <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
-                <span className="text-xs font-semibold text-slate-600 dark:text-slate-300 ml-2">
-                  Google Maps • Ecuador 1438, Antofagasta
-                </span>
+          {/* Columna Derecha: Vista Real de Google Maps con Zoom Equilibrado */}
+          <div className="lg:col-span-7 bg-white dark:bg-[#0F172A] rounded-3xl border border-slate-200 dark:border-[#1E293B] overflow-hidden relative shadow-lg flex flex-col min-h-[460px] sm:min-h-[500px]">
+            {/* Barra superior de control y visualización de Google Maps */}
+            <div className="bg-slate-50/95 dark:bg-[#0F172A]/95 backdrop-blur-md px-4 py-3 border-b border-slate-200 dark:border-[#1E293B] flex flex-wrap items-center justify-between gap-2 z-10">
+              <div className="flex items-center gap-2.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800 dark:text-slate-200">
+                  <MapPin className="w-3.5 h-3.5 text-pink-600" />
+                  <span>Google Maps • Ecuador 1438, Antofagasta</span>
+                </div>
               </div>
-              <a
-                className="text-xs font-bold text-pink-700 dark:text-pink-400 hover:underline flex items-center gap-1"
-                href="https://maps.google.com/?q=Ecuador+1438,+Antofagasta,+Chile"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                {isEs ? 'Ampliar el mapa ↗' : 'View larger map ↗'}
-              </a>
+
+              {/* Controles de visualización y zoom interactivos */}
+              <div className="flex items-center gap-1.5">
+                {/* Selector de tipo de mapa */}
+                <div className="flex items-center bg-slate-200 dark:bg-slate-800/80 rounded-lg p-0.5 text-[11px] font-semibold">
+                  <button
+                    onClick={() => setMapType('m')}
+                    className={`px-2 py-1 rounded-md transition-colors ${
+                      mapType === 'm'
+                        ? 'bg-white dark:bg-pink-600 text-slate-900 dark:text-white shadow-xs font-bold'
+                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                    }`}
+                    title={isEs ? 'Mapa estándar con calles' : 'Roadmap'}
+                  >
+                    {isEs ? 'Calles' : 'Streets'}
+                  </button>
+                  <button
+                    onClick={() => setMapType('p')}
+                    className={`px-2 py-1 rounded-md transition-colors ${
+                      mapType === 'p'
+                        ? 'bg-white dark:bg-pink-600 text-slate-900 dark:text-white shadow-xs font-bold'
+                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                    }`}
+                    title={isEs ? 'Mapa con relieve y cerros' : 'Terrain'}
+                  >
+                    {isEs ? 'Relieve' : 'Terrain'}
+                  </button>
+                  <button
+                    onClick={() => setMapType('h')}
+                    className={`px-2 py-1 rounded-md transition-colors ${
+                      mapType === 'h'
+                        ? 'bg-white dark:bg-pink-600 text-slate-900 dark:text-white shadow-xs font-bold'
+                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                    }`}
+                    title={isEs ? 'Vista híbrida' : 'Hybrid'}
+                  >
+                    {isEs ? 'Híbrido' : 'Hybrid'}
+                  </button>
+                </div>
+
+                {/* Controles de zoom */}
+                <div className="flex items-center bg-slate-200 dark:bg-slate-800/80 rounded-lg p-0.5">
+                  <button
+                    onClick={handleZoomOut}
+                    title={isEs ? 'Alejar mapa' : 'Zoom out'}
+                    className="p-1 text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 rounded-md transition-colors"
+                  >
+                    <ZoomOut className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    onClick={handleResetZoom}
+                    title={isEs ? 'Restablecer zoom recomendado (Calles + Mar + Cerros)' : 'Reset ideal zoom'}
+                    className="px-1.5 py-0.5 text-[11px] font-bold text-pink-600 dark:text-pink-400 hover:underline"
+                  >
+                    {zoomLevel === 15 ? 'Ideal' : `z:${zoomLevel}`}
+                  </button>
+                  <button
+                    onClick={handleZoomIn}
+                    title={isEs ? 'Acercar mapa' : 'Zoom in'}
+                    className="p-1 text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 rounded-md transition-colors"
+                  >
+                    <ZoomIn className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
+                <a
+                  className="p-1.5 text-slate-600 dark:text-slate-300 hover:text-pink-600 dark:hover:text-pink-400 rounded-md transition-colors"
+                  href={googleMapsUrl}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  title={isEs ? 'Abrir en pantalla completa' : 'Open full map'}
+                >
+                  <Maximize2 className="w-3.5 h-3.5" />
+                </a>
+              </div>
             </div>
 
-            {/* Mapa visual estilizado con Pin exacto */}
-            <div className="relative flex-1 bg-[#e5e3df] dark:bg-[#131c31] overflow-hidden flex items-center justify-center min-h-[320px]">
-              <svg
-                className="w-full h-full absolute inset-0 opacity-40 dark:opacity-20"
-                preserveAspectRatio="none"
-                viewBox="0 0 600 400"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect fill="#F4F3F0" height="400" width="600"></rect>
-                <path d="M-20,80 L620,120 M-20,240 L620,220 M-20,320 L620,340" stroke="#FFFFFF" strokeWidth="26"></path>
-                <path d="M-20,80 L620,120 M-20,240 L620,220 M-20,320 L620,340" stroke="#FFEBA8" strokeWidth="14"></path>
-                <path d="M120,-20 L160,420 M310,-20 L290,420 M480,-20 L510,420" stroke="#FFFFFF" strokeWidth="24"></path>
-                <path d="M120,-20 L160,420 M310,-20 L290,420 M480,-20 L510,420" stroke="#E6E3DB" strokeWidth="12"></path>
-                <path d="M0,0 Q60,200 10,400 L0,400 Z" fill="#C8DCF0"></path>
-              </svg>
+            {/* Iframe Real de Google Maps con carga nativa */}
+            <div className="relative flex-1 w-full h-full min-h-[380px] bg-slate-100 dark:bg-slate-900 overflow-hidden">
+              {!iframeLoaded && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-100 dark:bg-[#0B0F17] z-0">
+                  <div className="w-8 h-8 border-3 border-pink-500 border-t-transparent rounded-full animate-spin mb-2"></div>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                    {isEs ? 'Cargando Google Maps...' : 'Loading Google Maps...'}
+                  </p>
+                </div>
+              )}
 
-              {/* Tarjeta flotante simulada de negocio en Google Maps */}
-              <div className="absolute top-3 left-3 right-3 sm:right-auto sm:top-5 sm:left-5 z-10 bg-white dark:bg-[#0B0F17] p-3 sm:p-3.5 rounded-2xl shadow-xl border border-slate-200 dark:border-[#1E293B] max-w-full sm:max-w-xs">
-                <div className="flex items-start gap-3">
-                  <img
-                    alt="Tu Poder Virtual"
-                    className="w-8 h-8 object-contain shrink-0 mt-0.5"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3FA3rP86ySVj5K_c_sNelr0qX1gTQAcf-GLgRnC3Ds4C61zqOIEecuwE-IKDJordnLlMOK_myeyv2nWopwcyBn9M5PyLt73eV4ZccvgZpgJRXzbjS02e6isKIFIMXN33dVsN6dUVFTe2Ezi6S_GkL3_yjJGsidSlvmlaEL1Wst2zfg2ppKebiwn9T67XtQCEai-erinUt-h_cZSRSSF-v4Cj5knxlHJbEyqr0u9fHiCSivXRy8aUFfd4Mxi5u9jR_gQ"
-                  />
-                  <div>
-                    <h5 className="text-xs font-black text-slate-900 dark:text-white leading-tight">
+              <iframe
+                key={`${embedUrl}`}
+                src={embedUrl}
+                onLoad={() => setIframeLoaded(true)}
+                title="Google Maps - Tu Poder Virtual Ecuador 1438 Antofagasta"
+                className="w-full h-full min-h-[380px] border-0 relative z-1"
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+
+              {/* Tarjeta flotante con información clave del taller */}
+              <div className="absolute bottom-3 left-3 right-3 sm:right-auto sm:max-w-xs z-10 pointer-events-auto bg-white/95 dark:bg-[#0B0F17]/95 backdrop-blur-md p-3 rounded-2xl shadow-xl border border-slate-200 dark:border-[#1E293B]">
+                <div className="flex items-start gap-2.5">
+                  <div className="w-7 h-7 rounded-lg bg-pink-100 dark:bg-pink-950 flex items-center justify-center text-pink-600 font-black text-xs shrink-0 mt-0.5">
+                    TPV
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h5 className="text-xs font-black text-slate-900 dark:text-white truncate">
                       Tu Poder Virtual
                     </h5>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                    <p className="text-[11px] text-slate-600 dark:text-slate-300 truncate">
                       Ecuador 1438, Antofagasta
                     </p>
-                    <div className="flex items-center gap-1 mt-1 text-[11px] text-amber-500 font-bold">
+                    <div className="flex items-center gap-1 mt-0.5 text-[10px] text-amber-500 font-bold">
                       <span>5.0</span>
                       <div className="flex text-amber-400">
-                        <Star className="w-3 h-3 fill-amber-400" />
-                        <Star className="w-3 h-3 fill-amber-400" />
-                        <Star className="w-3 h-3 fill-amber-400" />
-                        <Star className="w-3 h-3 fill-amber-400" />
-                        <Star className="w-3 h-3 fill-amber-400" />
+                        <Star className="w-2.5 h-2.5 fill-amber-400" />
+                        <Star className="w-2.5 h-2.5 fill-amber-400" />
+                        <Star className="w-2.5 h-2.5 fill-amber-400" />
+                        <Star className="w-2.5 h-2.5 fill-amber-400" />
+                        <Star className="w-2.5 h-2.5 fill-amber-400" />
                       </div>
                       <span className="text-slate-400 font-normal">
-                        ({isEs ? '50+ opiniones' : '50+ reviews'})
+                        ({isEs ? 'Taller técnico oficial' : 'Official workshop'})
                       </span>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px]">
+                <div className="mt-2 pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px]">
                   <span className="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>{' '}
-                    {isEs ? 'Abierto hoy' : 'Open today'}
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    {isEs ? 'Abierto' : 'Open'}
                   </span>
                   <a
-                    className="text-pink-600 dark:text-pink-400 font-bold hover:underline"
-                    href="https://maps.google.com/?q=Ecuador+1438,+Antofagasta,+Chile"
+                    className="text-pink-600 dark:text-pink-400 font-bold hover:underline inline-flex items-center gap-1"
+                    href={googleMapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {isEs ? 'Indicaciones' : 'Directions'}
+                    {isEs ? 'Ver en Google Maps ↗' : 'Directions ↗'}
                   </a>
                 </div>
               </div>
+            </div>
 
-              {/* Pin centralizado en Ecuador 1438 */}
-              <div className="relative z-10 flex flex-col items-center">
-                <div className="w-12 h-12 rounded-full bg-pink-600 text-white flex items-center justify-center shadow-2xl border-2 border-white ring-4 ring-pink-600/30 animate-bounce">
-                  <MapPin className="w-6 h-6 fill-current" />
-                </div>
-                <span className="mt-1 px-3 py-1 bg-slate-900 text-white text-[11px] font-extrabold rounded-full shadow-lg border border-amber-500 whitespace-nowrap">
-                  📍 Ecuador 1438, Antofagasta
-                </span>
-              </div>
+            {/* Sub-barra informativa con contexto geográfico */}
+            <div className="bg-slate-50 dark:bg-[#0B0F17] px-4 py-2 border-t border-slate-200 dark:border-[#1E293B] flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
+              <span className="flex items-center gap-1 truncate">
+                <span>🌊 Oeste: Costanera / Mar</span>
+                <span className="mx-1">•</span>
+                <span className="font-semibold text-slate-700 dark:text-slate-300">📍 Ecuador 1438</span>
+                <span className="mx-1">•</span>
+                <span>🏔️ Este: Cordillera / Cerros</span>
+              </span>
+              <button
+                onClick={handleResetZoom}
+                className="text-pink-600 dark:text-pink-400 hover:underline shrink-0 font-medium ml-2"
+              >
+                {isEs ? 'Centrar' : 'Center'}
+              </button>
             </div>
           </div>
         </div>
