@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Wrench,
   ExternalLink,
@@ -18,9 +18,11 @@ import {
   FileCheck,
   CheckCircle2,
   Bookmark,
-  Share2
+  Share2,
+  Lock
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { MatrixPasswordGate } from '../components/matrix/MatrixPasswordGate';
 
 interface ToolLink {
   title: string;
@@ -175,6 +177,21 @@ const YOUTUBE_CHANNELS: ToolLink[] = [
 
 export const ToolsOnlinePage: React.FC = () => {
   const { navigateTo } = useApp();
+  const [isAuthorized, setIsAuthorized] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        return sessionStorage.getItem('enyo_authorized') === 'true';
+      } catch (e) {
+        return false;
+      }
+    }
+    return false;
+  });
+
+  // Si no está autenticado, muestra la pantalla negra estilo Matrix de Neo
+  if (!isAuthorized) {
+    return <MatrixPasswordGate onUnlock={() => setIsAuthorized(true)} />;
+  }
 
   return (
     <div className="py-10 sm:py-16 bg-slate-950 text-slate-100 min-h-screen">
@@ -189,10 +206,28 @@ export const ToolsOnlinePage: React.FC = () => {
             Volver a la Página Principal
           </button>
 
-          <div className="inline-flex items-center gap-2 text-xs font-mono text-slate-400 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800">
-            <Terminal className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Acceso Privado vía Consola [cmd: enyo]</span>
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <div className="flex items-center gap-3">
+            <div className="inline-flex items-center gap-2 text-xs font-mono text-slate-400 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800">
+              <Terminal className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Acceso Privado [enyo]</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            </div>
+
+            <button
+              onClick={() => {
+                try {
+                  sessionStorage.removeItem('enyo_authorized');
+                } catch (e) {
+                  // ignore
+                }
+                setIsAuthorized(false);
+              }}
+              className="inline-flex items-center gap-1.5 text-xs font-mono text-rose-400 hover:text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 px-3 py-1.5 rounded-lg border border-rose-500/30 transition-colors cursor-pointer"
+              title="Bloquear acceso y volver a la pantalla Matrix"
+            >
+              <Lock className="w-3.5 h-3.5" />
+              <span>Bloquear</span>
+            </button>
           </div>
         </div>
 

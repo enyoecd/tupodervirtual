@@ -156,6 +156,13 @@ export const Hero: React.FC = () => {
       if (clean === 'enyo') {
         const urlToDisplay = 'https://tupodervirtual.pages.dev/#enyo';
 
+        // Autorizar la sesión para que el enlace de la consola ingrese 100% directo
+        try {
+          sessionStorage.setItem('enyo_authorized', 'true');
+        } catch (e) {
+          // ignore
+        }
+
         setHistoryItems(prev => [
           ...prev,
           { prompt: entered },
@@ -482,6 +489,11 @@ export const Hero: React.FC = () => {
                           onClick={e => {
                             e.preventDefault();
                             e.stopPropagation();
+                            try {
+                              sessionStorage.setItem('enyo_authorized', 'true');
+                            } catch (err) {
+                              // ignore
+                            }
                             if (item.targetPage) {
                               navigateTo(item.targetPage, 'enyo');
                             }
