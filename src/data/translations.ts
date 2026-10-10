@@ -60,7 +60,7 @@ export const translations = {
     },
     servicesOverview: {
       kicker: 'Catálogo de Especialidades',
-      title: 'Nuestros Servicios Profesionales',
+      title: 'Nuestros Servicios',
       subtitle: 'Entregamos soluciones concretas de soporte técnico y herramientas web personalizadas adaptadas a empresas, restaurantes y usuarios particulares.',
       supportArea: 'Área de Hardware & Sistema',
       supportTitle: 'Soporte Técnico Computacional',
