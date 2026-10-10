@@ -64,6 +64,17 @@ export const InteractiveConsole: React.FC = () => {
       return;
     }
 
+    if (cmd === 'enyo') {
+      setCustomLogs(prev => [
+        ...prev,
+        { text: `$ ${commandInput}`, color: 'text-pink-400' },
+        { text: '🔑 [ACCESO AUTORIZADO] Bienvenido al panel privado de ENYO.', color: 'text-emerald-400 font-bold' },
+        { text: '🔗 Acceder a Herramientas y utilidades online: #herramientas-online', color: 'text-cyan-400 font-bold' },
+      ]);
+      setCommandInput('');
+      return;
+    }
+
     if (cmd === 'help' || cmd === 'ayuda') {
       setCustomLogs(prev => [
         ...prev,
@@ -197,7 +208,7 @@ export const InteractiveConsole: React.FC = () => {
                   value={commandInput}
                   onChange={e => setCommandInput(e.target.value)}
                   placeholder="Escribe 'help', 'diagnose', 'matrix' o pulsa enter..."
-                  className="bg-transparent border-none text-emerald-300 placeholder-emerald-800/80 focus:outline-none focus:ring-0 w-full font-mono text-xs sm:text-sm p-0"
+                  className="bg-transparent border-none text-emerald-300 placeholder-emerald-800/80 focus:outline-none focus:ring-0 w-full font-mono text-xs sm:text-sm p-0 caret-transparent"
                 />
                 <span className="inline-block w-2.5 h-4 bg-emerald-400 animate-pulse-terminal shrink-0"></span>
               </form>

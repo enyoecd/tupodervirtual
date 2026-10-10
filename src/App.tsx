@@ -15,6 +15,7 @@ import { Footer } from './components/Footer';
 import { FloatingControls } from './components/FloatingControls';
 import { WebDesignPage } from './pages/WebDesignPage';
 import { TechnicalSupportPage } from './pages/TechnicalSupportPage';
+import { ToolsOnlinePage } from './pages/ToolsOnlinePage';
 
 const AppContent: React.FC = () => {
   const { currentPage } = useApp();
@@ -48,6 +49,8 @@ const AppContent: React.FC = () => {
         {currentPage === 'web-design' && <WebDesignPage />}
 
         {currentPage === 'technical-support' && <TechnicalSupportPage />}
+
+        {currentPage === 'tools-online' && <ToolsOnlinePage />}
       </main>
 
       {/* Site Footer */}

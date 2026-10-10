@@ -7,8 +7,16 @@ import { TerminalMatrixRain } from './matrix/TerminalMatrixRain';
 
 const FULL_COMMAND = 'tpv-diagnose --device "Cliente-Laptop"';
 
+interface ConsoleHistoryItem {
+  prompt?: string;
+  output?: string;
+  isLink?: boolean;
+  url?: string;
+  targetPage?: 'tools-online';
+}
+
 export const Hero: React.FC = () => {
-  const { language } = useApp();
+  const { language, navigateTo } = useApp();
   const t = translations[language].hero;
   const termT = translations[language].terminal;
 
@@ -16,7 +24,7 @@ export const Hero: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [scanProgress, setScanProgress] = useState(0);
   const [isConsoleGlitching, setIsConsoleGlitching] = useState(false);
-  const [userLines, setUserLines] = useState<string[]>([]);
+  const [historyItems, setHistoryItems] = useState<ConsoleHistoryItem[]>([]);
   const [inputCmd, setInputCmd] = useState('');
 
   const animTimeoutsRef = useRef<NodeJS.Timeout[]>([]);
@@ -31,7 +39,7 @@ export const Hero: React.FC = () => {
     setTypedCommand('');
     setActiveStep(0);
     setScanProgress(0);
-    setUserLines([]);
+    setHistoryItems([]);
     setInputCmd('');
     terminalBodyRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -98,7 +106,7 @@ export const Hero: React.FC = () => {
     setTypedCommand('');
     setActiveStep(-1);
     setScanProgress(0);
-    setUserLines([]);
+    setHistoryItems([]);
     setInputCmd('');
     terminalBodyRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -110,26 +118,69 @@ export const Hero: React.FC = () => {
     if (e.key === 'Enter') {
       e.preventDefault();
       const entered = inputCmd;
+      const clean = entered.trim().toLowerCase();
 
-      if (entered.trim().toLowerCase() === 'matrix') {
-        setUserLines(prev => [...prev, entered]);
+      // Si presiona enter sin escribir, solo avanza a la siguiente línea
+      if (!clean) {
+        setHistoryItems(prev => [...prev, { prompt: '' }]);
+        setInputCmd('');
+        setTimeout(() => {
+          if (terminalBodyRef.current) {
+            terminalBodyRef.current.scrollTo({
+              top: terminalBodyRef.current.scrollHeight,
+              behavior: 'smooth',
+            });
+          }
+        }, 50);
+        return;
+      }
+
+      if (clean === 'matrix') {
+        setHistoryItems(prev => [...prev, { prompt: entered }]);
         setInputCmd('');
         handleConsoleClick();
         return;
       }
 
-      if (entered.trim().toLowerCase() === 'clear') {
-        setUserLines([]);
+      if (clean === 'clear') {
+        setHistoryItems([]);
         setInputCmd('');
         runTypingSequence(100);
         return;
       }
 
-      // Add the entered command line
-      setUserLines(prev => [...prev, entered]);
+      if (clean === 'enyo') {
+        const urlToDisplay = 'https://tupodervirtual.pages.dev/#enyo';
+
+        setHistoryItems(prev => [
+          ...prev,
+          { prompt: entered },
+          {
+            isLink: true,
+            url: urlToDisplay,
+            targetPage: 'tools-online',
+          },
+        ]);
+        setInputCmd('');
+
+        setTimeout(() => {
+          if (terminalBodyRef.current) {
+            terminalBodyRef.current.scrollTo({
+              top: terminalBodyRef.current.scrollHeight,
+              behavior: 'smooth',
+            });
+          }
+        }, 50);
+        return;
+      }
+
+      // Para cualquier otro comando: no emitir ningún mensaje, solo dar enter y pasar a la siguiente línea
+      setHistoryItems(prev => [
+        ...prev,
+        { prompt: entered },
+      ]);
       setInputCmd('');
 
-      // Smoothly scroll down so the first line scrolls up and disappears
       setTimeout(() => {
         if (terminalBodyRef.current) {
           terminalBodyRef.current.scrollTo({
@@ -389,10 +440,36 @@ export const Hero: React.FC = () => {
                 </div>
 
                 {/* Historial de comandos ingresados por el usuario */}
-                {userLines.map((line, idx) => (
-                  <div key={idx} className="pt-1 text-emerald-400 flex items-center gap-1 font-bold">
-                    <span className="text-emerald-400 font-bold shrink-0">root@system:~#</span>
-                    <span className="text-slate-200 font-normal ml-1 break-all">{line}</span>
+                {historyItems.map((item, idx) => (
+                  <div key={idx} className="pt-1">
+                    {item.prompt !== undefined && (
+                      <div className="text-emerald-400 flex items-center gap-1 font-bold">
+                        <span className="text-emerald-400 font-bold shrink-0">root@system:~#</span>
+                        <span className="text-slate-200 font-normal ml-1 break-all">{item.prompt}</span>
+                      </div>
+                    )}
+                    {item.output && (
+                      <div className="text-slate-300 pl-4 font-mono text-xs leading-relaxed">
+                        {item.output}
+                      </div>
+                    )}
+                    {item.isLink && item.targetPage && (
+                      <div className="pl-4 pt-0.5">
+                        <a
+                          href="#enyo"
+                          onClick={e => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            if (item.targetPage) {
+                              navigateTo(item.targetPage, 'enyo');
+                            }
+                          }}
+                          className="text-emerald-400 hover:text-emerald-300 underline font-mono text-xs sm:text-sm inline-block break-all cursor-pointer transition-colors"
+                        >
+                          {item.url || `${typeof window !== 'undefined' ? window.location.origin : ''}/#enyo`}
+                        </a>
+                      </div>
+                    )}
                   </div>
                 ))}
 
@@ -403,23 +480,29 @@ export const Hero: React.FC = () => {
                       e.stopPropagation();
                       inputRef.current?.focus();
                     }}
-                    className="pt-2 text-emerald-400 flex items-center gap-1.5 font-bold cursor-text select-text"
+                    className="pt-2 text-emerald-400 flex items-center font-bold cursor-text select-text"
                   >
-                    <span className="text-emerald-400 font-bold shrink-0">root@system:~#</span>
-                    <div className="relative flex-1 flex items-center min-w-[60px]">
+                    <span className="text-emerald-400 font-bold shrink-0">root@system:~#&nbsp;</span>
+                    <div className="relative inline-flex items-center">
+                      {/* Visual rendering of typed text so block cursor stays glued to the text */}
+                      <span className="text-slate-100 font-mono text-xs sm:text-sm font-normal whitespace-pre">
+                        {inputCmd}
+                      </span>
+                      {/* Cursor bloque verde parpadeante que avanza exactamente con cada letra */}
+                      <span className="inline-block w-2 sm:w-2.5 h-4 bg-emerald-400 animate-pulse-terminal shrink-0 ml-0.5 select-none" />
+
+                      {/* Input transparente superpuesto para capturar teclado */}
                       <input
                         ref={inputRef}
                         type="text"
                         value={inputCmd}
                         onChange={e => setInputCmd(e.target.value)}
                         onKeyDown={handleCommandKeyDown}
-                        className="w-full bg-transparent border-none text-slate-100 focus:outline-none focus:ring-0 p-0 font-mono text-xs sm:text-sm caret-emerald-400"
+                        className="absolute inset-0 w-full h-full opacity-0 text-transparent bg-transparent border-none focus:outline-none focus:ring-0 p-0 font-mono text-xs sm:text-sm cursor-text caret-transparent"
                         spellCheck="false"
                         autoComplete="off"
+                        autoFocus
                       />
-                      {inputCmd.length === 0 && (
-                        <span className="pointer-events-none absolute left-0 inline-block w-2.5 h-4 bg-emerald-400 animate-pulse-terminal"></span>
-                      )}
                     </div>
                   </div>
                 )}

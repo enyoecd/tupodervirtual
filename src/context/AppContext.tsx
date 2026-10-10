@@ -27,11 +27,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [currentPage, setCurrentPageState] = useState<PageType>(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.toLowerCase();
+      const pathname = window.location.pathname.toLowerCase();
+      if (pathname === '/enyo' || pathname === '/enyo/' || pathname.endsWith('/enyo')) {
+        return 'tools-online';
+      }
       if (hash.startsWith('#pagina-desarrollo-web') || hash.startsWith('#pagina-diseno-web')) {
         return 'web-design';
       }
       if (hash.startsWith('#pagina-soporte-tecnico') || hash.startsWith('#pagina-soporte-remoto')) {
         return 'technical-support';
+      }
+      if (hash.startsWith('#enyo') || hash.startsWith('#herramientas-online') || hash.startsWith('#pagina-herramientas')) {
+        return 'tools-online';
       }
     }
     return 'home';
@@ -72,10 +79,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => {
     const handleHash = () => {
       const hash = window.location.hash.toLowerCase();
+      const pathname = window.location.pathname.toLowerCase();
+      if (pathname === '/enyo' || pathname === '/enyo/' || pathname.endsWith('/enyo')) {
+        setCurrentPageState('tools-online');
+        return;
+      }
       if (hash.startsWith('#pagina-desarrollo-web') || hash.startsWith('#pagina-diseno-web')) {
         setCurrentPageState('web-design');
       } else if (hash.startsWith('#pagina-soporte-tecnico') || hash.startsWith('#pagina-soporte-remoto')) {
         setCurrentPageState('technical-support');
+      } else if (hash.startsWith('#enyo') || hash.startsWith('#herramientas-online') || hash.startsWith('#pagina-herramientas')) {
+        setCurrentPageState('tools-online');
       } else {
         setCurrentPageState('home');
         const targetId = hash.replace(/^#/, '');
@@ -91,7 +105,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
 
     window.addEventListener('hashchange', handleHash);
-    return () => window.removeEventListener('hashchange', handleHash);
+    window.addEventListener('popstate', handleHash);
+    return () => {
+      window.removeEventListener('hashchange', handleHash);
+      window.removeEventListener('popstate', handleHash);
+    };
   }, []);
 
   // Smooth scroll to initial section on page load if hash exists
@@ -121,6 +139,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       window.location.hash = cleanHash || 'pagina-desarrollo-web';
     } else if (page === 'technical-support') {
       window.location.hash = cleanHash || 'pagina-soporte-tecnico';
+    } else if (page === 'tools-online') {
+      window.location.hash = cleanHash || 'enyo';
     } else {
       window.location.hash = cleanHash || 'inicio';
     }
