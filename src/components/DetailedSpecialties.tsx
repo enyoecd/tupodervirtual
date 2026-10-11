@@ -19,18 +19,18 @@ export const DetailedSpecialties: React.FC = () => {
 
             <h3 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight leading-snug">
               {isEs
-                ? 'Soporte Técnico, Optimización y Reparación de Computadores'
-                : 'Computer Technical Support, Optimization & Hardware Repair'}
+                ? 'Soporte Técnico, Mantenimiento de Software y Respaldo Seguro'
+                : 'Computer Technical Support, Software Maintenance & Secure Backup'}
             </h3>
 
             <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
               {isEs ? (
                 <>
-                  En <strong className="text-slate-900 dark:text-white">Tu Poder Virtual</strong> resolvemos fallas de hardware y software en notebooks y PC de escritorio, garantizando un servicio honesto y de alto rendimiento.
+                  En <strong className="text-slate-900 dark:text-white">Tu Poder Virtual</strong> resolvemos fallas de software, lentitud y configuración en notebooks y PC de escritorio, garantizando un servicio confiable con respaldo seguro de datos y sistemas, así como atención presencial de tickets para empresas en Antofagasta.
                 </>
               ) : (
                 <>
-                  At <strong className="text-slate-900 dark:text-white">Tu Poder Virtual</strong> we solve hardware and software issues on laptops and desktop PCs, guaranteeing honest and high-performance repair.
+                  At <strong className="text-slate-900 dark:text-white">Tu Poder Virtual</strong> we resolve software failures, lag, and configuration issues on laptops and desktop PCs, ensuring reliable service with secure data backups and corporate ticketing in Antofagasta.
                 </>
               )}
             </p>
@@ -43,13 +43,13 @@ export const DetailedSpecialties: React.FC = () => {
                 <div>
                   <h4 className="font-bold text-slate-900 dark:text-white text-sm">
                     {isEs
-                      ? 'Reparación y mantenimiento de computadores (PC y Notebooks)'
-                      : 'Computer Repair & Preventative Maintenance (PC & Laptops)'}
+                      ? 'Reparación y mantenimiento de software para PC de escritorio y notebooks, con respaldo seguro de datos y sistemas.'
+                      : 'Software repair & maintenance for desktop PCs and laptops, with secure data and system backup.'}
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
                     {isEs
-                      ? 'Mantenimiento preventivo, limpieza interna y solución a sobrecalentamiento.'
-                      : 'Thermal paste application, internal fan cleaning, and overheating solutions.'}
+                      ? 'Mantenimiento preventivo y correctivo de software, desinfección y resguardo íntegro de tus archivos.'
+                      : 'Preventative and corrective software maintenance, malware elimination, and full data protection.'}
                   </p>
                 </div>
               </div>
@@ -101,6 +101,24 @@ export const DetailedSpecialties: React.FC = () => {
                   </p>
                 </div>
               </div>
+
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-pink-50 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs border border-pink-200 dark:border-pink-800">
+                  ✓
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-900 dark:text-white text-sm">
+                    {isEs
+                      ? 'Tickets Presenciales Empresas en Antofagasta & Soporte Remoto'
+                      : 'Corporate On-Site Tickets in Antofagasta & Remote Support'}
+                  </h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    {isEs
+                      ? 'Informática, redes, tótems, roll out, periféricos, CCTV/alarmas y asistencia remota express para problemas en equipos.'
+                      : 'IT systems, networking, kiosks, roll out, peripherals, CCTV/alarms, and live remote troubleshooting.'}
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div className="pt-4 flex flex-col sm:flex-row gap-3 sm:gap-4">
@@ -124,7 +142,7 @@ export const DetailedSpecialties: React.FC = () => {
           <div className="lg:col-span-6">
             <div className="bg-slate-100 dark:bg-[#0F172A] rounded-3xl p-4 sm:p-6 border border-slate-200 dark:border-[#1E293B] shadow-lg relative group">
               <img
-                alt="Mantenimiento de hardware y optimización computacional"
+                alt="Mantenimiento de software, respaldo seguro y soporte técnico para computadores"
                 className="rounded-2xl shadow-md w-full object-cover aspect-[4/3] group-hover:scale-[1.01] transition-transform duration-300"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVNfS3dlHkwi6jx_rdOJuwFky1X_drXFGMHH1mXlmjlg3IowaTE1CSlL06XQZ56Z_oU12-TJBuDbsp7rN_9UqPXuR8yEEJOm-jINYVxPk0lvTWSC55G60Bey4j8V2N6bzwT6Mz9HE6qbEFqHxHFd31C1nF-rJY2sZXr6-U5px4543TV4scPLKyTbz3C58Ah5XqbCM1WOw7iG03POFeqeHz7CxYc3voKCaBSUhJ1CGEOh0b80Y4IH0N"
               />

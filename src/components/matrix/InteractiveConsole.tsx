@@ -4,12 +4,11 @@ import { useApp } from '../../context/AppContext';
 import { TerminalMatrixRain } from './TerminalMatrixRain';
 
 const DEFAULT_LOGS = [
-  { text: '$ tpv-system --check-nodes --location "Antofagasta-Ecuador-1438"', color: 'text-brandMagenta-400 font-bold' },
+  { text: '$ tpv-system --check-nodes', color: 'text-brandMagenta-400 font-bold' },
   { text: '> [NODO-01] Estación de diagnóstico de hardware en taller: OPERACIONAL', color: 'text-emerald-400' },
   { text: '> [NODO-02] Cluster de desarrollo web & menús QR: 100% ACTIVO', color: 'text-techCyan' },
   { text: '> [NODO-03] Enlace de soporte técnico remoto nacional: CIFRADO 256-BIT', color: 'text-emerald-400' },
   { text: '> [NODO-04] Detección & aislamiento de virus/malware: SIN AMENAZAS CRÍTICAS', color: 'text-amber-400' },
-  { text: '> [INFO] Dirección física: Ecuador 1438, Antofagasta, Chile', color: 'text-slate-300' },
   { text: '$ status --ready // Sistema estabilizado y preparado para atenderte', color: 'text-emerald-400 font-bold' },
 ];
 
@@ -91,7 +90,7 @@ export const InteractiveConsole: React.FC = () => {
       setCustomLogs(prev => [
         ...prev,
         { text: `$ ${commandInput}`, color: 'text-pink-400' },
-        { text: 'Redirigiendo a formulario de contacto en Ecuador 1438, Antofagasta...', color: 'text-emerald-400' },
+        { text: 'Redirigiendo a formulario de contacto...', color: 'text-emerald-400' },
       ]);
       setCommandInput('');
       return;
@@ -219,7 +218,7 @@ export const InteractiveConsole: React.FC = () => {
           <div className="bg-[#091120] px-4 py-2 text-[11px] text-slate-400 border-t border-slate-800 flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Soporte Presencial Ecuador 1438, Antofagasta & Remoto</span>
+              <span>Soporte Presencial en Antofagasta & Remoto</span>
             </div>
             <div className="text-slate-500 font-mono text-[10px]">
               Toca la consola para reiniciar la cascada Matrix

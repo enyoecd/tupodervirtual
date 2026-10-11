@@ -231,14 +231,32 @@ export const ContactForm: React.FC = () => {
                     value={formData.service}
                     onChange={e => setFormData({ ...formData, service: e.target.value })}
                   >
-                    <optgroup label={isEs ? 'Soporte Técnico' : 'Technical Support'}>
-                      <option value="reparacion-pc">
+                    <optgroup label={isEs ? 'Soporte Técnico & Sistemas' : 'Technical Support & Systems'}>
+                      <option value="reparacion-software">
                         {isEs
-                          ? 'Reparación y mantenimiento de computadores (PC/Notebooks)'
-                          : 'Computer Repair & Maintenance (PC/Laptops)'}
+                          ? 'Reparación y mantenimiento de software para PC/Notebooks (con respaldo seguro)'
+                          : 'Software Repair & Maintenance for PC/Laptops (Secure Backup)'}
+                      </option>
+                      <option value="soporte-remoto">
+                        {isEs ? 'Asistencia y soporte técnico remoto (Problemas de equipos)' : 'Remote Tech Support (Computer Issues)'}
+                      </option>
+                      <option value="tickets-empresas">
+                        {isEs
+                          ? 'Tickets presenciales empresas en Antofagasta (Informática, Sistemas, Roll out)'
+                          : 'On-site Corporate Tickets in Antofagasta (IT, Systems, Roll out)'}
+                      </option>
+                      <option value="redes-totems">
+                        {isEs
+                          ? 'Cableado de redes, conectividad y soporte de tótems'
+                          : 'Network Cabling, Connectivity & Self-Service Kiosks'}
+                      </option>
+                      <option value="cctv-alarmas">
+                        {isEs
+                          ? 'Cámaras de seguridad, CCTV y sistemas de alarma'
+                          : 'Security Cameras, CCTV & Alarm Systems'}
                       </option>
                       <option value="formateo-windows">
-                        {isEs ? 'Formateo e instalación de Windows' : 'Windows Formatting & Installation'}
+                        {isEs ? 'Formateo e instalación limpia de Windows y Linux' : 'Windows & Linux Clean Installation'}
                       </option>
                       <option value="instalacion-software">
                         {isEs ? 'Instalación y configuración de software' : 'Software Installation & Config'}
@@ -247,18 +265,15 @@ export const ContactForm: React.FC = () => {
                         {isEs ? 'Eliminación de virus y malware' : 'Virus & Malware Removal'}
                       </option>
                       <option value="optimizacion">
-                        {isEs ? 'Optimización de computadores' : 'System Speed Optimization'}
+                        {isEs ? 'Optimización de computadores y aceleración' : 'System Speed Optimization'}
                       </option>
                       <option value="recuperacion-datos">
                         {isEs ? 'Recuperación de datos' : 'Data Recovery'}
                       </option>
-                      <option value="soporte-remoto">
-                        {isEs ? 'Asistencia y soporte técnico remoto' : 'Remote IT Tech Support'}
-                      </option>
                       <option value="presencial-antofagasta">
                         {isEs
-                          ? 'Atención presencial en Antofagasta (Ecuador 1438)'
-                          : 'On-site Workshop (Ecuador 1438, Antofagasta)'}
+                          ? 'Atención presencial en laboratorio (Ecuador 1438, Antofagasta)'
+                          : 'On-site Lab (Ecuador 1438, Antofagasta)'}
                       </option>
                     </optgroup>
                     <optgroup label={isEs ? 'Desarrollo y Soluciones Web' : 'Web Development & Solutions'}>

@@ -7,16 +7,77 @@ export const ServicesOverview: React.FC = () => {
   const { language, navigateTo } = useApp();
   const t = translations[language].servicesOverview;
 
-  const supportBullets = [
-    { bold: 'Reparación y mantenimiento de computadores', rest: '(PC de escritorio y notebooks).' },
-    { bold: 'Formateo e instalación de Windows', rest: 'con drivers oficiales actualizados.' },
-    { bold: 'Instalación y configuración de software', rest: 'general y especializado.' },
-    { bold: 'Eliminación de virus y malware', rest: 'protegiendo tu información.' },
-    { bold: 'Optimización de computadores', rest: 'para eliminar lentitud y fallos.' },
-    { bold: 'Recuperación de datos', rest: 'perdidos o inaccesibles.' },
-    { bold: 'Diagnóstico y solución de problemas', rest: 'de software y hardware.' },
-    { bold: 'Asistencia y soporte técnico remoto', rest: '& Atención presencial en Antofagasta.' },
-  ];
+  const isEs = language === 'ES';
+
+  const supportBullets = isEs
+    ? [
+        {
+          bold: 'Reparación y mantenimiento de software',
+          rest: 'para PC de escritorio y notebooks, con respaldo seguro de datos y sistemas.',
+        },
+        {
+          bold: 'Soporte técnico y teleasistencia remota',
+          rest: 'para resolver fallas, lentitud, virus y problemas de configuración en equipos.',
+        },
+        {
+          bold: 'Formateo e instalación limpia de Windows y Linux',
+          rest: 'con drivers oficiales actualizados y protección garantizada de archivos.',
+        },
+        {
+          bold: 'Optimización y aceleración de computadores',
+          rest: 'para eliminar lentitud extrema, procesos pesados y errores del sistema.',
+        },
+        {
+          bold: 'Tickets presenciales para empresas en Antofagasta:',
+          rest: 'área de informática, sistemas, cableado de redes y conectividad.',
+        },
+        {
+          bold: 'Atención con tótems y roll out tecnológico:',
+          rest: 'instalación de equipos nuevos, roll out y dispositivos periféricos.',
+        },
+        {
+          bold: 'Mantenimientos preventivos y correctivos empresariales:',
+          rest: 'planes para garantizar continuidad operativa y respuesta ante fallas.',
+        },
+        {
+          bold: 'Cámaras de seguridad, CCTV y alarmas:',
+          rest: 'instalación y configuración para protección de recintos y oficinas.',
+        },
+      ]
+    : [
+        {
+          bold: 'Software maintenance and repair',
+          rest: 'for desktop PCs and laptops, with secure data and system backups.',
+        },
+        {
+          bold: 'Technical support & remote assistance',
+          rest: 'to swiftly resolve computer issues, performance bottlenecks, and errors.',
+        },
+        {
+          bold: 'Clean OS installation for Windows & Linux',
+          rest: 'with updated official drivers and full file safety.',
+        },
+        {
+          bold: 'Computer speed optimization & tune-up',
+          rest: 'eliminating system lag, background bloatware, and memory leaks.',
+        },
+        {
+          bold: 'On-site corporate tickets in Antofagasta:',
+          rest: 'IT infrastructure, systems, network cabling, and structured wiring.',
+        },
+        {
+          bold: 'Self-service kiosks, roll out & PCs:',
+          rest: 'kiosk support, deployment of new machines, tech roll out, and peripherals.',
+        },
+        {
+          bold: 'Preventive & corrective corporate maintenance:',
+          rest: 'scheduled coverage to safeguard continuous business operations.',
+        },
+        {
+          bold: 'Security cameras, CCTV & alarm systems:',
+          rest: 'professional installation and setup for business premises.',
+        },
+      ];
 
   const webBullets = [
     { bold: 'Creación de páginas web para empresas y negocios', rest: 'con diseño profesional.' },

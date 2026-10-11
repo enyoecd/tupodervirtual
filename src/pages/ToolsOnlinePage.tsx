@@ -111,7 +111,7 @@ const SOFTWARE_DOWNLOADS: ToolLink[] = [
     title: 'HWiNFO (Hardware Info & Diagnostics)',
     url: 'https://www.hwinfo.com/download/',
     description: 'Monitoreo profesional de hardware en tiempo real: temperaturas, voltajes, salud de batería y sensores.',
-    tag: 'Diagnóstico Hardware',
+    tag: 'Diagnóstico & Sensores',
     badgeColor: 'border-amber-500/30 text-amber-400 bg-amber-500/10',
   },
   {
@@ -155,15 +155,15 @@ const YOUTUBE_CHANNELS: ToolLink[] = [
   {
     title: 'Canal de YouTube Oficial / Referencias',
     url: 'https://www.youtube.com',
-    description: 'Plataforma de video para tutoriales prácticos, guías de reparación de computadores y proyectos web.',
+    description: 'Plataforma de video para tutoriales prácticos, guías de soporte de software y proyectos web.',
     tag: 'Canal Principal',
     badgeColor: 'border-rose-500/30 text-rose-400 bg-rose-500/10',
   },
   {
-    title: 'Guías de Hardware & Reparación PC',
-    url: 'https://www.youtube.com/results?search_query=reparacion+de+computadoras+diagnostico',
-    description: 'Desmontajes, cambio de pasta térmica, diagnósticos de placa madre y optimizaciones de Windows.',
-    tag: 'Hardware & Taller',
+    title: 'Guías de Software, Optimización & Mantenimiento PC',
+    url: 'https://www.youtube.com/results?search_query=optimizacion+windows+soporte+tecnico',
+    description: 'Aceleración de Windows, eliminación de amenazas, respaldo seguro de archivos y configuración de sistemas.',
+    tag: 'Software & Sistemas',
     badgeColor: 'border-amber-500/30 text-amber-400 bg-amber-500/10',
   },
   {

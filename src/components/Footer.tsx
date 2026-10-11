@@ -54,7 +54,16 @@ export const Footer: React.FC = () => {
                   onClick={() => navigateTo('technical-support')}
                   className="hover:text-sky-400 transition-colors text-left cursor-pointer"
                 >
-                  • {isEs ? 'Reparación y mantenimiento de computadores (PC y notebooks)' : 'Computer and laptop maintenance & repair'}
+                  • {isEs ? 'Reparación y mantenimiento de software (PC y notebooks) con respaldo seguro' : 'Software maintenance & repair for PCs & laptops with secure backup'}
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => navigateTo('technical-support')}
+                  className="hover:text-sky-400 transition-colors text-left cursor-pointer"
+                >
+                  • {isEs ? 'Tickets presenciales empresas en Antofagasta (Redes, Tótems, Roll out, CCTV)' : 'On-site corporate tickets in Antofagasta (Networks, Kiosks, Roll out, CCTV)'}
                 </button>
               </li>
               <li>

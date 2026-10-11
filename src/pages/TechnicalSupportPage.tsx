@@ -23,6 +23,13 @@ import {
   RefreshCw,
   Sliders,
   Laptop,
+  Network,
+  Camera,
+  BellRing,
+  Server,
+  Boxes,
+  Monitor,
+  Building2,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -148,27 +155,27 @@ export const TechnicalSupportPage: React.FC = () => {
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.15]">
                 {isEs ? (
                   <>
-                    Soporte Técnico y{' '}
+                    Soporte Técnico de Software,{' '}
                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-sky-500 to-teal-400 dark:from-sky-400 dark:to-teal-300">
-                      Optimización
+                      Respaldo Seguro
                     </span>{' '}
-                    de Software
+                    & Tickets TI
                   </>
                 ) : (
                   <>
-                    Technical Support &{' '}
+                    Software Technical Support,{' '}
                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-sky-500 to-teal-400 dark:from-sky-400 dark:to-teal-300">
-                      Optimization
+                      Secure Backup
                     </span>{' '}
-                    for Software
+                    & Corporate IT
                   </>
                 )}
               </h1>
 
               <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
                 {isEs
-                  ? 'Atención presencial en laboratorio (Antofagasta) y teleasistencia remota encriptada para todo Chile. Máximo rendimiento, eliminación de amenazas y estabilidad total sin tocar el hardware.'
-                  : 'On-site service at our Antofagasta lab and encrypted remote assistance for all Chile. Peak speed, threat eradication, and total stability without touching hardware.'}
+                  ? 'Reparación y mantenimiento de software para PC de escritorio y notebooks, con respaldo seguro de datos y sistemas. Atendemos actividades remotas para problemas en equipos en todo Chile y tickets de atención presencial en Antofagasta para empresas (informática, cableado de redes, tótems, roll out, periféricos y CCTV).'
+                  : 'Software repair and maintenance for desktop PCs and laptops, with secure data and system backup. We provide remote assistance for computer issues nationwide and on-site corporate tickets in Antofagasta (IT systems, network cabling, kiosks, roll out, peripherals, and CCTV).'}
               </p>
 
               {/* 3 Value Commitment Badges */}
@@ -256,7 +263,7 @@ export const TechnicalSupportPage: React.FC = () => {
                 </div>
 
                 {/* Streamed Diagnostic Output */}
-                <div className="p-4 space-y-2 h-64 overflow-y-auto text-[11px] leading-relaxed select-none">
+                <div className="p-4 space-y-2 h-64 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden text-[11px] leading-relaxed select-none">
                   {logLines.slice(0, activeLogIndex + 1).map((log, idx) => (
                     <p key={idx} className={log.color}>
                       <span className="text-slate-600">[{log.time}]</span> {log.text}
@@ -306,7 +313,7 @@ export const TechnicalSupportPage: React.FC = () => {
 
           {/* 3 Symmetrical Bento Cards */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Card 1: Optimización de Computadores y Soporte Remoto */}
+            {/* Card 1: Soporte Técnico y Teleasistencia Remota */}
             <div className="bg-white dark:bg-[#0F172A] rounded-3xl p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-xl hover:border-sky-500/50 transition-all flex flex-col justify-between group">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
@@ -319,13 +326,13 @@ export const TechnicalSupportPage: React.FC = () => {
                 </div>
 
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-                  {isEs ? 'Optimización de Computadores y Soporte Remoto' : 'PC Optimization & Remote Live Support'}
+                  {isEs ? 'Soporte Técnico y Teleasistencia Remota' : 'Technical Support & Remote Teleassistance'}
                 </h3>
 
                 <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                   {isEs
-                    ? 'Limpieza exhaustiva de bloatware, aceleración profunda del sistema operativo y deshabilitación de procesos en segundo plano. Asistencia remota instantánea en vivo a través de herramientas seguras (AnyDesk, TeamViewer, RustDesk) para resolver fallas de software en tiempo real.'
-                    : 'Deep bloatware removal, OS acceleration, and background thread depuration. Live remote assistance via secure encrypted tools (AnyDesk, TeamViewer, RustDesk) to fix issues in real time.'}
+                    ? 'Atenciones de actividades remotas para problemas con los equipos: resolución ágil de lentitud extrema, errores de software, pantallas azules, desinfección de malware y soporte en tiempo real vía herramientas seguras y cifradas (AnyDesk, TeamViewer, RustDesk).'
+                    : 'Remote support for computer issues: swift resolution of extreme lag, software crashes, blue screens, malware disinfection, and live assistance via encrypted tools (AnyDesk, TeamViewer, RustDesk).'}
                 </p>
 
                 {/* Capacity Chips */}
@@ -334,21 +341,21 @@ export const TechnicalSupportPage: React.FC = () => {
                     AnyDesk / RustDesk
                   </span>
                   <span className="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-100 dark:bg-[#1E293B] text-slate-600 dark:text-slate-400">
-                    Arranque Instantáneo
+                    Solución de Lentitud
                   </span>
                   <span className="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-100 dark:bg-[#1E293B] text-slate-600 dark:text-slate-400">
-                    Depuración RAM
+                    Depuración RAM & SO
                   </span>
                 </div>
               </div>
 
               <div className="pt-6 mt-6 border-t border-slate-200 dark:border-[#1E293B] flex items-center justify-between">
                 <span className="text-xs font-mono text-sky-600 dark:text-sky-400 font-semibold">
-                  {isEs ? 'Modalidad: Remoto / Presencial' : 'Modality: Remote / On-Site'}
+                  {isEs ? 'Modalidad: Remoto Todo Chile' : 'Modality: Remote Nationwide'}
                 </span>
                 <button
                   type="button"
-                  onClick={() => scrollToContact('optimizacion')}
+                  onClick={() => scrollToContact('soporte-remoto', 'remoto')}
                   className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 dark:text-sky-400 hover:text-pink-500 cursor-pointer"
                 >
                   <span>{isEs ? 'Solicitar' : 'Request'}</span>
@@ -357,7 +364,7 @@ export const TechnicalSupportPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Card 2: Formateo, Instalación Limpia y Desinfección */}
+            {/* Card 2: Reparación de Software y Respaldo Seguro */}
             <div className="bg-white dark:bg-[#0F172A] rounded-3xl p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-xl hover:border-blue-500/50 transition-all flex flex-col justify-between group">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
@@ -365,30 +372,30 @@ export const TechnicalSupportPage: React.FC = () => {
                     <HardDrive className="w-6 h-6" />
                   </div>
                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-slate-100 dark:bg-[#1E293B] text-blue-600 dark:text-sky-300 border border-slate-200 dark:border-slate-700">
-                    SEGURIDAD TOTAL
+                    RESPALDO SEGURO
                   </span>
                 </div>
 
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-                  {isEs ? 'Formateo, Instalación Limpia y Desinfección' : 'Clean OS Formatting & Malware Disinfection'}
+                  {isEs ? 'Reparación de Software y Respaldo de Sistemas' : 'Software Repair & Secure System Backup'}
                 </h3>
 
                 <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                   {isEs
-                    ? 'Instalación limpia de Windows 11/10 o distribuciones Linux estables con activación oficial y controladores actualizados. Erradicación directa de virus, troyanos, secuestradores de navegador y malware avanzado, protegiendo y respaldando de manera intacta todos tus documentos y archivos personales.'
-                    : 'Clean install of Windows 11/10 or Linux distributions with genuine licenses and updated vendor drivers. Full eradication of trojans, browser hijackers, and malware with zero loss of personal files.'}
+                    ? 'Reparación y mantenimiento de software para PC de escritorio y notebooks con respaldo seguro de datos y sistemas. Instalación limpia de Windows 11/10 o Linux con activación oficial, eliminación de troyanos/virus y preservación 100% íntegra de archivos personales.'
+                    : 'Software repair and maintenance for desktop PCs and laptops with secure data and system backup. Clean installation of Windows 11/10 or Linux with genuine licensing, malware eradication, and 100% data preservation.'}
                 </p>
 
                 {/* Capacity Chips */}
                 <div className="flex flex-wrap gap-2 pt-2">
                   <span className="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-100 dark:bg-[#1E293B] text-slate-600 dark:text-slate-400">
+                    Respaldo Seguro
+                  </span>
+                  <span className="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-100 dark:bg-[#1E293B] text-slate-600 dark:text-slate-400">
                     Windows 11 / Linux
                   </span>
                   <span className="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-100 dark:bg-[#1E293B] text-slate-600 dark:text-slate-400">
-                    Eliminación Malware
-                  </span>
-                  <span className="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-100 dark:bg-[#1E293B] text-slate-600 dark:text-slate-400">
-                    Respaldo Seguro
+                    Desinfección Total
                   </span>
                 </div>
               </div>
@@ -399,7 +406,7 @@ export const TechnicalSupportPage: React.FC = () => {
                 </span>
                 <button
                   type="button"
-                  onClick={() => scrollToContact('formateo-virus')}
+                  onClick={() => scrollToContact('reparacion-software', 'antofagasta')}
                   className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 dark:text-sky-400 hover:text-pink-500 cursor-pointer"
                 >
                   <span>{isEs ? 'Solicitar' : 'Request'}</span>
@@ -408,55 +415,326 @@ export const TechnicalSupportPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Card 3: Soporte TI y Mantenimiento Preventivo / Correctivo */}
+            {/* Card 3: Tickets Presenciales para Empresas en Antofagasta */}
             <div className="bg-white dark:bg-[#0F172A] rounded-3xl p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-xl hover:border-pink-500/50 transition-all flex flex-col justify-between group">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="w-12 h-12 rounded-2xl bg-pink-50 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 flex items-center justify-center group-hover:scale-105 transition-transform">
-                    <Terminal className="w-6 h-6" />
+                    <Building2 className="w-6 h-6" />
                   </div>
                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-slate-100 dark:bg-[#1E293B] text-pink-600 dark:text-pink-300 border border-slate-200 dark:border-slate-700">
-                    HOGARES Y EMPRESAS
+                    COBERTURA EMPRESAS
                   </span>
                 </div>
 
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-                  {isEs ? 'Soporte TI y Mantenimiento Preventivo / Correctivo' : 'IT Support & Preventive / Corrective Maintenance'}
+                  {isEs ? 'Tickets Presenciales Empresas en Antofagasta' : 'On-Site Corporate Tickets in Antofagasta'}
                 </h3>
 
                 <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                   {isEs
-                    ? 'Mantenimiento correctivo y preventivo de programas corporativos, configuración de correos empresariales, VPNs seguras, suites de ofimática e impresoras en red. Despliegue periódico de parches críticos de seguridad y asesoría continua para estaciones de trabajo y profesionales.'
-                    : 'Preventive and corrective maintenance of corporate software, business mail suites, secure VPNs, office packages, and network printers. Regular security patches and continuous advisory for workstations.'}
+                    ? 'Atención técnica en terreno para empresas en informática, sistemas, cableado estructurado de redes, soporte a tótems, equipamiento computacional, roll out, mantenimientos preventivos y correctivos, instalación de periféricos, cámaras de seguridad (CCTV) y alarmas.'
+                    : 'On-site technical support for companies in IT systems, network cabling, self-service kiosks, computer equipment, roll out, preventive/corrective maintenance, peripherals, security cameras (CCTV), and alarm systems.'}
                 </p>
 
                 {/* Capacity Chips */}
                 <div className="flex flex-wrap gap-2 pt-2">
                   <span className="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-100 dark:bg-[#1E293B] text-slate-600 dark:text-slate-400">
-                    VPNs & Correo
+                    Redes & Conectividad
                   </span>
                   <span className="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-100 dark:bg-[#1E293B] text-slate-600 dark:text-slate-400">
-                    Impresoras en Red
+                    Tótems & Roll Out
                   </span>
                   <span className="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-100 dark:bg-[#1E293B] text-slate-600 dark:text-slate-400">
-                    Parches Seguridad
+                    CCTV & Alarmas
                   </span>
                 </div>
               </div>
 
               <div className="pt-6 mt-6 border-t border-slate-200 dark:border-[#1E293B] flex items-center justify-between">
                 <span className="text-xs font-mono text-pink-600 dark:text-pink-400 font-semibold">
-                  {isEs ? 'Modalidad: Remoto / Presencial' : 'Modality: Remote / On-Site'}
+                  {isEs ? 'Modalidad: En Terreno Antofagasta' : 'Modality: On-Site Antofagasta'}
                 </span>
                 <button
                   type="button"
-                  onClick={() => scrollToContact('soporte-ti')}
+                  onClick={() => scrollToContact('ticket-empresas', 'terreno-empresas')}
                   className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 dark:text-sky-400 hover:text-pink-500 cursor-pointer"
                 >
                   <span>{isEs ? 'Solicitar' : 'Request'}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECCIÓN DETALLADA: TICKETS DE ATENCIÓN PRESENCIAL EN ANTOFAGASTA PARA EMPRESAS */}
+      <section className="py-20 bg-slate-50/80 dark:bg-[#070B12] border-b border-slate-200 dark:border-[#1E293B]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <span className="text-xs font-mono font-bold text-pink-600 dark:text-pink-400 uppercase tracking-widest px-3 py-1 rounded-full bg-pink-50 dark:bg-pink-950/60 border border-pink-200 dark:border-pink-800">
+              {isEs ? 'COBERTURA CORPORATIVA & EN TERRENO' : 'CORPORATE & ON-SITE COVERAGE'}
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight mt-4">
+              {isEs
+                ? 'Tickets de Atención Presencial en Antofagasta para Empresas'
+                : 'On-Site Corporate Tickets in Antofagasta for Businesses'}
+            </h2>
+            <p className="mt-3 text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
+              {isEs
+                ? 'Brindamos soporte técnico in situ para empresas, comercios e industrias de Antofagasta. Atendemos requerimientos críticos de informática, sistemas, infraestructura de red, tótems y seguridad con total garantía y respuesta oportuna.'
+                : 'We provide on-site technical support for companies, retail, and industry across Antofagasta. We resolve critical IT, systems, network cabling, kiosk, and electronic security needs with full warranty.'}
+            </p>
+          </div>
+
+          {/* Grid de 8 Especialidades de Terreno */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* 1. Informática y Sistemas */}
+            <div className="p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-blue-500/40 transition-all flex flex-col justify-between group">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-sky-400 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <Server className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-[#1E293B] text-blue-600 dark:text-sky-300 border border-slate-200 dark:border-slate-700">
+                    SISTEMAS
+                  </span>
+                </div>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base">
+                  {isEs ? 'Informática y Sistemas' : 'IT & Enterprise Systems'}
+                </h3>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  {isEs
+                    ? 'Soporte y diagnóstico in situ para estaciones operativas, entornos de trabajo corporativos, configuración de dominios y continuidad de sistemas.'
+                    : 'On-site diagnosis and support for workstations, corporate environments, domain setup, and operational continuity.'}
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-mono text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-blue-500" />
+                <span>Estaciones de trabajo & SO</span>
+              </div>
+            </div>
+
+            {/* 2. Cableado de Redes y Conectividad */}
+            <div className="p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-sky-500/40 transition-all flex flex-col justify-between group">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <Network className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-[#1E293B] text-sky-600 dark:text-sky-300 border border-slate-200 dark:border-slate-700">
+                    CONECTIVIDAD
+                  </span>
+                </div>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base">
+                  {isEs ? 'Cableado de Redes' : 'Structured Cabling'}
+                </h3>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  {isEs
+                    ? 'Tendido y ordenamiento de cableado estructurado (Cat 6/6A), armado de racks, patch panels, switches, routers y antenas Wi-Fi comerciales.'
+                    : 'Structured cabling installation (Cat 6/6A), rack dressing, patch panels, switches, routers, and commercial Wi-Fi APs.'}
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-mono text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-sky-500" />
+                <span>Puntos de red & Racks</span>
+              </div>
+            </div>
+
+            {/* 3. Atención con Tótems */}
+            <div className="p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-purple-500/40 transition-all flex flex-col justify-between group">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <Laptop className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-[#1E293B] text-purple-600 dark:text-purple-300 border border-slate-200 dark:border-slate-700">
+                    TÓTEMS
+                  </span>
+                </div>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base">
+                  {isEs ? 'Atención con Tótems' : 'Self-Service Kiosks'}
+                </h3>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  {isEs
+                    ? 'Mantenimiento preventivo, correctivo y configuración de tótems interactivos de autoservicio, terminales de pago y pantallas de turno.'
+                    : 'Preventive/corrective maintenance and setup for interactive self-service kiosks, payment portals, and ticketing displays.'}
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-mono text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-purple-500" />
+                <span>Mantenimiento & calibración</span>
+              </div>
+            </div>
+
+            {/* 4. Equipos Computacionales */}
+            <div className="p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-emerald-500/40 transition-all flex flex-col justify-between group">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <Cpu className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-[#1E293B] text-emerald-600 dark:text-emerald-300 border border-slate-200 dark:border-slate-700">
+                    EQUIPOS
+                  </span>
+                </div>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base">
+                  {isEs ? 'Equipos Computacionales' : 'Computer Equipment'}
+                </h3>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  {isEs
+                    ? 'Puesta a punto, configuración corporativa y soporte de software para computadores de escritorio y notebooks de uso administrativo y técnico.'
+                    : 'Tuning, corporate configuration, and software support for desktop PCs and notebooks across administrative and operational teams.'}
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-mono text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-emerald-500" />
+                <span>PCs & Notebooks corporativos</span>
+              </div>
+            </div>
+
+            {/* 5. Roll Out Tecnológico */}
+            <div className="p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-pink-500/40 transition-all flex flex-col justify-between group">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-pink-50 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <RefreshCw className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-[#1E293B] text-pink-600 dark:text-pink-300 border border-slate-200 dark:border-slate-700">
+                    ROLL OUT
+                  </span>
+                </div>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base">
+                  {isEs ? 'Roll Out de Infraestructura' : 'Tech Roll Out'}
+                </h3>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  {isEs
+                    ? 'Despliegue masivo y coordinado de nuevos equipos, migración de perfiles, enrolamiento en redes y traspaso seguro de información.'
+                    : 'Mass deployment of machines, user profile migration, network domain joining, and secure business data transfer.'}
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-mono text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-pink-500" />
+                <span>Renovación tecnológica</span>
+              </div>
+            </div>
+
+            {/* 6. Mantenimientos Preventivos y Correctivos */}
+            <div className="p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-amber-500/40 transition-all flex flex-col justify-between group">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <Wrench className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-[#1E293B] text-amber-600 dark:text-amber-300 border border-slate-200 dark:border-slate-700">
+                    MANTENCIÓN
+                  </span>
+                </div>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base">
+                  {isEs ? 'Mantenimiento Preventivo & Correctivo' : 'Preventive & Corrective'}
+                </h3>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  {isEs
+                    ? 'Planes de revisión periódica para evitar interrupciones de faena y atención rápida ante fallas críticas o paradas de sistema.'
+                    : 'Scheduled maintenance plans to avoid business downtime and fast response to critical incidents.'}
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-mono text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-amber-500" />
+                <span>Planes periódicos y urgencias</span>
+              </div>
+            </div>
+
+            {/* 7. Instalación de Equipos Nuevos & Periféricos */}
+            <div className="p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-teal-500/40 transition-all flex flex-col justify-between group">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <Boxes className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-[#1E293B] text-teal-600 dark:text-teal-300 border border-slate-200 dark:border-slate-700">
+                    PERIFÉRICOS
+                  </span>
+                </div>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base">
+                  {isEs ? 'Instalación de Equipos & Periféricos' : 'New Equipment & Peripherals'}
+                </h3>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  {isEs
+                    ? 'Puesta en marcha de computadores nuevos, impresoras en red, escáneres, lectores de código de barra y periféricos comerciales.'
+                    : 'Setup of new computers, network printers, scanners, barcode readers, and retail point-of-sale peripherals.'}
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-mono text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-teal-500" />
+                <span>Impresoras, lectores & escáneres</span>
+              </div>
+            </div>
+
+            {/* 8. Cámaras de Seguridad (CCTV) & Sistemas de Alarma */}
+            <div className="p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-rose-500/40 transition-all flex flex-col justify-between group">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <Camera className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-[#1E293B] text-rose-600 dark:text-rose-300 border border-slate-200 dark:border-slate-700">
+                    SEGURIDAD
+                  </span>
+                </div>
+                <h3 className="font-bold text-slate-900 dark:text-white text-base">
+                  {isEs ? 'Cámaras de Seguridad & CCTV' : 'Security Cameras & CCTV'}
+                </h3>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  {isEs
+                    ? 'Instalación y configuración de circuitos cerrados CCTV, grabadores DVR/NVR, visualización remota en teléfonos y sistemas de alarma disuasiva.'
+                    : 'Installation and setup of closed-circuit CCTV, DVR/NVR recorders, mobile remote monitoring, and alarm deterrent systems.'}
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-mono text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-rose-500" />
+                <span>DVR/NVR, cableado & alarmas</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Action Callout for Corporate Tickets */}
+          <div className="mt-12 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-blue-900/90 via-slate-900 to-indigo-950 text-white border border-blue-700/40 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-6">
+            <div className="space-y-2 text-center lg:text-left">
+              <span className="inline-flex items-center gap-2 text-xs font-mono font-bold text-sky-300 uppercase tracking-wider">
+                <Building2 className="w-4 h-4" />
+                <span>{isEs ? 'Atención a Empresas en Antofagasta' : 'Corporate Service in Antofagasta'}</span>
+              </span>
+              <h3 className="text-xl sm:text-2xl font-black">
+                {isEs
+                  ? '¿Necesitas coordinar un ticket de soporte presencial para tu empresa?'
+                  : 'Need to coordinate an on-site corporate support ticket for your business?'}
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 max-w-2xl">
+                {isEs
+                  ? 'Coordinamos visitas técnicas en terreno para evaluación, ejecución de tickets puntuales o convenios de mantenimiento recurrente.'
+                  : 'We schedule on-site technical visits for assessments, single ticket resolution, or recurring maintenance service agreements.'}
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-3 shrink-0">
+              <button
+                type="button"
+                onClick={() => scrollToContact('ticket-empresas', 'terreno-empresas')}
+                className="px-6 py-3 rounded-xl bg-pink-600 hover:bg-pink-500 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg hover:scale-105 cursor-pointer"
+              >
+                {isEs ? 'Abrir Ticket Corporativo' : 'Open Corporate Ticket'}
+              </button>
+              <a
+                href="https://wa.me/56987676879?text=Hola%2C%20necesito%20coordinar%20un%20ticket%20presencial%20para%20mi%20empresa%20en%20Antofagasta"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg hover:scale-105 flex items-center gap-2"
+              >
+                <MessageSquare className="w-4 h-4" />
+                <span>{isEs ? 'WhatsApp Empresas' : 'Business WhatsApp'}</span>
+              </a>
             </div>
           </div>
         </div>
@@ -584,8 +862,8 @@ export const TechnicalSupportPage: React.FC = () => {
 
                 <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                   {isEs
-                    ? 'Atención personalizada en taller para evaluación detallada, formateos integrales con traspaso masivo de información y diagnósticos de software in situ.'
-                    : 'Personalized attention at our workshop for detailed checks, clean reinstalls with mass data transfer, and hardware/software diagnostics.'}
+                    ? 'Atención personalizada en laboratorio para evaluación detallada, formateos integrales con respaldo seguro de información y diagnósticos de software in situ.'
+                    : 'Personalized attention at our lab for detailed checks, clean reinstalls with secure mass data backup, and software diagnostics.'}
                 </p>
 
                 <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#0B0F17] border border-slate-200 dark:border-slate-800 space-y-2 text-xs font-mono">
@@ -830,8 +1108,9 @@ export const TechnicalSupportPage: React.FC = () => {
                         onChange={e => setFormData({ ...formData, modalidad: e.target.value })}
                         className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-[#0B0F17] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white text-sm focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none transition-colors cursor-pointer"
                       >
-                        <option value="remoto">{isEs ? 'Soporte Remoto (Todo Chile)' : 'Remote Support (All Chile)'}</option>
-                        <option value="antofagasta">{isEs ? 'Presencial en Taller (Antofagasta - Ecuador 1438)' : 'On-Site Workshop (Antofagasta - Ecuador 1438)'}</option>
+                        <option value="remoto">{isEs ? 'Soporte Remoto Online (Todo Chile)' : 'Remote Support (All Chile)'}</option>
+                        <option value="antofagasta">{isEs ? 'Presencial en Laboratorio (Ecuador 1438, Antofagasta)' : 'On-Site Lab (Ecuador 1438, Antofagasta)'}</option>
+                        <option value="terreno-empresas">{isEs ? 'Ticket en Terreno para Empresas (Antofagasta)' : 'On-Site Corporate Ticket (Antofagasta)'}</option>
                       </select>
                     </div>
 
@@ -844,9 +1123,14 @@ export const TechnicalSupportPage: React.FC = () => {
                         onChange={e => setFormData({ ...formData, tipoRequerimiento: e.target.value })}
                         className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-[#0B0F17] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white text-sm focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none transition-colors cursor-pointer"
                       >
-                        <option value="optimizacion">{isEs ? 'Optimización y Limpieza de Sistema' : 'System Tuning & Cleaning'}</option>
-                        <option value="formateo-virus">{isEs ? 'Formateo Limpio o Eliminación de Virus' : 'Clean OS Reinstall or Malware Removal'}</option>
-                        <option value="soporte-ti">{isEs ? 'Soporte TI / Programas / Redes' : 'IT Support / Programs / Networking'}</option>
+                        <option value="reparacion-software">{isEs ? 'Reparación de Software y Respaldo Seguro' : 'Software Repair & Secure Backup'}</option>
+                        <option value="soporte-remoto">{isEs ? 'Soporte Remoto Inmediato (Problemas en Equipos / Lentitud)' : 'Immediate Remote Support (Computer Lag / Crashes)'}</option>
+                        <option value="ticket-empresas">{isEs ? 'Ticket Presencial Empresas: Informática & Sistemas' : 'Corporate Ticket: IT & Systems'}</option>
+                        <option value="redes-cableado">{isEs ? 'Cableado Estructurado de Redes & Conectividad' : 'Structured Network Cabling & Connectivity'}</option>
+                        <option value="totems-rollout">{isEs ? 'Tótems de Autoservicio, Equipos & Roll Out' : 'Self-Service Kiosks, PCs & Tech Roll Out'}</option>
+                        <option value="mantenimiento-empresas">{isEs ? 'Mantenimiento Preventivo / Correctivo Empresarial' : 'Preventive / Corrective Corporate Maintenance'}</option>
+                        <option value="perifericos-nuevos">{isEs ? 'Instalación de Equipos Nuevos & Periféricos' : 'New Equipment Setup & Peripherals'}</option>
+                        <option value="cctv-alarmas">{isEs ? 'Cámaras de Seguridad, CCTV & Sistemas de Alarma' : 'Security Cameras, CCTV & Alarm Systems'}</option>
                       </select>
                     </div>
                   </div>

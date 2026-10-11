@@ -160,8 +160,8 @@ export const LocationMap: React.FC = () => {
                     </p>
                     <p className="text-xs text-slate-600 dark:text-slate-400">
                       {isEs
-                        ? 'Chequeo de hardware, diagnóstico en banco de pruebas y presupuesto transparente.'
-                        : 'Hardware bench diagnostic, test checks, clear estimate with no surprises.'}
+                        ? 'Diagnóstico integral de software, respaldo seguro de datos, sistemas y atención de tickets corporativos.'
+                        : 'Comprehensive software diagnostics, secure data and system backup, and corporate IT ticketing.'}
                     </p>
                   </div>
                 </div>

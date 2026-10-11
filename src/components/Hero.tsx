@@ -369,10 +369,10 @@ export const Hero: React.FC = () => {
                 </div>
               </div>
 
-              {/* Terminal Content Lines with rock-solid stable height and smooth scroll */}
+              {/* Terminal Content Lines with rock-solid stable height and no visible scrollbar */}
               <div
                 ref={terminalBodyRef}
-                className="p-3.5 sm:p-5 md:p-6 space-y-2 sm:space-y-2.5 font-mono leading-relaxed bg-[#0B132B]/95 h-[175px] sm:h-[325px] relative overflow-y-auto overflow-x-hidden select-none text-xs sm:text-sm w-full max-w-full"
+                className="p-3.5 sm:p-4 md:p-4.5 space-y-1.5 sm:space-y-2 font-mono leading-relaxed bg-[#0B132B]/95 h-[175px] sm:h-[345px] relative overflow-y-auto overflow-x-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden select-none text-xs sm:text-sm w-full max-w-full"
               >
                 {/* Ráfaga Matrix de una sola pasada hacia abajo */}
                 <TerminalMatrixRain
@@ -571,7 +571,7 @@ export const Hero: React.FC = () => {
                 title="Haz clic para activar ráfaga Matrix"
               >
                 <span>{termT.footer1}</span>
-                <span className="hidden sm:inline">{termT.footer2}</span>
+                {termT.footer2 ? <span className="hidden sm:inline">{termT.footer2}</span> : null}
               </div>
             </div>
           </div>

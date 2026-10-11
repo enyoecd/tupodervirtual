@@ -53,7 +53,7 @@ export const ClientMarquee: React.FC = () => {
     },
     {
       name: 'intel.',
-      badge: 'Hardware',
+      badge: 'Sistemas TI',
       icon: <span className="text-indigo-600 dark:text-indigo-400 font-black text-sm tracking-wider">intel.</span>,
     },
     {
