@@ -1,40 +1,40 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useApp } from '../../context/AppContext';
-import { ArrowLeft, ShieldCheck, Lock, Unlock, Eye, EyeOff } from 'lucide-react';
 
 interface MatrixPasswordGateProps {
   onUnlock: () => void;
 }
 
 export const MatrixPasswordGate: React.FC<MatrixPasswordGateProps> = ({ onUnlock }) => {
-  const { navigateTo } = useApp();
+  const { language } = useApp();
 
-  // Dialog lines mimicking the iconic scene in The Matrix
-  const scriptLines = [
-    'Wake up, Neo...',
-    'The Matrix has you...',
-    'Ingrese su contraseña: '
-  ];
+  // 1. Language detection: Spanish if browser or app language is Spanish, otherwise English
+  const isSpanish = useMemo(() => {
+    if (typeof window !== 'undefined' && typeof navigator !== 'undefined') {
+      const navLang = (navigator.language || (navigator as { userLanguage?: string }).userLanguage || '').toLowerCase();
+      if (navLang.startsWith('es')) return true;
+    }
+    return language === 'ES';
+  }, [language]);
 
-  const [currentLineIdx, setCurrentLineIdx] = useState(0);
-  const [currentCharIdx, setCurrentCharIdx] = useState(0);
-  const [displayedLines, setDisplayedLines] = useState<string[]>([]);
-  const [currentLineText, setCurrentLineText] = useState('');
-  const [isTypingComplete, setIsTypingComplete] = useState(false);
+  const line1 = isSpanish ? 'Despierta, Neo...' : 'Wake up, Neo...';
+  const line2 = isSpanish ? 'Matrix te tiene...' : 'The Matrix has you...';
+
+  // Animation states: 'typing_1' | 'pause_1' | 'blank_1' | 'typing_2' | 'pause_2' | 'ready'
+  type AnimState = 'typing_1' | 'pause_1' | 'blank_1' | 'typing_2' | 'pause_2' | 'ready';
+  const [animState, setAnimState] = useState<AnimState>('typing_1');
+  const [currentText, setCurrentText] = useState('');
+  const [charIndex, setCharIndex] = useState(0);
 
   const [password, setPassword] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
-  const [successMsg, setSuccessMsg] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
-  const [attempts, setAttempts] = useState(0);
-  const [showPassword, setShowPassword] = useState(true);
   const [isGlitching, setIsGlitching] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  // Subtle typewriter click tone using Web Audio API
+  // Subtle terminal audio click tone using Web Audio API
   const playTerminalTick = () => {
     try {
       const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
@@ -57,104 +57,123 @@ export const MatrixPasswordGate: React.FC<MatrixPasswordGateProps> = ({ onUnlock
     }
   };
 
-  // Skip typing intro if user clicks, taps or presses a key
-  const handleSkipIntro = (initialChar = '') => {
-    if (isTypingComplete) return;
-    setDisplayedLines(scriptLines.slice(0, 2));
-    setCurrentLineIdx(2);
-    setCurrentLineText(scriptLines[2]);
-    setIsTypingComplete(true);
-    if (initialChar) {
-      setPassword(initialChar);
+  // Immediate skip into ready terminal state on key or tap
+  const skipToReady = (initialKey = '') => {
+    if (animState === 'ready') return;
+    setAnimState('ready');
+    setCurrentText('');
+    if (initialKey && initialKey.length === 1) {
+      setPassword(initialKey);
     }
     setTimeout(() => {
       inputRef.current?.focus();
-    }, 60);
+    }, 50);
   };
 
-  // Character-by-character typewriter loop
+  // Animation Sequence:
+  // 1. Line 1 types out char by char
+  // 2. Line 1 pauses for 1 second
+  // 3. Line 1 disappears, 1 second black pause
+  // 4. Line 2 types out char by char
+  // 5. Line 2 pauses for 1 second
+  // 6. Line 2 disappears -> stays ready with top-left blinking cursor
   useEffect(() => {
-    if (isTypingComplete) return;
-
-    if (currentLineIdx < scriptLines.length) {
-      const targetLine = scriptLines[currentLineIdx];
-
-      if (currentCharIdx < targetLine.length) {
-        const timeout = setTimeout(() => {
-          const nextChar = targetLine[currentCharIdx];
-          setCurrentLineText(prev => prev + nextChar);
-          setCurrentCharIdx(prev => prev + 1);
+    if (animState === 'typing_1') {
+      if (charIndex < line1.length) {
+        const timer = setTimeout(() => {
+          setCurrentText(line1.slice(0, charIndex + 1));
+          setCharIndex(prev => prev + 1);
           playTerminalTick();
-        }, 70);
-
-        return () => clearTimeout(timeout);
+        }, 75);
+        return () => clearTimeout(timer);
       } else {
-        if (currentLineIdx < scriptLines.length - 1) {
-          const pauseTimeout = setTimeout(() => {
-            setDisplayedLines(prev => [...prev, targetLine]);
-            setCurrentLineIdx(prev => prev + 1);
-            setCurrentCharIdx(0);
-            setCurrentLineText('');
-          }, 1200);
-
-          return () => clearTimeout(pauseTimeout);
-        } else {
-          // Final line ('Ingrese su contraseña: ') has finished
-          setIsTypingComplete(true);
-          setTimeout(() => {
-            inputRef.current?.focus();
-          }, 80);
-        }
+        // Line 1 is fully typed -> pause for 1s before disappearing
+        setAnimState('pause_1');
       }
+    } else if (animState === 'pause_1') {
+      const timer = setTimeout(() => {
+        // First line disappears, pause 1 second
+        setCurrentText('');
+        setAnimState('blank_1');
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else if (animState === 'blank_1') {
+      // 1 second pause between lines
+      const timer = setTimeout(() => {
+        setCharIndex(0);
+        setCurrentText('');
+        setAnimState('typing_2');
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else if (animState === 'typing_2') {
+      if (charIndex < line2.length) {
+        const timer = setTimeout(() => {
+          setCurrentText(line2.slice(0, charIndex + 1));
+          setCharIndex(prev => prev + 1);
+          playTerminalTick();
+        }, 75);
+        return () => clearTimeout(timer);
+      } else {
+        // Line 2 is fully typed -> pause for 1s before disappearing
+        setAnimState('pause_2');
+      }
+    } else if (animState === 'pause_2') {
+      const timer = setTimeout(() => {
+        // Second line disappears, terminal is now in ready mode with only blinking cursor
+        setCurrentText('');
+        setAnimState('ready');
+        setTimeout(() => {
+          inputRef.current?.focus();
+        }, 60);
+      }, 1000);
+      return () => clearTimeout(timer);
     }
-  }, [currentLineIdx, currentCharIdx, isTypingComplete]);
+  }, [animState, charIndex, line1, line2]);
 
-  // Global key listener so typing any letter immediately skips intro and starts filling the password
+  // Global key listener to capture input seamlessly
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!isTypingComplete) {
+      if (animState !== 'ready') {
         if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
           e.preventDefault();
-          handleSkipIntro(e.key);
+          skipToReady(e.key);
         } else if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          handleSkipIntro();
+          skipToReady();
         }
+      } else {
+        // Always focus the hidden input on any typing
+        inputRef.current?.focus();
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isTypingComplete]);
+  }, [animState]);
 
-  // Keep input focused whenever typing is complete
+  // Ensure focus is kept when ready
   useEffect(() => {
-    if (isTypingComplete && !isVerifying) {
+    if (animState === 'ready' && !isVerifying) {
       inputRef.current?.focus();
     }
-  }, [isTypingComplete, isVerifying]);
+  }, [animState, isVerifying]);
 
-  const handleSubmitPassword = (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    if (isVerifying || !isTypingComplete) return;
-
-    const trimmed = password.trim().toLowerCase();
+  const handleVerifyPassword = (currentVal: string) => {
+    if (isVerifying) return;
+    const trimmed = currentVal.trim().toLowerCase();
 
     if (!trimmed) {
-      setErrorMsg('Por favor ingrese su contraseña.');
-      setTimeout(() => setErrorMsg(''), 2000);
+      setPassword('');
       return;
     }
 
     setIsVerifying(true);
-    setErrorMsg('');
 
-    // Verification check: password is 'enyo' (also accepts 'enjo' variant)
+    // Covert verification: accepts 'enyo' or 'enjo'
     if (trimmed === 'enyo' || trimmed === 'enjo') {
-      setSuccessMsg('Contraseña correcta. Conectando con la Matriz...');
       setIsGlitching(true);
 
-      // Play success chime
+      // Play subtle confirmation chime
       try {
         const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
         if (AudioCtx) {
@@ -173,28 +192,44 @@ export const MatrixPasswordGate: React.FC<MatrixPasswordGateProps> = ({ onUnlock
           osc.stop(ctx.currentTime + 0.5);
         }
       } catch {
-        // ignore
+        // Ignore audio errors
       }
 
-      // Unlock after cinematic Matrix rain cascade
+      // Unlock after cinematic Matrix cascade
       setTimeout(() => {
         onUnlock();
-      }, 1300);
+      }, 1200);
     } else {
+      // If incorrect, clear and keep cursor blinking
       setTimeout(() => {
         setIsVerifying(false);
-        setErrorMsg('Acceso denegado. Contraseña incorrecta.');
-        setAttempts(prev => prev + 1);
         setPassword('');
-        setTimeout(() => {
-          setErrorMsg('');
-          inputRef.current?.focus();
-        }, 1800);
-      }, 500);
+        inputRef.current?.focus();
+      }, 300);
     }
   };
 
-  // Matrix digital rain animation on success
+  // Keep letters on screen as they are typed
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    playTerminalTick();
+  };
+
+  // Only erase on Enter if command does not correspond; if correct, accept and unlock
+  const handleKeyDownInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const trimmed = password.trim().toLowerCase();
+      if (trimmed === 'enyo' || trimmed === 'enjo') {
+        handleVerifyPassword(trimmed);
+      } else {
+        // Se borra solo si se da Enter y lo escrito no corresponde
+        setPassword('');
+      }
+    }
+  };
+
+  // Matrix digital rain animation on successful secret unlock
   useEffect(() => {
     if (!isGlitching) return;
     const canvas = canvasRef.current;
@@ -244,40 +279,32 @@ export const MatrixPasswordGate: React.FC<MatrixPasswordGateProps> = ({ onUnlock
     <div
       ref={containerRef}
       onClick={() => {
-        if (!isTypingComplete) {
-          handleSkipIntro();
+        if (animState !== 'ready') {
+          skipToReady();
         } else {
           inputRef.current?.focus();
         }
       }}
       onTouchStart={() => {
-        if (!isTypingComplete) {
-          handleSkipIntro();
+        if (animState !== 'ready') {
+          skipToReady();
         } else {
           inputRef.current?.focus();
         }
       }}
-      className="fixed inset-0 z-[9999] bg-black text-[#00FF41] font-mono select-none overflow-hidden flex flex-col justify-between p-6 sm:p-12 md:p-16 cursor-text"
+      className="fixed inset-0 z-[9999] bg-black text-[#00FF41] font-mono select-none overflow-hidden cursor-text"
       style={{
         backgroundColor: '#000000',
         color: '#00FF41',
         textShadow: '0 0 8px rgba(0, 255, 65, 0.8), 0 0 20px rgba(0, 255, 65, 0.4)',
       }}
     >
-      {/* CRT Scanline Overlay Effect */}
+      {/* Subtle CRT Scanline Overlay */}
       <div
-        className="pointer-events-none absolute inset-0 z-10 opacity-25"
+        className="pointer-events-none absolute inset-0 z-10 opacity-20"
         style={{
           background: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%)',
           backgroundSize: '100% 4px',
-        }}
-      />
-
-      {/* Subtle Vignette Darkness at corners */}
-      <div
-        className="pointer-events-none absolute inset-0 z-10"
-        style={{
-          background: 'radial-gradient(circle at center, transparent 65%, rgba(0, 0, 0, 0.9) 100%)',
         }}
       />
 
@@ -289,159 +316,43 @@ export const MatrixPasswordGate: React.FC<MatrixPasswordGateProps> = ({ onUnlock
         />
       )}
 
-      {/* Top minimal skip prompt if animating */}
-      <div className="relative z-30 h-6 flex justify-end">
-        {!isTypingComplete && (
-          <button
-            onClick={e => {
-              e.stopPropagation();
-              handleSkipIntro();
+      {/* Active input capturing keystrokes across the entire screen */}
+      <input
+        ref={inputRef}
+        type="text"
+        autoFocus
+        disabled={isVerifying}
+        value={password}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDownInput}
+        className="opacity-0 absolute inset-0 w-full h-full cursor-text"
+        spellCheck="false"
+        autoComplete="off"
+        autoCapitalize="none"
+        aria-label="Terminal Input"
+      />
+
+      {/* Top-Left Console Terminal Display */}
+      <div className="absolute top-6 left-6 sm:top-10 sm:left-10 md:top-12 md:left-12 z-30 text-left font-mono pointer-events-none">
+        <div className="text-xl sm:text-2xl md:text-3xl tracking-wider text-[#00FF41] flex items-center">
+          {/* Animated Line Text (if currently typing line 1 or line 2) */}
+          {currentText && <span>{currentText}</span>}
+
+          {/* When ready, show each letter as the user types */}
+          {animState === 'ready' && password && (
+            <span className="text-[#00FF41] font-bold tracking-widest break-all">
+              {password}
+            </span>
+          )}
+
+          {/* Solid Matrix Blinking Cursor at the top-left right after typed letters */}
+          <span
+            className="inline-block w-3 sm:w-3.5 md:w-4 h-6 sm:h-7 md:h-8 bg-[#00FF41] animate-pulse ml-0.5 align-middle shadow-[0_0_12px_#00FF41]"
+            style={{
+              animationDuration: '1s',
             }}
-            className="text-xs text-[#00FF41]/60 hover:text-white underline cursor-pointer transition-colors"
-          >
-            [ Omitir intro ]
-          </button>
-        )}
-      </div>
-
-      {/* Main Terminal Window - Matrix Text Typing Area */}
-      <div className="relative z-30 my-auto max-w-3xl w-full mx-auto">
-        <div className="space-y-6 sm:space-y-8 text-xl sm:text-3xl md:text-4xl leading-relaxed font-mono">
-          {/* Previous typed lines */}
-          {displayedLines.map((line, idx) => (
-            <div
-              key={idx}
-              className="tracking-wider text-[#00FF41] transition-opacity duration-300"
-            >
-              {line}
-            </div>
-          ))}
-
-          {/* Current line being typed character by character */}
-          {!isTypingComplete && currentLineIdx < scriptLines.length && (
-            <div className="tracking-wider text-[#00FF41] flex items-center">
-              <span>{currentLineText}</span>
-              <span className="inline-block w-3.5 sm:w-5 h-7 sm:h-10 bg-[#00FF41] animate-pulse ml-2 align-middle shadow-[0_0_12px_#00FF41]" />
-            </div>
-          )}
-
-          {/* Password Prompt with Interactive Field */}
-          {isTypingComplete && (
-            <div className="pt-2">
-              <form
-                onSubmit={handleSubmitPassword}
-                className="space-y-6"
-                onClick={e => e.stopPropagation()}
-              >
-                <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xl sm:text-3xl md:text-4xl">
-                  <span className="text-[#00FF41] tracking-wider shrink-0">
-                    Ingrese su contraseña:
-                  </span>
-
-                  <div className="relative inline-flex items-center min-w-[30px] max-w-full">
-                    {/* Visual Monospace Text with cursor */}
-                    <span className="text-white font-bold tracking-widest break-all">
-                      {showPassword ? password : '•'.repeat(password.length)}
-                    </span>
-
-                    {/* Blinking Matrix Solid Block Cursor */}
-                    <span className="inline-block w-3.5 sm:w-5 h-7 sm:h-10 bg-[#00FF41] animate-pulse ml-1.5 shrink-0 align-middle shadow-[0_0_12px_#00FF41]" />
-
-                    {/* Real Hidden HTML Input to capture typing natively on desktop and mobile keyboards */}
-                    <input
-                      ref={inputRef}
-                      type="text"
-                      autoFocus
-                      disabled={isVerifying}
-                      value={password}
-                      onChange={e => {
-                        setPassword(e.target.value);
-                        playTerminalTick();
-                      }}
-                      onKeyDown={e => {
-                        if (e.key === 'Enter') {
-                          handleSubmitPassword();
-                        }
-                      }}
-                      className="absolute inset-0 w-full h-full opacity-0 text-transparent bg-transparent border-none focus:outline-none cursor-text text-base"
-                      spellCheck="false"
-                      autoComplete="off"
-                      autoCapitalize="none"
-                    />
-                  </div>
-                </div>
-
-                {/* Status / Feedback Messages */}
-                {isVerifying && (
-                  <div className="text-base sm:text-lg text-[#00FF41] animate-pulse font-mono flex items-center gap-2 pt-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#00FF41] animate-ping" />
-                    <span>Verificando credencial en la matriz...</span>
-                  </div>
-                )}
-
-                {successMsg && (
-                  <div className="text-base sm:text-xl text-emerald-300 font-bold font-mono tracking-wider pt-2 flex items-center gap-2">
-                    <Unlock className="w-6 h-6 text-emerald-400 shrink-0" />
-                    <span>{successMsg}</span>
-                  </div>
-                )}
-
-                {errorMsg && (
-                  <div className="text-base sm:text-xl text-rose-400 font-bold font-mono tracking-wider pt-2 flex items-center gap-2 animate-bounce">
-                    <Lock className="w-6 h-6 text-rose-400 shrink-0" />
-                    <span>{errorMsg}</span>
-                  </div>
-                )}
-
-                {/* Friendly Hint after multiple failed attempts */}
-                {attempts >= 2 && !successMsg && (
-                  <div className="text-sm sm:text-base text-[#00FF41]/70 font-mono pt-1">
-                    [ Pista: La contraseña es <strong className="text-white underline">enyo</strong> ]
-                  </div>
-                )}
-
-                {/* Action buttons (Desbloquear & Toggle visibility) */}
-                <div className="flex flex-wrap items-center gap-3 pt-3 text-xs sm:text-sm">
-                  <button
-                    type="submit"
-                    disabled={isVerifying}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded border border-[#00FF41] bg-[#00FF41]/10 hover:bg-[#00FF41] text-[#00FF41] hover:text-black font-bold tracking-wider transition-all duration-200 cursor-pointer shadow-[0_0_15px_rgba(0,255,65,0.3)] hover:shadow-[0_0_25px_rgba(0,255,65,0.7)]"
-                  >
-                    <ShieldCheck className="w-4 h-4 shrink-0" />
-                    <span>DESBLOQUEAR [ENTER]</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(prev => !prev)}
-                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded border border-[#00FF41]/40 text-[#00FF41]/70 hover:text-[#00FF41] hover:border-[#00FF41] transition-colors cursor-pointer text-xs"
-                  >
-                    {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                    <span>{showPassword ? 'Ocultar' : 'Mostrar'}</span>
-                  </button>
-                </div>
-              </form>
-            </div>
-          )}
+          />
         </div>
-      </div>
-
-      {/* Bottom Escape Bar */}
-      <div className="relative z-30 flex items-center justify-between text-xs text-[#00FF41]/60 font-mono">
-        <button
-          onClick={e => {
-            e.stopPropagation();
-            navigateTo('home');
-          }}
-          className="inline-flex items-center gap-1.5 hover:text-white transition-colors cursor-pointer"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          <span>← Volver al sitio principal</span>
-        </button>
-
-        <span className="text-[11px] text-[#00FF41]/40 hidden sm:inline">
-          Presione ENTER para validar
-        </span>
       </div>
     </div>
   );
