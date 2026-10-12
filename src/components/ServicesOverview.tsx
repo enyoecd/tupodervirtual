@@ -12,70 +12,54 @@ export const ServicesOverview: React.FC = () => {
   const supportBullets = isEs
     ? [
         {
-          bold: 'Reparación y mantenimiento de software',
-          rest: 'para PC de escritorio y notebooks, con respaldo seguro de datos y sistemas.',
+          bold: 'Reparación y mantenimiento a nivel de software:',
+          rest: 'mantenimiento preventivo y correctivo para PC de escritorio y notebooks con respaldo seguro.',
         },
         {
-          bold: 'Soporte técnico y teleasistencia remota',
-          rest: 'para resolver fallas, lentitud, virus y problemas de configuración en equipos.',
+          bold: 'Soporte técnico y remoto:',
+          rest: 'resolución de fallas, virus, problemas de configuración e instalación de programas.',
         },
         {
-          bold: 'Formateo e instalación limpia de Windows y Linux',
-          rest: 'con drivers oficiales actualizados y protección garantizada de archivos.',
+          bold: 'Formateo y optimización de sistemas:',
+          rest: 'instalación limpia de Windows y Linux con drivers actualizados.',
         },
         {
-          bold: 'Optimización y aceleración de computadores',
-          rest: 'para eliminar lentitud extrema, procesos pesados y errores del sistema.',
+          bold: 'Soporte presencial en Antofagasta:',
+          rest: 'atención a empresas en área de informática, sistemas, cableado de redes.',
         },
         {
-          bold: 'Tickets presenciales para empresas en Antofagasta:',
-          rest: 'área de informática, sistemas, cableado de redes y conectividad.',
-        },
-        {
-          bold: 'Atención con tótems y roll out tecnológico:',
-          rest: 'instalación de equipos nuevos, roll out y dispositivos periféricos.',
-        },
-        {
-          bold: 'Mantenimientos preventivos y correctivos empresariales:',
-          rest: 'planes para garantizar continuidad operativa y respuesta ante fallas.',
+          bold: 'Despliegue y roll out tecnológico:',
+          rest: 'instalación de tótems, equipos nuevos y configuración de dispositivos periféricos.',
         },
         {
           bold: 'Sistemas CCTV y alarmas:',
-          rest: 'instalación y configuración para protección de recintos y oficinas.',
+          rest: 'instalación y configuración de videovigilancia y seguridad.',
         },
       ]
     : [
         {
-          bold: 'Software maintenance and repair',
-          rest: 'for desktop PCs and laptops, with secure data and system backups.',
+          bold: 'Software-level repair & maintenance:',
+          rest: 'preventive and corrective maintenance for desktop PCs and notebooks with secure backups.',
         },
         {
-          bold: 'Technical support & remote assistance',
-          rest: 'to swiftly resolve computer issues, performance bottlenecks, and errors.',
+          bold: 'Technical & remote support:',
+          rest: 'troubleshooting errors, virus removal, configuration issues, and software installation.',
         },
         {
-          bold: 'Clean OS installation for Windows & Linux',
-          rest: 'with updated official drivers and full file safety.',
+          bold: 'System formatting & optimization:',
+          rest: 'clean installation of Windows and Linux with updated official drivers.',
         },
         {
-          bold: 'Computer speed optimization & tune-up',
-          rest: 'eliminating system lag, background bloatware, and memory leaks.',
+          bold: 'On-site support in Antofagasta:',
+          rest: 'corporate assistance in IT systems, hardware infrastructure, and network cabling.',
         },
         {
-          bold: 'On-site corporate tickets in Antofagasta:',
-          rest: 'IT infrastructure, systems, network cabling, and structured wiring.',
+          bold: 'Deployment & tech roll out:',
+          rest: 'setup of self-service kiosks, new computer roll out, and peripheral configuration.',
         },
         {
-          bold: 'Self-service kiosks, roll out & PCs:',
-          rest: 'kiosk support, deployment of new machines, tech roll out, and peripherals.',
-        },
-        {
-          bold: 'Preventive & corrective corporate maintenance:',
-          rest: 'scheduled coverage to safeguard continuous business operations.',
-        },
-        {
-          bold: 'Security cameras, CCTV & alarm systems:',
-          rest: 'professional installation and setup for business premises.',
+          bold: 'CCTV systems & alarms:',
+          rest: 'installation and setup of video surveillance and security systems.',
         },
       ];
 
