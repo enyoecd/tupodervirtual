@@ -5,8 +5,6 @@ import { translations } from '../data/translations';
 import { HeroMatrixCanvas } from './matrix/HeroMatrixCanvas';
 import { TerminalMatrixRain } from './matrix/TerminalMatrixRain';
 
-const FULL_COMMAND = 'tpv-diagnose --device "Cliente-Laptop"';
-
 interface ConsoleHistoryItem {
   prompt?: string;
   output?: string;
@@ -20,7 +18,6 @@ export const Hero: React.FC = () => {
   const t = translations[language].hero;
   const termT = translations[language].terminal;
 
-  const [typedCommand, setTypedCommand] = useState('');
   const [activeStep, setActiveStep] = useState(0);
   const [scanProgress, setScanProgress] = useState(0);
   const [isConsoleGlitching, setIsConsoleGlitching] = useState(false);
@@ -31,34 +28,23 @@ export const Hero: React.FC = () => {
   const terminalBodyRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  // Types command and reveals diagnostic lines progressively
+  // Reveals diagnostic lines progressively
   const runTypingSequence = (initialDelay = 100) => {
     animTimeoutsRef.current.forEach(clearTimeout);
     animTimeoutsRef.current = [];
 
-    setTypedCommand('');
     setActiveStep(0);
     setScanProgress(0);
     setHistoryItems([]);
     setInputCmd('');
     terminalBodyRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
 
-    const commandChars = FULL_COMMAND.split('');
-    commandChars.forEach((_, idx) => {
-      const timeout = setTimeout(() => {
-        setTypedCommand(FULL_COMMAND.slice(0, idx + 1));
-      }, initialDelay + idx * 20);
-      animTimeoutsRef.current.push(timeout);
-    });
-
-    const commandDoneTime = initialDelay + commandChars.length * 20 + 80;
-
     // Step 1: Hardware
-    const t1 = setTimeout(() => setActiveStep(1), commandDoneTime + 80);
+    const t1 = setTimeout(() => setActiveStep(1), initialDelay + 120);
     animTimeoutsRef.current.push(t1);
 
     // Step 2: Estado de disco
-    const t2 = setTimeout(() => setActiveStep(2), commandDoneTime + 220);
+    const t2 = setTimeout(() => setActiveStep(2), initialDelay + 260);
     animTimeoutsRef.current.push(t2);
 
     // Step 3: Malware Scan with progress bar 0% -> 100%
@@ -70,28 +56,28 @@ export const Hero: React.FC = () => {
         }, i * 60);
         animTimeoutsRef.current.push(pt);
       });
-    }, commandDoneTime + 360);
+    }, initialDelay + 400);
     animTimeoutsRef.current.push(t3);
 
     // Step 4: Cooling (escritorio)
-    const t4 = setTimeout(() => setActiveStep(4), commandDoneTime + 740);
+    const t4 = setTimeout(() => setActiveStep(4), initialDelay + 780);
     animTimeoutsRef.current.push(t4);
 
     // Step 5: Web development (escritorio)
-    const t5 = setTimeout(() => setActiveStep(5), commandDoneTime + 880);
+    const t5 = setTimeout(() => setActiveStep(5), initialDelay + 920);
     animTimeoutsRef.current.push(t5);
 
     // Step 6: Summary box (escritorio)
-    const t6 = setTimeout(() => setActiveStep(6), commandDoneTime + 1040);
+    const t6 = setTimeout(() => setActiveStep(6), initialDelay + 1080);
     animTimeoutsRef.current.push(t6);
 
     // Step 7: Ready for interactive input on desktop
-    const t7 = setTimeout(() => setActiveStep(7), commandDoneTime + 1200);
+    const t7 = setTimeout(() => setActiveStep(7), initialDelay + 1240);
     animTimeoutsRef.current.push(t7);
   };
 
   useEffect(() => {
-    // Initial run on mount: directly starts typing command and displaying results
+    // Initial run on mount: directly starts displaying diagnostic results
     runTypingSequence(350);
     return () => {
       animTimeoutsRef.current.forEach(clearTimeout);
@@ -107,7 +93,6 @@ export const Hero: React.FC = () => {
     animTimeoutsRef.current = [];
 
     // Reset lines so matrix single sweep has full visibility
-    setTypedCommand('');
     setActiveStep(-1);
     setScanProgress(0);
     setHistoryItems([]);
@@ -236,10 +221,10 @@ export const Hero: React.FC = () => {
       {/* Targeted Hero Matrix Rain Canvas (Top Strip, Inverted 'L' & Behind Terminal) */}
       <HeroMatrixCanvas />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full max-w-full">
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-10 items-center w-full max-w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           {/* Left Column: Copywriting, CTAs y Fila de Métricas */}
-          <div className="lg:col-span-6 space-y-5 sm:space-y-6 w-full max-w-full min-w-0">
+          <div className="lg:col-span-6 space-y-5 sm:space-y-6 min-w-0">
             {/* Badges de Estado */}
             <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/15 dark:bg-amber-400/20 text-amber-900 dark:text-amber-300 text-xs font-extrabold tracking-wide border border-amber-500/40 shadow-xs">
@@ -263,7 +248,7 @@ export const Hero: React.FC = () => {
             </p>
 
             {/* Main Buttons */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1 w-full max-w-full">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1">
               <a
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3.5 rounded-xl bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white font-bold shadow-lg shadow-pink-600/30 transition-all text-sm group text-center"
                 href="#contacto"
@@ -286,7 +271,7 @@ export const Hero: React.FC = () => {
             </div>
 
             {/* Fila de 3 Indicadores de Confianza */}
-            <div className="pt-5 border-t border-slate-200 dark:border-[#1E293B] grid grid-cols-3 gap-2 sm:gap-3 w-full max-w-full">
+            <div className="pt-5 border-t border-slate-200 dark:border-[#1E293B] grid grid-cols-3 gap-2 sm:gap-3">
               <div className="bg-slate-50 dark:bg-[#0F172A] p-2 sm:p-3.5 rounded-xl sm:rounded-2xl border border-slate-200 dark:border-[#1E293B] min-w-0 text-center sm:text-left">
                 <div className="text-lg sm:text-2xl lg:text-3xl font-black text-slate-900 dark:text-white leading-none">
                   {t.clientsCount}
@@ -326,11 +311,11 @@ export const Hero: React.FC = () => {
           </div>
 
           {/* Right Column: Mockup Ventana / Consola de Diagnóstico */}
-          <div className="lg:col-span-6 relative w-full max-w-full min-w-0" data-purpose="hero-terminal-mockup">
+          <div className="lg:col-span-6 relative min-w-0" data-purpose="hero-terminal-mockup">
             <div
               onClick={handleConsoleClick}
               title="Haz clic para activar ráfaga Matrix"
-              className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-700/80 dark:border-[#1E293B] bg-[#0B132B] text-slate-100 font-mono text-xs sm:text-sm cursor-pointer group transition-all hover:border-emerald-500/60 hover:shadow-emerald-950/30 w-full max-w-full"
+              className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-700/80 dark:border-[#1E293B] bg-[#0B132B] text-slate-100 font-mono text-xs sm:text-sm cursor-pointer group transition-all hover:border-emerald-500/60 hover:shadow-emerald-950/30"
             >
               {/* Window Titlebar with 3 control dots on the right */}
               <div
@@ -381,31 +366,25 @@ export const Hero: React.FC = () => {
                   durationMs={900}
                 />
 
-                {/* Primera línea: X:\source> estilo Windows */}
-                <div className="text-slate-400 flex items-center justify-between text-xs sm:text-sm">
-                  <div className="flex items-center min-w-0 flex-1">
-                    <span className="text-emerald-400 font-bold mr-1.5 shrink-0">X:\source&gt;</span>
-                    <span className="text-slate-200 truncate sm:whitespace-normal">{typedCommand}</span>
-                    {activeStep === 0 && (
-                      <span className="inline-block w-2 h-4 bg-emerald-400 animate-pulse ml-0.5 shrink-0"></span>
-                    )}
-                  </div>
-                  <span className="hidden sm:inline text-slate-500 text-[10px] sm:text-xs shrink-0 ml-2">
-                    {termT.deviceTag}
-                  </span>
+                {/* Primera línea: X:\source> estilo Windows sin texto adicional */}
+                <div className="text-slate-400 flex items-center text-xs sm:text-sm">
+                  <span className="text-emerald-400 font-bold mr-1.5 shrink-0">X:\source&gt;</span>
+                  {activeStep === 0 && (
+                    <span className="inline-block w-2 h-4 bg-emerald-400 animate-pulse ml-0.5 shrink-0"></span>
+                  )}
                 </div>
 
                 {/* Línea 1: Hardware */}
                 <div
-                  className={`text-slate-300 flex items-center justify-between transition-opacity duration-200 ${
+                  className={`text-slate-300 flex items-center justify-between text-[11px] sm:text-xs lg:text-[13px] transition-opacity duration-200 whitespace-nowrap min-w-0 gap-1.5 ${
                     activeStep >= 1 ? 'opacity-100' : 'opacity-0'
                   }`}
                 >
-                  <span>
+                  <span className="truncate">
                     &gt; <span className="sm:hidden">{termT.hardwareMobile}</span>
                     <span className="hidden sm:inline">{termT.hardware}</span>
                   </span>
-                  <span className="text-emerald-400 font-bold">
+                  <span className="text-emerald-400 font-bold text-right shrink-0 ml-auto">
                     <span className="sm:hidden">OK</span>
                     <span className="hidden sm:inline">{termT.hardwareVal}</span>
                   </span>
@@ -413,62 +392,62 @@ export const Hero: React.FC = () => {
 
                 {/* Línea 2: Estado de disco / SSD */}
                 <div
-                  className={`text-slate-300 flex items-center justify-between transition-opacity duration-200 ${
+                  className={`text-slate-300 flex items-center justify-between text-[11px] sm:text-xs lg:text-[13px] transition-opacity duration-200 whitespace-nowrap min-w-0 gap-1.5 ${
                     activeStep >= 2 ? 'opacity-100' : 'opacity-0'
                   }`}
                 >
-                  <span>
+                  <span className="truncate">
                     &gt; <span className="sm:hidden">{termT.ssdMobile}</span>
                     <span className="hidden sm:inline">{termT.ssd}</span>
                   </span>
-                  <span className="font-bold">
+                  <span className="font-bold text-right shrink-0 ml-auto">
                     <span className="sm:hidden text-emerald-400">OK</span>
                     <span className="hidden sm:inline text-amber-400">{termT.ssdVal}</span>
                   </span>
                 </div>
 
-                {/* Línea 3: Escaneo & virus con barra al 100% */}
+                {/* Línea 3: Escaneo malware & virus con barra al 100% y amenazas alineadas a la derecha en una sola línea */}
                 <div
-                  className={`text-slate-300 flex items-center justify-between transition-opacity duration-200 ${
+                  className={`text-slate-300 flex items-center justify-between text-[11px] sm:text-xs lg:text-[13px] transition-opacity duration-200 whitespace-nowrap min-w-0 gap-1.5 ${
                     activeStep >= 3 ? 'opacity-100' : 'opacity-0'
                   }`}
                 >
-                  <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                    <span>
+                  <div className="flex items-center gap-1 sm:gap-2 min-w-0 shrink">
+                    <span className="truncate">
                       &gt; <span className="sm:hidden">{termT.malwareMobile}</span>
                       <span className="hidden sm:inline">{termT.malware}</span>
                     </span>
-                    <span className="text-[10px] sm:text-xs font-mono text-emerald-400 font-bold">
-                      [{'█'.repeat(Math.floor(scanProgress / 10))}{'░'.repeat(10 - Math.floor(scanProgress / 10))}] {scanProgress}%
+                    <span className="text-[10px] sm:text-xs font-mono text-emerald-400 font-bold shrink-0">
+                      [{'█'.repeat(Math.floor(scanProgress / 20))}{'░'.repeat(5 - Math.floor(scanProgress / 20))}] {scanProgress}%
                     </span>
                   </div>
-                  {/* En móvil: OK al llegar al 100%. En escritorio: 2 amenazas encontradas */}
+                  {/* En móvil: OK al llegar al 100%. En escritorio: 2 amenazas encontradas alineado a la derecha */}
                   {scanProgress >= 100 && (
-                    <span className="sm:hidden text-emerald-400 font-bold">OK</span>
+                    <span className="sm:hidden text-emerald-400 font-bold shrink-0 ml-auto">OK</span>
                   )}
-                  <span className="hidden sm:inline text-rose-400 font-bold">
+                  <span className="hidden sm:inline text-rose-400 font-bold text-right shrink-0 ml-auto">
                     {termT.malwareVal}
                   </span>
                 </div>
 
                 {/* Línea 4: Flujo de aire & pasta térmica (solo escritorio) */}
                 <div
-                  className={`hidden sm:flex text-slate-300 items-center justify-between transition-opacity duration-200 ${
+                  className={`hidden sm:flex text-slate-300 items-center justify-between text-[11px] sm:text-xs lg:text-[13px] transition-opacity duration-200 whitespace-nowrap min-w-0 gap-1.5 ${
                     activeStep >= 4 ? 'opacity-100' : 'opacity-0'
                   }`}
                 >
-                  <span>&gt; {termT.cooling}</span>
-                  <span className="text-emerald-400 font-bold">{termT.coolingVal}</span>
+                  <span className="truncate">&gt; {termT.cooling}</span>
+                  <span className="text-emerald-400 font-bold text-right shrink-0 ml-auto">{termT.coolingVal}</span>
                 </div>
 
                 {/* Línea 5: Desarrollo Web en curso (solo escritorio) */}
                 <div
-                  className={`hidden sm:flex text-slate-300 items-center justify-between transition-opacity duration-200 ${
+                  className={`hidden sm:flex text-slate-300 items-center justify-between text-[11px] sm:text-xs lg:text-[13px] transition-opacity duration-200 whitespace-nowrap min-w-0 gap-1.5 ${
                     activeStep >= 5 ? 'opacity-100' : 'opacity-0'
                   }`}
                 >
-                  <span>&gt; {termT.web}</span>
-                  <span className="text-cyan-400 font-bold">{termT.webVal}</span>
+                  <span className="truncate">&gt; {termT.web}</span>
+                  <span className="text-cyan-400 font-bold text-right shrink-0 ml-auto">{termT.webVal}</span>
                 </div>
 
                 {/* Resumen de tiempos y diagnóstico (solo escritorio) */}
