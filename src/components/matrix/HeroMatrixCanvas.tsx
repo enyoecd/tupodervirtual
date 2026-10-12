@@ -9,7 +9,6 @@ const SYMBOLS = 'Z:.=*+-<>¦';
 const TECH_HANZI = '电网智算码通云速力恒信道机核光端数界流元维宇空宙极星';
 const MATRIX_CHARS = Array.from(KATAKANA + DIGITS + SYMBOLS + TECH_HANZI);
 
-const HEAD_COLOR = '#f2fff6';
 const TRAIL_COLOR = '#00ff66';
 
 interface Drop {
@@ -23,7 +22,6 @@ interface Drop {
   startRow: number;
   endRow: number;
   delayTicks: number;
-  zone: 'right' | 'left-top' | 'left-bottom';
 }
 
 export const HeroMatrixCanvas: React.FC = () => {
@@ -44,7 +42,7 @@ export const HeroMatrixCanvas: React.FC = () => {
     let height = 0;
     let drops: Drop[] = [];
 
-    // Exact user requested settings:
+    // Exact settings:
     // - Velocidad: 7 FPS
     // - Longitud del rastro: 3
     // - Proporción estirada verticalmente: scale(0.72, 1.45)
@@ -59,41 +57,25 @@ export const HeroMatrixCanvas: React.FC = () => {
     const randomChar = () =>
       MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
 
-    const createDropForZone = (
+    const createDrop = (
       colIndex: number,
       totalRows: number,
-      zone: 'right' | 'left-top' | 'left-bottom',
       isInitial = false
     ): Drop => {
       const x = colIndex * COL_STEP + COL_STEP / 2;
       let startRow = 0;
-      let endRow = totalRows;
+      let endRow = totalRows + 2;
 
-      if (zone === 'left-top') {
-        // ZONE 1: Above "Desarrollo Web Moderno" (very top strip, rows 0 to ~5.5, Y ~ 0-100px)
-        // Must fade out and vanish completely before touching the headline
-        const maxTopRow = Math.max(4, Math.floor(105 / ROW_HEIGHT));
-        startRow = isInitial ? -Math.floor(Math.random() * 3) : -Math.floor(Math.random() * 2);
-        endRow = maxTopRow;
-      } else if (zone === 'left-bottom') {
-        // ZONE 2: Below the 3 metric boxes (+250, +25, 24/7)
-        // Appears beneath the cards and extends toward bottom
-        const bottomStart = Math.floor(totalRows * 0.77);
-        startRow = bottomStart + (isInitial ? Math.floor(Math.random() * 3) : 0);
-        endRow = totalRows + 1;
+      const mode = Math.random();
+      if (mode < 0.35) {
+        startRow = isInitial ? -Math.floor(Math.random() * 8) : -Math.floor(Math.random() * 4);
+        endRow = Math.floor(totalRows * (0.45 + Math.random() * 0.30));
+      } else if (mode < 0.70) {
+        startRow = Math.floor(totalRows * (0.20 + Math.random() * 0.25));
+        endRow = Math.floor(totalRows * (0.80 + Math.random() * 0.25));
       } else {
-        // ZONE 3: Right side (full normal flow behind terminal and open space)
-        const mode = Math.random();
-        if (mode < 0.35) {
-          startRow = isInitial ? -Math.floor(Math.random() * 8) : -Math.floor(Math.random() * 4);
-          endRow = Math.floor(totalRows * (0.40 + Math.random() * 0.25));
-        } else if (mode < 0.70) {
-          startRow = Math.floor(totalRows * (0.28 + Math.random() * 0.25));
-          endRow = Math.floor(totalRows * (0.80 + Math.random() * 0.25));
-        } else {
-          startRow = isInitial ? -Math.floor(Math.random() * totalRows * 0.7) : -Math.floor(Math.random() * 6);
-          endRow = totalRows + 2;
-        }
+        startRow = isInitial ? -Math.floor(Math.random() * totalRows * 0.7) : -Math.floor(Math.random() * 6);
+        endRow = totalRows + 2;
       }
 
       return {
@@ -107,7 +89,6 @@ export const HeroMatrixCanvas: React.FC = () => {
         startRow,
         endRow,
         delayTicks: isInitial ? 0 : Math.floor(Math.random() * 8),
-        zone,
       };
     };
 
@@ -116,36 +97,51 @@ export const HeroMatrixCanvas: React.FC = () => {
       const totalRows = Math.ceil(height / ROW_HEIGHT);
       drops = [];
 
+      // Mismo comportamiento homogéneo a lo ancho de toda la sección
       for (let i = 0; i < columns; i++) {
-        const x = i * COL_STEP + COL_STEP / 2;
-        const colRatio = x / width;
-
-        if (colRatio < 0.48) {
-          // LEFT SIDE:
-          // 1. Top strip above "Desarrollo Web Moderno" (tenue, fades before headline)
-          if (Math.random() < 0.75) {
-            drops.push(createDropForZone(i, totalRows, 'left-top', true));
-          }
-          // 2. Just beneath the 3 boxes (+250, +25, 24/7) (tenue)
-          if (Math.random() < 0.65) {
-            drops.push(createDropForZone(i, totalRows, 'left-bottom', true));
-          }
-        } else {
-          // RIGHT SIDE:
-          // Full normal flow
-          if (Math.random() < 0.88) {
-            drops.push(createDropForZone(i, totalRows, 'right', true));
-          }
+        if (Math.random() < 0.88) {
+          drops.push(createDrop(i, totalRows, true));
         }
       }
     };
 
+    let textBounds: { left: number; right: number; top: number; bottom: number } | null = null;
+
+    const updateTextBounds = () => {
+      const parentEl = canvas.parentElement;
+      if (!parentEl) return;
+      const leftCol = parentEl.querySelector('[data-purpose="hero-left-column"]');
+      if (leftCol) {
+        const parentRect = parentEl.getBoundingClientRect();
+        const colRect = leftCol.getBoundingClientRect();
+        textBounds = {
+          left: colRect.left - parentRect.left - 4,
+          right: colRect.right - parentRect.left + 4,
+          top: colRect.top - parentRect.top - 6,
+          bottom: colRect.bottom - parentRect.top + 6,
+        };
+      } else {
+        textBounds = null;
+      }
+    };
+
+    const isInsideText = (x: number, y: number) => {
+      if (!textBounds) return false;
+      return (
+        x >= textBounds.left &&
+        x <= textBounds.right &&
+        y >= textBounds.top &&
+        y <= textBounds.bottom
+      );
+    };
+
     const handleResize = () => {
-      const parent = canvas.parentElement;
-      if (!parent) return;
-      const rect = parent.getBoundingClientRect();
+      const parentEl = canvas.parentElement;
+      if (!parentEl) return;
+      const rect = parentEl.getBoundingClientRect();
       width = canvas.width = rect.width;
       height = canvas.height = rect.height;
+      updateTextBounds();
       setupDrops();
     };
 
@@ -172,12 +168,18 @@ export const HeroMatrixCanvas: React.FC = () => {
 
     let lastTime = performance.now();
     const frameInterval = 1000 / FPS; // Exactly 7 FPS
+    let frameCount = 0;
 
     const render = (now: number) => {
       animationFrameId = requestAnimationFrame(render);
       const delta = now - lastTime;
       if (delta < frameInterval) return;
       lastTime = now - (delta % frameInterval);
+
+      frameCount++;
+      if (frameCount % 35 === 0) {
+        updateTextBounds();
+      }
 
       ctx.clearRect(0, 0, width, height);
 
@@ -216,17 +218,6 @@ export const HeroMatrixCanvas: React.FC = () => {
           drop.history[randIdx].char = randomChar();
         }
 
-        // Zone-based opacity multiplier:
-        // 'right': 1.0 (normal)
-        // 'left-top': 0.38 (tenue/sutil, doesn't compete with badges/header)
-        // 'left-bottom': 0.34 (tenue/sutil, under the 3 boxes)
-        let zoneOpacity = 1.0;
-        if (drop.zone === 'left-top') {
-          zoneOpacity = 0.38;
-        } else if (drop.zone === 'left-bottom') {
-          zoneOpacity = 0.34;
-        }
-
         // Mouse hover boost
         let mouseBoost = 0;
         if (mousePos.current) {
@@ -242,37 +233,25 @@ export const HeroMatrixCanvas: React.FC = () => {
         const rowDistance = drop.endRow - drop.startRow;
         const progress = (currentRow - drop.startRow) / (rowDistance || 1);
         let endFade = 1.0;
-        if (drop.zone === 'left-top') {
-          // Sharp vanishing fade before reaching "Desarrollo Web Moderno"
-          if (progress > 0.60) {
-            endFade = Math.max(0, 1 - (progress - 0.60) / 0.40);
-          }
-        } else {
-          if (progress > 0.70) {
-            endFade = Math.max(0, 1 - (progress - 0.70) / 0.30);
-          }
+        if (progress > 0.70) {
+          endFade = Math.max(0, 1 - (progress - 0.70) / 0.30);
         }
 
-        // 1. Draw trail of 3 characters with vertical elongation
+        // 1. Draw trail of characters with vertical elongation
         for (let j = 0; j < drop.history.length; j++) {
           const item = drop.history[j];
           const y = item.row * ROW_HEIGHT;
           if (y < 0 || y > height) continue;
 
-          // STRICT SAFETY BARRIER FOR LEFT COLUMN:
-          // Never draw in the forbidden middle zone of the left side
-          // (between Y ~ 108px and the bottom cards Y ~ totalRows * 0.76)
-          if (drop.x < width * 0.48) {
-            if (y > 108 && y < height * 0.75) continue;
-          }
+          // Respetar el contenido de la página: no dibujar caracteres sobre el texto del lado izquierdo
+          if (isInsideText(drop.x, y)) continue;
 
           // Top entry fade-in
           const topFade = Math.min(1.0, Math.max(0.15, (y + 10) / 85));
-
           const trailRamp = 1 - (j + 1) / (TRAIL_LENGTH + 1);
           const alpha = Math.min(
             0.95,
-            (zoneOpacity * 0.8 + mouseBoost) * endFade * topFade * trailRamp
+            (0.85 + mouseBoost) * endFade * topFade * trailRamp
           );
 
           ctx.save();
@@ -293,36 +272,30 @@ export const HeroMatrixCanvas: React.FC = () => {
         // 2. Draw leader character with vertical elongation & glow
         const headY = currentRow * ROW_HEIGHT;
         if (currentRow >= 0 && headY <= height) {
-          // STRICT SAFETY BARRIER FOR LEFT COLUMN
-          if (drop.x < width * 0.48) {
-            if (headY > 108 && headY < height * 0.75) {
-              // Advance row and continue
-              drop.row += drop.speed;
-              continue;
+          // Si cae dentro del bloque de texto, no dibujar el caracter líder sobre el texto
+          if (!isInsideText(drop.x, headY)) {
+            const topFade = Math.min(1.0, Math.max(0.18, (headY + 10) / 85));
+            const headAlpha = Math.min(
+              1.0,
+              (0.92 + mouseBoost) * endFade * topFade * 1.35
+            );
+
+            ctx.save();
+            ctx.translate(drop.x, headY);
+            ctx.scale(0.72, 1.45);
+
+            if (isDark) {
+              ctx.shadowColor = TRAIL_COLOR;
+              ctx.shadowBlur = 8;
+              ctx.fillStyle = `rgba(242, 255, 246, ${headAlpha})`;
+            } else {
+              ctx.shadowColor = '#059669';
+              ctx.shadowBlur = 4;
+              ctx.fillStyle = `rgba(16, 185, 129, ${headAlpha})`;
             }
+            ctx.fillText(drop.char, 0, 0);
+            ctx.restore();
           }
-
-          const topFade = Math.min(1.0, Math.max(0.18, (headY + 10) / 85));
-          const headAlpha = Math.min(
-            1.0,
-            (zoneOpacity * 0.88 + mouseBoost) * endFade * topFade * 1.35
-          );
-
-          ctx.save();
-          ctx.translate(drop.x, headY);
-          ctx.scale(0.72, 1.45);
-
-          if (isDark) {
-            ctx.shadowColor = TRAIL_COLOR;
-            ctx.shadowBlur = drop.zone === 'right' ? 9 : 5;
-            ctx.fillStyle = `rgba(242, 255, 246, ${headAlpha})`;
-          } else {
-            ctx.shadowColor = '#059669';
-            ctx.shadowBlur = 4;
-            ctx.fillStyle = `rgba(16, 185, 129, ${headAlpha})`;
-          }
-          ctx.fillText(drop.char, 0, 0);
-          ctx.restore();
         }
 
         // Advance row by speed
@@ -332,7 +305,7 @@ export const HeroMatrixCanvas: React.FC = () => {
         if (drop.row - TRAIL_LENGTH > drop.endRow || drop.row * ROW_HEIGHT > height + 20) {
           Object.assign(
             drop,
-            createDropForZone(drop.colIndex, totalRows, drop.zone)
+            createDrop(drop.colIndex, totalRows)
           );
         }
       }

@@ -224,7 +224,7 @@ export const Hero: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           {/* Left Column: Copywriting, CTAs y Fila de Métricas */}
-          <div className="lg:col-span-6 space-y-5 sm:space-y-6 min-w-0">
+          <div className="lg:col-span-6 space-y-5 sm:space-y-6 min-w-0" data-purpose="hero-left-column">
             {/* Badges de Estado */}
             <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/15 dark:bg-amber-400/20 text-amber-900 dark:text-amber-300 text-xs font-extrabold tracking-wide border border-amber-500/40 shadow-xs">
