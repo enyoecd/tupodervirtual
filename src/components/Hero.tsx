@@ -226,7 +226,7 @@ export const Hero: React.FC = () => {
           {/* Left Column: Copywriting, CTAs y Fila de Métricas */}
           <div className="lg:col-span-6 space-y-5 sm:space-y-6 min-w-0" data-purpose="hero-left-column">
             {/* Badges de Estado */}
-            <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 hero-text-shield">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/15 dark:bg-amber-400/20 text-amber-900 dark:text-amber-300 text-xs font-extrabold tracking-wide border border-amber-500/40 shadow-xs">
                 <span className="inline-block animate-pulse text-sm leading-none">🚧</span>
                 <span className="uppercase tracking-wider">{language === 'ES' ? 'Web en Construcción' : 'Website Under Construction'}</span>
@@ -248,10 +248,27 @@ export const Hero: React.FC = () => {
             </p>
 
             {/* Main Buttons */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1 hero-text-shield">
               <a
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3.5 rounded-xl bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white font-bold shadow-lg shadow-pink-600/30 transition-all text-sm group text-center"
-                href="#contacto"
+                href="#solicitar-cotizacion"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const target =
+                    document.getElementById('solicitar-cotizacion') ||
+                    document.getElementById('formulario-cotizacion');
+                  if (target) {
+                    const headerOffset = 90;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({
+                      top: offsetPosition,
+                      behavior: 'smooth',
+                    });
+                  } else {
+                    navigateTo('home', 'solicitar-cotizacion');
+                  }
+                }}
               >
                 <Zap className="w-4 h-4 group-hover:scale-110 transition-transform shrink-0" />
                 <span>{t.btnService}</span>
@@ -271,7 +288,7 @@ export const Hero: React.FC = () => {
             </div>
 
             {/* Fila de 3 Indicadores de Confianza */}
-            <div className="pt-5 border-t border-slate-200 dark:border-[#1E293B] grid grid-cols-3 gap-2 sm:gap-3">
+            <div className="pt-5 border-t border-slate-200 dark:border-[#1E293B] grid grid-cols-3 gap-2 sm:gap-3 hero-text-shield">
               <div className="bg-slate-50 dark:bg-[#0F172A] p-2 sm:p-3.5 rounded-xl sm:rounded-2xl border border-slate-200 dark:border-[#1E293B] min-w-0 text-center sm:text-left">
                 <div className="text-lg sm:text-2xl lg:text-3xl font-black text-slate-900 dark:text-white leading-none">
                   {t.clientsCount}

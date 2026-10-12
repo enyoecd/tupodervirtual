@@ -3,7 +3,7 @@ import { Check, Shield, Cpu, RefreshCw, HardDrive, Smartphone, Store, UtensilsCr
 import { useApp } from '../context/AppContext';
 
 export const DetailedSpecialties: React.FC = () => {
-  const { language } = useApp();
+  const { language, navigateTo } = useApp();
 
   const isEs = language === 'ES';
 
@@ -124,7 +124,24 @@ export const DetailedSpecialties: React.FC = () => {
             <div className="pt-4 flex flex-col sm:flex-row gap-3 sm:gap-4">
               <a
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-slate-900 dark:bg-pink-600 hover:bg-slate-800 dark:hover:bg-pink-700 text-white text-sm font-semibold transition-colors shadow-md text-center"
-                href="#contacto"
+                href="#solicitar-cotizacion"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const target =
+                    document.getElementById('solicitar-cotizacion') ||
+                    document.getElementById('formulario-cotizacion');
+                  if (target) {
+                    const headerOffset = 90;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({
+                      top: offsetPosition,
+                      behavior: 'smooth',
+                    });
+                  } else {
+                    navigateTo('home', 'solicitar-cotizacion');
+                  }
+                }}
               >
                 {isEs ? 'Agendar Diagnóstico Técnico' : 'Book Diagnostic Check'}
               </a>
@@ -260,7 +277,24 @@ export const DetailedSpecialties: React.FC = () => {
             <div className="pt-4">
               <a
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white text-sm font-semibold transition-colors shadow-md shadow-pink-600/20"
-                href="#contacto"
+                href="#solicitar-cotizacion"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const target =
+                    document.getElementById('solicitar-cotizacion') ||
+                    document.getElementById('formulario-cotizacion');
+                  if (target) {
+                    const headerOffset = 90;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({
+                      top: offsetPosition,
+                      behavior: 'smooth',
+                    });
+                  } else {
+                    navigateTo('home', 'solicitar-cotizacion');
+                  }
+                }}
               >
                 {isEs ? 'Cotizar Mi Sitio Web o Menú QR' : 'Quote Website or QR Menu'}
               </a>

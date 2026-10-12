@@ -105,34 +105,43 @@ export const HeroMatrixCanvas: React.FC = () => {
       }
     };
 
-    let textBounds: { left: number; right: number; top: number; bottom: number } | null = null;
+    let textBoundsList: { left: number; right: number; top: number; bottom: number }[] = [];
 
     const updateTextBounds = () => {
       const parentEl = canvas.parentElement;
       if (!parentEl) return;
       const leftCol = parentEl.querySelector('[data-purpose="hero-left-column"]');
-      if (leftCol) {
-        const parentRect = parentEl.getBoundingClientRect();
-        const colRect = leftCol.getBoundingClientRect();
-        textBounds = {
-          left: colRect.left - parentRect.left - 4,
-          right: colRect.right - parentRect.left + 4,
-          top: colRect.top - parentRect.top - 6,
-          bottom: colRect.bottom - parentRect.top + 6,
-        };
-      } else {
-        textBounds = null;
+      if (!leftCol) {
+        textBoundsList = [];
+        return;
       }
+      const parentRect = parentEl.getBoundingClientRect();
+      const list: { left: number; right: number; top: number; bottom: number }[] = [];
+
+      // Proteger los elementos concretos de texto (h1, p, botones, tarjetas) sin bloquear toda la mitad izquierda
+      const elements = leftCol.querySelectorAll('h1, p, .hero-text-shield');
+      elements.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.width > 0 && r.height > 0) {
+          list.push({
+            left: r.left - parentRect.left - 2,
+            right: r.right - parentRect.left + 2,
+            top: r.top - parentRect.top - 2,
+            bottom: r.bottom - parentRect.top + 2,
+          });
+        }
+      });
+      textBoundsList = list;
     };
 
     const isInsideText = (x: number, y: number) => {
-      if (!textBounds) return false;
-      return (
-        x >= textBounds.left &&
-        x <= textBounds.right &&
-        y >= textBounds.top &&
-        y <= textBounds.bottom
-      );
+      for (let i = 0; i < textBoundsList.length; i++) {
+        const b = textBoundsList[i];
+        if (x >= b.left && x <= b.right && y >= b.top && y <= b.bottom) {
+          return true;
+        }
+      }
+      return false;
     };
 
     const handleResize = () => {

@@ -162,9 +162,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         const targetId = hash.replace(/^#/, '');
         if (targetId && targetId !== 'inicio') {
           setTimeout(() => {
-            const el = document.getElementById(targetId);
+            let el = document.getElementById(targetId);
+            if (targetId === 'contacto' && document.getElementById('solicitar-cotizacion')) {
+              el = document.getElementById('solicitar-cotizacion');
+            }
             if (el) {
-              el.scrollIntoView({ behavior: 'smooth' });
+              const headerOffset = 90;
+              const elementPosition = el.getBoundingClientRect().top;
+              const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+              window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
             }
           }, 100);
         }
@@ -186,9 +192,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const targetId = window.location.hash.toLowerCase().replace(/^#/, '');
       if (targetId && targetId !== 'inicio' && !targetId.startsWith('pagina-')) {
         setTimeout(() => {
-          const el = document.getElementById(targetId);
+          let el = document.getElementById(targetId);
+          if (targetId === 'contacto' && document.getElementById('solicitar-cotizacion')) {
+            el = document.getElementById('solicitar-cotizacion');
+          }
           if (el) {
-            el.scrollIntoView({ behavior: 'smooth' });
+            const headerOffset = 90;
+            const elementPosition = el.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
           }
         }, 300);
       }
@@ -230,9 +242,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     if (cleanHash && cleanHash !== 'inicio') {
       setTimeout(() => {
-        const el = document.getElementById(cleanHash);
+        let el = document.getElementById(cleanHash);
+        if (cleanHash === 'contacto' && document.getElementById('solicitar-cotizacion')) {
+          el = document.getElementById('solicitar-cotizacion');
+        }
         if (el) {
-          el.scrollIntoView({ behavior: 'smooth' });
+          const headerOffset = 90;
+          const elementPosition = el.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
         } else {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }

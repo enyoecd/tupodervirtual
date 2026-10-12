@@ -328,7 +328,20 @@ export const Header: React.FC = () => {
                 } else if (currentPage === 'technical-support') {
                   navigateTo('technical-support', 'contacto-rapido');
                 } else {
-                  navigateTo('home', 'contacto');
+                  const target =
+                    document.getElementById('solicitar-cotizacion') ||
+                    document.getElementById('formulario-cotizacion');
+                  if (target) {
+                    const headerOffset = 90;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({
+                      top: offsetPosition,
+                      behavior: 'smooth',
+                    });
+                  } else {
+                    navigateTo('home', 'solicitar-cotizacion');
+                  }
                 }
               }}
               className="inline-flex items-center justify-center px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 rounded-xl shadow-md shadow-pink-600/25 transition-all whitespace-nowrap shrink-0 cursor-pointer hover:scale-105"

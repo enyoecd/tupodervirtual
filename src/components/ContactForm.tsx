@@ -172,8 +172,14 @@ export const ContactForm: React.FC = () => {
           </div>
 
           {/* Right Column: Interactive Form */}
-          <div className="lg:col-span-7 bg-white dark:bg-[#0B0F17] rounded-3xl p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm relative">
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
+          <div
+            id="formulario-cotizacion"
+            className="lg:col-span-7 bg-white dark:bg-[#0B0F17] rounded-3xl p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm relative scroll-mt-24 lg:scroll-mt-28"
+          >
+            <h3
+              id="solicitar-cotizacion"
+              className="text-xl font-bold text-slate-900 dark:text-white mb-6 scroll-mt-24 lg:scroll-mt-28"
+            >
               {t.formTitle}
             </h3>
 

@@ -13,27 +13,27 @@ export const ServicesOverview: React.FC = () => {
     ? [
         {
           bold: 'Reparación y mantenimiento a nivel de software:',
-          rest: 'mantenimiento preventivo y correctivo para PC de escritorio y notebooks con respaldo seguro.',
+          rest: 'Mantenimiento preventivo y correctivo para PC de escritorio y notebooks con respaldo seguro.',
         },
         {
           bold: 'Soporte técnico y remoto:',
-          rest: 'resolución de fallas, virus, problemas de configuración e instalación de programas.',
+          rest: 'Resolución de fallas, virus, problemas de configuración e instalación de programas.',
         },
         {
           bold: 'Formateo y optimización de sistemas:',
-          rest: 'instalación limpia de Windows y Linux con drivers actualizados.',
+          rest: 'Instalación limpia de Windows y Linux con drivers actualizados.',
         },
         {
           bold: 'Soporte presencial en Antofagasta:',
-          rest: 'atención a empresas en área de informática, sistemas, cableado de redes.',
+          rest: 'Atención a empresas en área de informática, sistemas, cableado de redes.',
         },
         {
           bold: 'Despliegue y roll out tecnológico:',
-          rest: 'instalación de tótems, equipos nuevos y configuración de dispositivos periféricos.',
+          rest: 'Instalación de tótems, equipos nuevos y configuración de dispositivos periféricos.',
         },
         {
           bold: 'Sistemas CCTV y alarmas:',
-          rest: 'instalación y configuración de videovigilancia y seguridad.',
+          rest: 'Instalación y configuración de videovigilancia y seguridad.',
         },
       ]
     : [
@@ -140,7 +140,22 @@ export const ServicesOverview: React.FC = () => {
               </button>
               <button
                 type="button"
-                onClick={() => navigateTo('technical-support', 'contacto-rapido')}
+                onClick={() => {
+                  const target =
+                    document.getElementById('solicitar-cotizacion') ||
+                    document.getElementById('formulario-cotizacion');
+                  if (target) {
+                    const headerOffset = 90;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({
+                      top: offsetPosition,
+                      behavior: 'smooth',
+                    });
+                  } else {
+                    navigateTo('home', 'solicitar-cotizacion');
+                  }
+                }}
                 className="text-xs font-semibold text-center bg-white dark:bg-[#1E293B] text-slate-800 dark:text-slate-200 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer"
               >
                 {t.supportAction}
@@ -195,7 +210,22 @@ export const ServicesOverview: React.FC = () => {
               </button>
               <button
                 type="button"
-                onClick={() => navigateTo('web-design', 'formulario-cotizacion')}
+                onClick={() => {
+                  const target =
+                    document.getElementById('solicitar-cotizacion') ||
+                    document.getElementById('formulario-cotizacion');
+                  if (target) {
+                    const headerOffset = 90;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({
+                      top: offsetPosition,
+                      behavior: 'smooth',
+                    });
+                  } else {
+                    navigateTo('home', 'solicitar-cotizacion');
+                  }
+                }}
                 className="text-xs font-semibold text-center bg-white dark:bg-[#1E293B] text-slate-800 dark:text-slate-200 hover:bg-pink-600 hover:text-white dark:hover:bg-pink-600 dark:hover:text-white px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer"
               >
                 {t.webAction}
