@@ -176,11 +176,11 @@ const YOUTUBE_CHANNELS: ToolLink[] = [
 ];
 
 export const ToolsOnlinePage: React.FC = () => {
-  const { navigateTo, isEnyoAuthorized, unlockEnyo, lockEnyo } = useApp();
+  const { navigateTo, isEnyoAuthorized, isPreUnlocked, unlockEnyo, lockEnyo } = useApp();
 
   // Si no está autenticado, muestra la pantalla negra estilo Matrix de Neo
   if (!isEnyoAuthorized) {
-    return <MatrixPasswordGate onUnlock={unlockEnyo} />;
+    return <MatrixPasswordGate onUnlock={unlockEnyo} autoBypass={isPreUnlocked} />;
   }
 
   return (

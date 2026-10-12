@@ -20,7 +20,9 @@ interface AppContextType {
   showEndWave: boolean;
   triggerEndWave: () => void;
   isEnyoAuthorized: boolean;
+  isPreUnlocked: boolean;
   unlockEnyo: () => void;
+  unlockEnyoWithAnimation: () => void;
   lockEnyo: () => void;
 }
 
@@ -101,13 +103,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Private gate authorization for /enyo
   // Defaults to false on URL load so entering /enyo in address bar ALWAYS requests password on black screen
   const [isEnyoAuthorized, setIsEnyoAuthorized] = useState<boolean>(false);
+  // When coming from Hero console where 'enyo' was already entered, play intro sequence + matrix rain without prompting for password
+  const [isPreUnlocked, setIsPreUnlocked] = useState<boolean>(false);
 
   const unlockEnyo = useCallback(() => {
     setIsEnyoAuthorized(true);
+    setIsPreUnlocked(false);
+  }, []);
+
+  const unlockEnyoWithAnimation = useCallback(() => {
+    setIsEnyoAuthorized(false);
+    setIsPreUnlocked(true);
   }, []);
 
   const lockEnyo = useCallback(() => {
     setIsEnyoAuthorized(false);
+    setIsPreUnlocked(false);
   }, []);
 
   // Sync with browser URL hash and path
@@ -334,7 +345,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         showEndWave,
         triggerEndWave,
         isEnyoAuthorized,
+        isPreUnlocked,
         unlockEnyo,
+        unlockEnyoWithAnimation,
         lockEnyo,
       }}
     >

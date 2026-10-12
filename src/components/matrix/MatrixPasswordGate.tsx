@@ -3,9 +3,10 @@ import { useApp } from '../../context/AppContext';
 
 interface MatrixPasswordGateProps {
   onUnlock: () => void;
+  autoBypass?: boolean;
 }
 
-export const MatrixPasswordGate: React.FC<MatrixPasswordGateProps> = ({ onUnlock }) => {
+export const MatrixPasswordGate: React.FC<MatrixPasswordGateProps> = ({ onUnlock, autoBypass = false }) => {
   const { language } = useApp();
 
   // 1. Language detection: Spanish if browser or app language is Spanish, otherwise English
@@ -57,8 +58,32 @@ export const MatrixPasswordGate: React.FC<MatrixPasswordGateProps> = ({ onUnlock
     }
   };
 
-  // Immediate skip into ready terminal state on key or tap
+  const playConfirmationChime = () => {
+    try {
+      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      if (AudioCtx) {
+        const ctx = new AudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+        osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.15);
+        osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.3);
+        gain.gain.setValueAtTime(0.04, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.5);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.5);
+      }
+    } catch {
+      // Ignore audio errors
+    }
+  };
+
+  // Immediate skip into ready terminal state on key or tap (disabled when autoBypassing to enjoy full sequence)
   const skipToReady = (initialKey = '') => {
+    if (autoBypass) return;
     if (animState === 'ready') return;
     setAnimState('ready');
     setCurrentText('');
@@ -119,16 +144,27 @@ export const MatrixPasswordGate: React.FC<MatrixPasswordGateProps> = ({ onUnlock
       }
     } else if (animState === 'pause_2') {
       const timer = setTimeout(() => {
-        // Second line disappears, terminal is now in ready mode with only blinking cursor
+        // Second line disappears
         setCurrentText('');
-        setAnimState('ready');
-        setTimeout(() => {
-          inputRef.current?.focus();
-        }, 60);
+        if (autoBypass) {
+          // Ya ingresó la clave previamente en la consola:
+          // Iniciar directamente la cascada Matrix alargada e ingresar inmediatamente sin pedir contraseña
+          setIsGlitching(true);
+          playConfirmationChime();
+          setTimeout(() => {
+            onUnlock();
+          }, 3200);
+        } else {
+          // Terminal en modo manual listo con el cursor parpadeando
+          setAnimState('ready');
+          setTimeout(() => {
+            inputRef.current?.focus();
+          }, 60);
+        }
       }, 1000);
       return () => clearTimeout(timer);
     }
-  }, [animState, charIndex, line1, line2]);
+  }, [animState, charIndex, line1, line2, autoBypass, onUnlock]);
 
   // Global key listener to capture input seamlessly
   useEffect(() => {
@@ -172,33 +208,12 @@ export const MatrixPasswordGate: React.FC<MatrixPasswordGateProps> = ({ onUnlock
     // Covert verification: accepts 'enyo' or 'enjo'
     if (trimmed === 'enyo' || trimmed === 'enjo') {
       setIsGlitching(true);
+      playConfirmationChime();
 
-      // Play subtle confirmation chime
-      try {
-        const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-        if (AudioCtx) {
-          const ctx = new AudioCtx();
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(523.25, ctx.currentTime);
-          osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.15);
-          osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.3);
-          gain.gain.setValueAtTime(0.04, ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.5);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start();
-          osc.stop(ctx.currentTime + 0.5);
-        }
-      } catch {
-        // Ignore audio errors
-      }
-
-      // Unlock after cinematic Matrix cascade
+      // Unlock after cinematic Matrix cascade (extended by 2 seconds: 1200ms + 2000ms = 3200ms)
       setTimeout(() => {
         onUnlock();
-      }, 1200);
+      }, 3200);
     } else {
       // If incorrect, clear and keep cursor blinking
       setTimeout(() => {

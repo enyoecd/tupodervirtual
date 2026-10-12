@@ -16,7 +16,7 @@ interface ConsoleHistoryItem {
 }
 
 export const Hero: React.FC = () => {
-  const { language, navigateTo, unlockEnyo } = useApp();
+  const { language, navigateTo, unlockEnyoWithAnimation } = useApp();
   const t = translations[language].hero;
   const termT = translations[language].terminal;
 
@@ -179,8 +179,8 @@ export const Hero: React.FC = () => {
         const fullUrl = `${originUrl}${basePath}/enyo`;
         const urlToDisplay = fullUrl;
 
-        // Autorizar la sesión para que el enlace de la consola ingrese 100% directo
-        unlockEnyo();
+        // Pre-autorizar para que al hacer clic muestre la pantalla en negro con los 2 mensajes y la lluvia Matrix antes de ingresar automáticamente
+        unlockEnyoWithAnimation();
 
         setHistoryItems(prev => [
           ...prev,
@@ -508,7 +508,7 @@ export const Hero: React.FC = () => {
                           onClick={e => {
                             e.preventDefault();
                             e.stopPropagation();
-                            unlockEnyo();
+                            unlockEnyoWithAnimation();
                             try {
                               const parsed = new URL(item.url || '/enyo', window.location.href);
                               window.history.pushState(null, '', parsed.pathname + parsed.search + parsed.hash);

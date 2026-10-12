@@ -19,7 +19,7 @@ import { ToolsOnlinePage } from './pages/ToolsOnlinePage';
 import { MatrixPasswordGate } from './components/matrix/MatrixPasswordGate';
 
 const AppContent: React.FC = () => {
-  const { currentPage, isEnyoAuthorized, unlockEnyo } = useApp();
+  const { currentPage, isEnyoAuthorized, isPreUnlocked, unlockEnyo } = useApp();
 
   // Prevención de indexación web para /enyo (noindex, nofollow)
   useEffect(() => {
@@ -38,8 +38,9 @@ const AppContent: React.FC = () => {
 
   // Cuando se accede a /enyo sin autenticar, se muestra SOLAMENTE la pantalla en negro estilo Neo Matrix.
   // Sin header, sin footer, sin controles flotantes ni contenedores externos.
+  // Si viene desde la consola principal donde ya se ingresó 'enyo', autoBypass ejecuta la animación y lluvia Matrix sin pedir clave.
   if (currentPage === 'tools-online' && !isEnyoAuthorized) {
-    return <MatrixPasswordGate onUnlock={unlockEnyo} />;
+    return <MatrixPasswordGate onUnlock={unlockEnyo} autoBypass={isPreUnlocked} />;
   }
 
   return (
