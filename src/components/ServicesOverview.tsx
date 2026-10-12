@@ -40,7 +40,7 @@ export const ServicesOverview: React.FC = () => {
           rest: 'planes para garantizar continuidad operativa y respuesta ante fallas.',
         },
         {
-          bold: 'Cámaras de seguridad, CCTV y alarmas:',
+          bold: 'Sistemas CCTV y alarmas:',
           rest: 'instalación y configuración para protección de recintos y oficinas.',
         },
       ]
