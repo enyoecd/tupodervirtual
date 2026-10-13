@@ -10,7 +10,9 @@ import {
   Check,
   ZoomIn,
   ZoomOut,
-  Maximize2
+  Maximize2,
+  Plus,
+  Minus
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -21,7 +23,7 @@ export const LocationMap: React.FC = () => {
   // Controles de vista interactivos para Google Maps
   // Zoom 15 es el punto justo pedido: no muy lejos ni muy cerca, se ve mar, cordillera y calles aledañas
   const [zoomLevel, setZoomLevel] = useState<number>(15);
-  const [mapType, setMapType] = useState<'m' | 'p' | 'k' | 'h'>('m');
+  const [mapType, setMapType] = useState<'m' | 'k'>('m');
   const [copied, setCopied] = useState<boolean>(false);
   const [iframeLoaded, setIframeLoaded] = useState<boolean>(false);
 
@@ -203,11 +205,11 @@ export const LocationMap: React.FC = () => {
 
               {/* Controles de visualización y zoom interactivos */}
               <div className="flex items-center gap-1.5">
-                {/* Selector de tipo de mapa */}
+                {/* Selector de tipo de mapa (Calles y Satélite) */}
                 <div className="flex items-center bg-slate-200 dark:bg-slate-800/80 rounded-lg p-0.5 text-[11px] font-semibold">
                   <button
                     onClick={() => setMapType('m')}
-                    className={`px-2 py-1 rounded-md transition-colors ${
+                    className={`px-2.5 py-1 rounded-md transition-colors ${
                       mapType === 'm'
                         ? 'bg-white dark:bg-pink-600 text-slate-900 dark:text-white shadow-xs font-bold'
                         : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -217,26 +219,15 @@ export const LocationMap: React.FC = () => {
                     {isEs ? 'Calles' : 'Streets'}
                   </button>
                   <button
-                    onClick={() => setMapType('p')}
-                    className={`px-2 py-1 rounded-md transition-colors ${
-                      mapType === 'p'
+                    onClick={() => setMapType('k')}
+                    className={`px-2.5 py-1 rounded-md transition-colors ${
+                      mapType === 'k'
                         ? 'bg-white dark:bg-pink-600 text-slate-900 dark:text-white shadow-xs font-bold'
                         : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                     }`}
-                    title={isEs ? 'Mapa con relieve y cerros' : 'Terrain'}
+                    title={isEs ? 'Vista satelital' : 'Satellite'}
                   >
-                    {isEs ? 'Relieve' : 'Terrain'}
-                  </button>
-                  <button
-                    onClick={() => setMapType('h')}
-                    className={`px-2 py-1 rounded-md transition-colors ${
-                      mapType === 'h'
-                        ? 'bg-white dark:bg-pink-600 text-slate-900 dark:text-white shadow-xs font-bold'
-                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-                    }`}
-                    title={isEs ? 'Vista híbrida' : 'Hybrid'}
-                  >
-                    {isEs ? 'Híbrido' : 'Hybrid'}
+                    {isEs ? 'Satélite' : 'Satellite'}
                   </button>
                 </div>
 
@@ -298,6 +289,29 @@ export const LocationMap: React.FC = () => {
                 allowFullScreen
                 referrerPolicy="no-referrer-when-downgrade"
               />
+
+              {/* Controles de zoom estilo Google Maps en esquina superior derecha */}
+              <div className="absolute top-4 right-4 z-10 flex flex-col bg-white dark:bg-[#1E293B] rounded-lg shadow-lg border border-slate-200/90 dark:border-slate-700/90 overflow-hidden pointer-events-auto">
+                <button
+                  type="button"
+                  onClick={handleZoomIn}
+                  className="w-8 h-8 flex items-center justify-center text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 active:bg-slate-200 transition-colors"
+                  aria-label={isEs ? 'Acercar' : 'Zoom in'}
+                  title={isEs ? 'Acercar mapa (+)' : 'Zoom in (+)'}
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
+                <div className="h-[1px] w-full bg-slate-200 dark:bg-slate-700" />
+                <button
+                  type="button"
+                  onClick={handleZoomOut}
+                  className="w-8 h-8 flex items-center justify-center text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 active:bg-slate-200 transition-colors"
+                  aria-label={isEs ? 'Alejar' : 'Zoom out'}
+                  title={isEs ? 'Alejar mapa (-)' : 'Zoom out (-)'}
+                >
+                  <Minus className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
             {/* Sub-barra informativa con contexto geográfico */}
