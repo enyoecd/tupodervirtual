@@ -49,6 +49,38 @@ const jsonResponse = (data: unknown, status = 200) => {
   });
 };
 
+/**
+ * Asegura de manera automática que la tabla 'links' y su índice existan en D1.
+ * De esta forma, el usuario no sufrirá nunca el error 'no such table: links'.
+ */
+async function ensureTable(db: D1Database): Promise<void> {
+  try {
+    await db
+      .prepare(
+        `CREATE TABLE IF NOT EXISTS links (
+          id TEXT PRIMARY KEY,
+          section TEXT NOT NULL,
+          title TEXT NOT NULL,
+          url TEXT NOT NULL,
+          description TEXT,
+          tag TEXT,
+          provider TEXT,
+          badge_color TEXT,
+          order_index INTEGER NOT NULL DEFAULT 0,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )`
+      )
+      .run();
+
+    await db
+      .prepare(`CREATE INDEX IF NOT EXISTS idx_links_section_order ON links(section, order_index)`)
+      .run();
+  } catch (err) {
+    console.error('Error in ensureTable:', err);
+  }
+}
+
 export const onRequestOptions = async () => {
   return new Response(null, {
     status: 204,
@@ -70,6 +102,9 @@ export const onRequestGet = async (context: { env: Env }) => {
         500
       );
     }
+
+    // Auto-inicialización segura de la tabla
+    await ensureTable(env.DB);
 
     const query = `
       SELECT id, section, title, url, description, tag, provider, badge_color, order_index
@@ -98,7 +133,7 @@ export const onRequestGet = async (context: { env: Env }) => {
   }
 };
 
-// 2. CREAR NUEVO ENLACE (POST)
+// 2. CREAR NUEVO ENLACE O SEMBRAR DATOS (POST)
 export const onRequestPost = async (context: { request: Request; env: Env }) => {
   try {
     const { request, env } = context;
@@ -106,17 +141,62 @@ export const onRequestPost = async (context: { request: Request; env: Env }) => 
       return jsonResponse({ error: 'Cloudflare D1 binding (DB) no configurado' }, 500);
     }
 
+    await ensureTable(env.DB);
+
     const body = (await request.json()) as {
+      action?: string;
+      links?: {
+        id: string;
+        section: string;
+        title: string;
+        url: string;
+        description?: string;
+        tag?: string;
+        provider?: string;
+        badgeColor?: string;
+        order_index?: number;
+      }[];
       id?: string;
-      section: string;
-      title: string;
-      url: string;
+      section?: string;
+      title?: string;
+      url?: string;
       description?: string;
       tag?: string;
       provider?: string;
       badgeColor?: string;
       order_index?: number;
     };
+
+    // Soporte para sembrar enlaces masivamente desde el frontend si la BD está vacía
+    if (body.action === 'seed' && Array.isArray(body.links) && body.links.length > 0) {
+      const statements = body.links.map((link) =>
+        env.DB!.prepare(
+          `INSERT OR IGNORE INTO links (id, section, title, url, description, tag, provider, badge_color, order_index)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+        ).bind(
+          link.id,
+          link.section,
+          link.title,
+          link.url,
+          link.description || '',
+          link.tag || 'General',
+          link.provider || null,
+          link.badgeColor || null,
+          link.order_index ?? 0
+        )
+      );
+
+      // Enviar en bloques de hasta 40 declaraciones para respetar límites de D1
+      for (let i = 0; i < statements.length; i += 40) {
+        const chunk = statements.slice(i, i + 40);
+        await env.DB!.batch(chunk);
+      }
+
+      return jsonResponse({
+        success: true,
+        message: `Se sincronizaron exitosamente ${body.links.length} enlaces en Cloudflare D1`,
+      });
+    }
 
     if (!body.title || !body.url || !body.section) {
       return jsonResponse({ error: 'Faltan campos obligatorios (title, url, section)' }, 400);
@@ -159,6 +239,8 @@ export const onRequestPut = async (context: { request: Request; env: Env }) => {
       return jsonResponse({ error: 'Cloudflare D1 binding (DB) no configurado' }, 500);
     }
 
+    await ensureTable(env.DB);
+
     const body = (await request.json()) as {
       reorder?: { id: string; order_index: number }[];
       id?: string;
@@ -181,7 +263,12 @@ export const onRequestPut = async (context: { request: Request; env: Env }) => {
         )
       );
 
-      await env.DB.batch(statements);
+      // Ejecutar en lotes de 40
+      for (let i = 0; i < statements.length; i += 40) {
+        const chunk = statements.slice(i, i + 40);
+        await env.DB!.batch(chunk);
+      }
+
       return jsonResponse({ success: true, message: 'Orden de enlaces actualizado en D1' });
     }
 
@@ -201,7 +288,7 @@ export const onRequestPut = async (context: { request: Request; env: Env }) => {
           badge_color = COALESCE(?, badge_color),
           order_index = COALESCE(?, order_index),
           updated_at = CURRENT_TIMESTAMP
-      WHERE id = ?
+        WHERE id = ?
     `;
 
     await env.DB.prepare(query)
@@ -232,6 +319,8 @@ export const onRequestDelete = async (context: { request: Request; env: Env }) =
     if (!env.DB) {
       return jsonResponse({ error: 'Cloudflare D1 binding (DB) no configurado' }, 500);
     }
+
+    await ensureTable(env.DB);
 
     const url = new URL(request.url);
     let id = url.searchParams.get('id');

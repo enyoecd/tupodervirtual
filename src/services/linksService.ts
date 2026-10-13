@@ -8,6 +8,7 @@ export const linksService = {
   /**
    * Carga los enlaces desde Cloudflare D1 (/api/links),
    * con respaldo transparente en localStorage y datos por defecto.
+   * Si la tabla en D1 existe pero está vacía, la inicializa automáticamente.
    */
   async fetchLinks(): Promise<{ links: ManagedLink[]; isFromD1: boolean }> {
     try {
@@ -17,14 +18,43 @@ export const linksService = {
 
       if (response.ok) {
         const json = await response.json();
-        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
-          // Guardar copia local en caso de desconexión
-          try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(json.data));
-          } catch {
-            // ignore
+        if (json.success && Array.isArray(json.data)) {
+          if (json.data.length > 0) {
+            // Guardar copia local en caso de desconexión
+            try {
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(json.data));
+            } catch {
+              // ignore
+            }
+            return { links: json.data, isFromD1: true };
+          } else {
+            // D1 está conectado pero la tabla está vacía.
+            // Sincronizamos automáticamente los enlaces iniciales:
+            let linksToSeed = INITIAL_MANAGED_LINKS;
+            try {
+              const local = localStorage.getItem(STORAGE_KEY);
+              if (local) {
+                const parsed = JSON.parse(local);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                  linksToSeed = parsed;
+                }
+              }
+            } catch {
+              // ignore
+            }
+
+            try {
+              await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'seed', links: linksToSeed }),
+              });
+            } catch {
+              // ignore
+            }
+
+            return { links: linksToSeed, isFromD1: true };
           }
-          return { links: json.data, isFromD1: true };
         }
       }
     } catch {
@@ -123,5 +153,21 @@ export const linksService = {
       // offline o preview
     }
     return deletedInD1;
+  },
+
+  /**
+   * Fuerza la sincronización completa de un conjunto de enlaces hacia Cloudflare D1.
+   */
+  async syncAllToD1(links: ManagedLink[]): Promise<boolean> {
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'seed', links }),
+      });
+      return res.ok;
+    } catch {
+      return false;
+    }
   },
 };
