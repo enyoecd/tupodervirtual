@@ -518,132 +518,7 @@ export const ToolsOnlinePage: React.FC = () => {
           </p>
         </div>
 
-        {/* Sección: Blog Oficial, Telegram & WhatsApp (Accesos Principales) */}
-        <section className="mb-14">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
-              <Sparkles className="w-5 h-5" />
-            </div>
-            <div>
-              <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-                Blog Oficial & Canales de Contacto Directo
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-400">
-                Enlaces al blog Tu Poder Virtual, atención directa por Telegram y WhatsApp.
-              </p>
-            </div>
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Tarjeta Blog Oficial */}
-            <a
-              href="https://tupodervirtual.blogspot.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group p-5 rounded-2xl bg-gradient-to-br from-amber-950/40 via-slate-900 to-slate-900 border border-amber-500/40 hover:border-amber-400 transition-all duration-200 flex flex-col justify-between hover:shadow-xl hover:shadow-amber-950/30"
-            >
-              <div>
-                <div className="flex items-start justify-between gap-2 mb-3">
-                  <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded border border-amber-500/30 text-amber-400 bg-amber-500/10">
-                    Blog Oficial
-                  </span>
-                  <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-amber-400 transition-colors shrink-0" />
-                </div>
-                <h3 className="text-lg font-bold text-white group-hover:text-amber-300 transition-colors">
-                  Tu Poder Virtual (Blogspot)
-                </h3>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
-                  Blog oficial con guías técnicas, artículos de informática, descargas de software y recomendaciones.
-                </p>
-              </div>
-              <div className="mt-5 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-mono text-amber-400 group-hover:translate-x-1 transition-transform">
-                <span>Visitar blog oficial</span>
-                <span>→</span>
-              </div>
-            </a>
-
-            {/* Tarjeta Telegram Personal */}
-            <a
-              href="https://t.me/enyoecd"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group p-5 rounded-2xl bg-gradient-to-br from-cyan-950/40 via-slate-900 to-slate-900 border border-cyan-500/40 hover:border-cyan-400 transition-all duration-200 flex flex-col justify-between hover:shadow-xl hover:shadow-cyan-950/30"
-            >
-              <div>
-                <div className="flex items-start justify-between gap-2 mb-3">
-                  <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded border border-cyan-500/30 text-cyan-400 bg-cyan-500/10">
-                    Mensajería Segura
-                  </span>
-                  <Send className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform shrink-0" />
-                </div>
-                <h3 className="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors">
-                  Telegram (@enyoecd)
-                </h3>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
-                  Contacto directo en Telegram para soporte inmediato, consultas de proyectos y asistencia rápida.
-                </p>
-              </div>
-              <div className="mt-5 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-mono text-cyan-400 group-hover:translate-x-1 transition-transform">
-                <span>Escribir por Telegram</span>
-                <span>→</span>
-              </div>
-            </a>
-
-            {/* Tarjeta WhatsApp */}
-            <a
-              href="https://wa.me/56987676879"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group p-5 rounded-2xl bg-gradient-to-br from-emerald-950/40 via-slate-900 to-slate-900 border border-emerald-500/40 hover:border-emerald-400 transition-all duration-200 flex flex-col justify-between hover:shadow-xl hover:shadow-emerald-950/30"
-            >
-              <div>
-                <div className="flex items-start justify-between gap-2 mb-3">
-                  <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded border border-emerald-500/30 text-emerald-400 bg-emerald-500/10">
-                    WhatsApp Directo
-                  </span>
-                  <MessageCircle className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform shrink-0" />
-                </div>
-                <h3 className="text-lg font-bold text-white group-hover:text-emerald-300 transition-colors">
-                  WhatsApp (+56 9 8767 6879)
-                </h3>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
-                  Chat de atención presencial y remota para empresas y particulares en Antofagasta.
-                </p>
-              </div>
-              <div className="mt-5 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-mono text-emerald-400 group-hover:translate-x-1 transition-transform">
-                <span>Abrir chat de WhatsApp</span>
-                <span>→</span>
-              </div>
-            </a>
-
-            {/* Tarjeta Canal Telegram Software */}
-            <a
-              href="https://t.me/softwareenyo"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group p-5 rounded-2xl bg-gradient-to-br from-blue-950/40 via-slate-900 to-slate-900 border border-blue-500/40 hover:border-blue-400 transition-all duration-200 flex flex-col justify-between hover:shadow-xl hover:shadow-blue-950/30"
-            >
-              <div>
-                <div className="flex items-start justify-between gap-2 mb-3">
-                  <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded border border-blue-500/30 text-blue-400 bg-blue-500/10">
-                    Canal de Descargas
-                  </span>
-                  <Send className="w-4 h-4 text-blue-400 group-hover:scale-110 transition-transform shrink-0" />
-                </div>
-                <h3 className="text-lg font-bold text-white group-hover:text-blue-300 transition-colors">
-                  Canal Telegram Software
-                </h3>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
-                  Canal @softwareenyo con enlaces a instaladores, actualizaciones de paquetes y recursos directos.
-                </p>
-              </div>
-              <div className="mt-5 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-mono text-blue-400 group-hover:translate-x-1 transition-transform">
-                <span>Unirse al canal</span>
-                <span>→</span>
-              </div>
-            </a>
-          </div>
-        </section>
 
         {/* Sección: Repositorios de Software del Blog (EN LISTA VERTICAL, uno debajo de otro) */}
         <section className="mb-14">
@@ -939,6 +814,133 @@ export const ToolsOnlinePage: React.FC = () => {
                 </div>
               </a>
             ))}
+          </div>
+        </section>
+
+        {/* Sección: Blog Oficial, Telegram & WhatsApp (Accesos Principales) */}
+        <section className="mb-14">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                Blog Oficial & Canales de Contacto Directo
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-400">
+                Enlaces al blog Tu Poder Virtual, atención directa por Telegram y WhatsApp.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Tarjeta Blog Oficial */}
+            <a
+              href="https://tupodervirtual.blogspot.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group p-5 rounded-2xl bg-gradient-to-br from-amber-950/40 via-slate-900 to-slate-900 border border-amber-500/40 hover:border-amber-400 transition-all duration-200 flex flex-col justify-between hover:shadow-xl hover:shadow-amber-950/30"
+            >
+              <div>
+                <div className="flex items-start justify-between gap-2 mb-3">
+                  <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded border border-amber-500/30 text-amber-400 bg-amber-500/10">
+                    Blog Oficial
+                  </span>
+                  <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-amber-400 transition-colors shrink-0" />
+                </div>
+                <h3 className="text-lg font-bold text-white group-hover:text-amber-300 transition-colors">
+                  Tu Poder Virtual (Blogspot)
+                </h3>
+                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
+                  Blog oficial con guías técnicas, artículos de informática, descargas de software y recomendaciones.
+                </p>
+              </div>
+              <div className="mt-5 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-mono text-amber-400 group-hover:translate-x-1 transition-transform">
+                <span>Visitar blog oficial</span>
+                <span>→</span>
+              </div>
+            </a>
+
+            {/* Tarjeta Telegram Personal */}
+            <a
+              href="https://t.me/enyoecd"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group p-5 rounded-2xl bg-gradient-to-br from-cyan-950/40 via-slate-900 to-slate-900 border border-cyan-500/40 hover:border-cyan-400 transition-all duration-200 flex flex-col justify-between hover:shadow-xl hover:shadow-cyan-950/30"
+            >
+              <div>
+                <div className="flex items-start justify-between gap-2 mb-3">
+                  <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded border border-cyan-500/30 text-cyan-400 bg-cyan-500/10">
+                    Mensajería Segura
+                  </span>
+                  <Send className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform shrink-0" />
+                </div>
+                <h3 className="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors">
+                  Telegram (@enyoecd)
+                </h3>
+                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
+                  Contacto directo en Telegram para soporte inmediato, consultas de proyectos y asistencia rápida.
+                </p>
+              </div>
+              <div className="mt-5 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-mono text-cyan-400 group-hover:translate-x-1 transition-transform">
+                <span>Escribir por Telegram</span>
+                <span>→</span>
+              </div>
+            </a>
+
+            {/* Tarjeta WhatsApp */}
+            <a
+              href="https://wa.me/56987676879"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group p-5 rounded-2xl bg-gradient-to-br from-emerald-950/40 via-slate-900 to-slate-900 border border-emerald-500/40 hover:border-emerald-400 transition-all duration-200 flex flex-col justify-between hover:shadow-xl hover:shadow-emerald-950/30"
+            >
+              <div>
+                <div className="flex items-start justify-between gap-2 mb-3">
+                  <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded border border-emerald-500/30 text-emerald-400 bg-emerald-500/10">
+                    WhatsApp Directo
+                  </span>
+                  <MessageCircle className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform shrink-0" />
+                </div>
+                <h3 className="text-lg font-bold text-white group-hover:text-emerald-300 transition-colors">
+                  WhatsApp (+56 9 8767 6879)
+                </h3>
+                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
+                  Chat de atención presencial y remota para empresas y particulares en Antofagasta.
+                </p>
+              </div>
+              <div className="mt-5 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-mono text-emerald-400 group-hover:translate-x-1 transition-transform">
+                <span>Abrir chat de WhatsApp</span>
+                <span>→</span>
+              </div>
+            </a>
+
+            {/* Tarjeta Canal Telegram Software */}
+            <a
+              href="https://t.me/softwareenyo"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group p-5 rounded-2xl bg-gradient-to-br from-blue-950/40 via-slate-900 to-slate-900 border border-blue-500/40 hover:border-blue-400 transition-all duration-200 flex flex-col justify-between hover:shadow-xl hover:shadow-blue-950/30"
+            >
+              <div>
+                <div className="flex items-start justify-between gap-2 mb-3">
+                  <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded border border-blue-500/30 text-blue-400 bg-blue-500/10">
+                    Canal de Descargas
+                  </span>
+                  <Send className="w-4 h-4 text-blue-400 group-hover:scale-110 transition-transform shrink-0" />
+                </div>
+                <h3 className="text-lg font-bold text-white group-hover:text-blue-300 transition-colors">
+                  Canal Telegram Software
+                </h3>
+                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
+                  Canal @softwareenyo con enlaces a instaladores, actualizaciones de paquetes y recursos directos.
+                </p>
+              </div>
+              <div className="mt-5 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-mono text-blue-400 group-hover:translate-x-1 transition-transform">
+                <span>Unirse al canal</span>
+                <span>→</span>
+              </div>
+            </a>
           </div>
         </section>
 
