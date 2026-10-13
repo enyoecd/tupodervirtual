@@ -66,10 +66,10 @@ export const ServicesOverview: React.FC = () => {
   const webBullets = [
     { bold: 'Creación de páginas web para empresas y negocios', rest: 'con diseño profesional.' },
     { bold: 'Diseño de sitios web profesionales', rest: 'atractivos, limpios y confiables.' },
-    { bold: 'Creación de menús digitales para restaurantes', rest: 'interactivos mediante código QR.' },
+    { bold: 'Creación de menús digitales para restaurantes', rest: 'interactivos mediante código QR y NFC.' },
     { bold: 'Soluciones web personalizadas adaptadas a las necesidades', rest: 'de cada negocio.' },
     { bold: 'Presencia web para pequeños y medianos negocios', rest: '(PyMEs y emprendedores).' },
-    { bold: 'Sitios 100% responsivos optimizados para celulares', rest: 'y tablets.' },
+    { bold: 'Sitios 100% responsivos optimizados para', rest: 'PC, celulares y tablets.' },
   ];
 
   return (

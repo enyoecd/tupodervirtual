@@ -151,7 +151,7 @@ export const WebDesignPage: React.FC = () => {
               </div>
               <div className="min-w-0">
                 <p className="font-bold text-slate-900 dark:text-white text-sm">100% Responsive</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{isEs ? 'Móviles, Tablets, Desktop' : 'Mobiles, Tablets, Desktop'}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{isEs ? 'PC, celulares y tablets' : 'PCs, phones & tablets'}</p>
               </div>
             </div>
 
@@ -316,22 +316,36 @@ export const WebDesignPage: React.FC = () => {
               </div>
 
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
-                {isEs ? 'Menús Digitales Interactivos y Cartas con Código QR' : 'Interactive QR Digital Menus & Food Catalogs'}
+                {isEs ? 'Menús Digitales Interactivos y Cartas con Código QR y NFC' : 'Interactive QR & NFC Digital Menus & Food Catalogs'}
               </h2>
               <p className="text-sm font-semibold font-mono text-amber-600 dark:text-amber-400">
-                {isEs ? 'Google Maps, SEO Local, Atracción de Clientes y Fidelización' : 'Google Maps, Local SEO, Customer Acquisition & Loyalty'}
+                {isEs ? 'Google Maps, NFC Contactless, SEO Local, Atracción y Fidelización' : 'Google Maps, NFC Contactless, Local SEO & Loyalty'}
               </p>
 
               <p className="text-base text-slate-600 dark:text-slate-300 leading-relaxed">
                 {isEs
-                  ? 'Transforma la experiencia gastronómica de tus comensales con cartas visuales de alta definición, menús interactivos, reservas online y acceso inmediato desde cualquier teléfono sin descargas obligatorias.'
-                  : 'Transform your guests dining experience with high-definition digital menus, online reservations, and instant smartphone access with no app download required.'}
+                  ? 'Transforma la experiencia gastronómica de tus comensales con cartas visuales de alta definición, menús interactivos, reservas online y acceso inmediato mediante código QR o acercamiento NFC sin descargas obligatorias.'
+                  : 'Transform your guests dining experience with high-definition digital menus, online reservations, and instant smartphone access via QR code or NFC tap with no app download required.'}
               </p>
 
               <ul className="space-y-3.5 text-sm text-slate-700 dark:text-slate-300">
                 <li className="flex items-start gap-3">
                   <div className="w-5 h-5 rounded-md bg-amber-100 dark:bg-amber-950/70 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 mt-0.5 font-bold">
                     <Utensils className="w-3.5 h-3.5" />
+                  </div>
+                  <span>
+                    <strong className="text-slate-900 dark:text-white font-semibold">
+                      {isEs ? 'Acceso Dual por Código QR y NFC:' : 'Dual Access via QR & NFC:'}
+                    </strong>{' '}
+                    {isEs
+                      ? 'Los clientes escanean el código QR en la mesa o simplemente acercan su celular al sticker/placa NFC para abrir el menú al instante sin escribir nada.'
+                      : 'Guests can scan the table QR code or simply tap their phone on the NFC plate to open the menu instantly.'}
+                  </span>
+                </li>
+
+                <li className="flex items-start gap-3">
+                  <div className="w-5 h-5 rounded-md bg-amber-100 dark:bg-amber-950/70 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 mt-0.5 font-bold">
+                    <Sparkles className="w-3.5 h-3.5" />
                   </div>
                   <span>
                     <strong className="text-slate-900 dark:text-white font-semibold">
@@ -525,8 +539,8 @@ export const WebDesignPage: React.FC = () => {
                 <h4 className="font-bold text-slate-900 dark:text-white text-lg">100% Responsive</h4>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                   {isEs
-                    ? 'Adaptabilidad milimétrica en smartphones, notebooks, tablets y monitores ultra-wide sin quiebre de componentes.'
-                    : 'Pixel-perfect adaptability on smartphones, laptops, tablets, and ultrawide screens.'}
+                    ? 'Adaptabilidad milimétrica en PC, celulares y tablets sin quiebre de componentes.'
+                    : 'Pixel-perfect adaptability on PCs, smartphones, and tablets.'}
                 </p>
               </div>
               <div className="pt-4 mt-4 border-t border-slate-200 dark:border-[#1E293B] font-mono text-[11px] text-pink-600 dark:text-pink-400 font-semibold">

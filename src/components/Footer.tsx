@@ -171,7 +171,7 @@ export const Footer: React.FC = () => {
                   onClick={() => navigateTo('web-design')}
                   className="hover:text-pink-400 transition-colors text-left cursor-pointer"
                 >
-                  • {isEs ? 'Sitios 100% responsivos optimizados para celulares' : '100% mobile-first responsive web design'}
+                  • {isEs ? 'Sitios 100% responsivos optimizados para PC, celulares y tablets' : '100% responsive design for PCs, phones & tablets'}
                 </button>
               </li>
               <li>

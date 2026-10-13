@@ -20,7 +20,7 @@ export const translations = {
       title2: '',
       description1: 'En',
       brandName: 'Tu Poder Virtual',
-      description2: 'creamos sitios web profesionales y menús QR de alta velocidad para tu negocio. Además, realizamos reparación y mantenimiento de software para PC de escritorio y notebooks con respaldo seguro de datos y sistemas, asistencia técnica remota para problemas en tus equipos y atención presencial de tickets para empresas en Antofagasta.',
+      description2: 'creamos sitios web profesionales y menús interactivos mediante código QR y NFC de alta velocidad para tu negocio. Además, realizamos reparación y mantenimiento de software para PC de escritorio y notebooks con respaldo seguro de datos y sistemas, asistencia técnica remota para problemas en tus equipos y atención presencial de tickets para empresas en Antofagasta.',
       btnService: 'Solicitar Servicio',
       btnWhatsapp: 'Escríbenos a WhatsApp',
       clientsCount: '+1500',

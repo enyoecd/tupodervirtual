@@ -230,13 +230,13 @@ export const DetailedSpecialties: React.FC = () => {
                 <div>
                   <h4 className="font-bold text-slate-900 dark:text-white text-sm">
                     {isEs
-                      ? 'Menús digitales QR para restaurantes'
-                      : 'Interactive QR Menus for Restaurants & Cafés'}
+                      ? 'Menús digitales QR y NFC para restaurantes'
+                      : 'Interactive QR & NFC Menus for Restaurants & Cafés'}
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
                     {isEs
-                      ? 'Cartas atractivas, rápidas de cargar en smartphones, fáciles de actualizar sin reimpresiones.'
-                      : 'Blazing fast mobile menus, effortless live updates without reprinting costs.'}
+                      ? 'Acceso instantáneo mediante código QR o al acercar el teléfono con NFC. Cartas atractivas y fáciles de actualizar.'
+                      : 'Instant access via QR code or NFC tap. Blazing fast mobile menus, effortless live updates without reprinting.'}
                   </p>
                 </div>
               </div>
@@ -263,12 +263,12 @@ export const DetailedSpecialties: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-900 dark:text-white text-sm">
-                    {isEs ? 'Sitios 100% responsivos optimizados para celulares' : '100% Mobile-First Responsive Design'}
+                    {isEs ? 'Sitios 100% responsivos optimizados para PC, celulares y tablets' : '100% Responsive Design for PCs, Phones & Tablets'}
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
                     {isEs
-                      ? 'Navegación fluida y visualización impecable en cualquier dispositivo.'
-                      : 'Fluid interactions and flawless presentation on phones, tablets, and desktops.'}
+                      ? 'Navegación fluida y visualización impecable en cualquier dispositivo (PC, celulares y tablets).'
+                      : 'Fluid interactions and flawless presentation on PCs, phones, and tablets.'}
                   </p>
                 </div>
               </div>
