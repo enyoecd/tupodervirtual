@@ -27,11 +27,11 @@ export const LocationMap: React.FC = () => {
   const [iframeLoaded, setIframeLoaded] = useState<boolean>(false);
 
   const addressText = 'Ecuador 1438, Antofagasta, Chile';
-  const googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=Ecuador+1438,+Antofagasta,+Chile';
+  const googleMapsUrl = 'https://maps.app.goo.gl/jb8X3MPWgtrBC1Lj9';
   const wazeUrl = 'https://waze.com/ul?q=Ecuador%201438,%20Antofagasta';
 
-  // URL del iframe embebido de Google Maps con parámetros reales de ubicación y zoom
-  const embedUrl = `https://maps.google.com/maps?q=Ecuador+1438,+Antofagasta,+Chile&t=${mapType}&z=${zoomLevel}&ie=UTF8&iwloc=&output=embed`;
+  // URL del iframe embebido de Google Maps con la ficha oficial de Tu Poder Virtual
+  const embedUrl = `https://maps.google.com/maps?q=Reparacion+de+Computadoras-+Tu+Poder+Virtual,+Ecuador+1438,+Antofagasta&t=${mapType}&z=${zoomLevel}&ie=UTF8&iwloc=&output=embed`;
 
   const handleCopyAddress = () => {
     try {
@@ -198,7 +198,7 @@ export const LocationMap: React.FC = () => {
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
                 <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800 dark:text-slate-200">
                   <MapPin className="w-3.5 h-3.5 text-pink-600" />
-                  <span>Google Maps • Ecuador 1438, Antofagasta</span>
+                  <span>Google Maps • Tu Poder Virtual (Ecuador 1438)</span>
                 </div>
               </div>
 
@@ -311,7 +311,7 @@ export const LocationMap: React.FC = () => {
                       Tu Poder Virtual
                     </h5>
                     <p className="text-[11px] text-slate-600 dark:text-slate-300 truncate">
-                      Ecuador 1438, Antofagasta
+                      Reparación de Computadoras • Ecuador 1438
                     </p>
                     <div className="flex items-center gap-1 mt-0.5 text-[10px] text-amber-500 font-bold">
                       <span>5.0</span>
