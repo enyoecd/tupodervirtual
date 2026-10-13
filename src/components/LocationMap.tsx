@@ -5,7 +5,6 @@ import {
   Car,
   Laptop,
   ExternalLink,
-  Star,
   Navigation,
   Copy,
   Check,
@@ -299,51 +298,6 @@ export const LocationMap: React.FC = () => {
                 allowFullScreen
                 referrerPolicy="no-referrer-when-downgrade"
               />
-
-              {/* Tarjeta flotante con información clave del taller */}
-              <div className="absolute bottom-3 left-3 right-3 sm:right-auto sm:max-w-xs z-10 pointer-events-auto bg-white/95 dark:bg-[#0B0F17]/95 backdrop-blur-md p-3 rounded-2xl shadow-xl border border-slate-200 dark:border-[#1E293B]">
-                <div className="flex items-start gap-2.5">
-                  <div className="w-7 h-7 rounded-lg bg-pink-100 dark:bg-pink-950 flex items-center justify-center text-pink-600 font-black text-xs shrink-0 mt-0.5">
-                    TPV
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h5 className="text-xs font-black text-slate-900 dark:text-white truncate">
-                      Tu Poder Virtual
-                    </h5>
-                    <p className="text-[11px] text-slate-600 dark:text-slate-300 truncate">
-                      Reparación de Computadoras • Ecuador 1438
-                    </p>
-                    <div className="flex items-center gap-1 mt-0.5 text-[10px] text-amber-500 font-bold">
-                      <span>5.0</span>
-                      <div className="flex text-amber-400">
-                        <Star className="w-2.5 h-2.5 fill-amber-400" />
-                        <Star className="w-2.5 h-2.5 fill-amber-400" />
-                        <Star className="w-2.5 h-2.5 fill-amber-400" />
-                        <Star className="w-2.5 h-2.5 fill-amber-400" />
-                        <Star className="w-2.5 h-2.5 fill-amber-400" />
-                      </div>
-                      <span className="text-slate-400 font-normal">
-                        ({isEs ? 'Taller técnico oficial' : 'Official workshop'})
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-2 pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px]">
-                  <span className="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    {isEs ? 'Abierto' : 'Open'}
-                  </span>
-                  <a
-                    className="text-pink-600 dark:text-pink-400 font-bold hover:underline inline-flex items-center gap-1"
-                    href={googleMapsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {isEs ? 'Ver en Google Maps ↗' : 'Directions ↗'}
-                  </a>
-                </div>
-              </div>
             </div>
 
             {/* Sub-barra informativa con contexto geográfico */}
