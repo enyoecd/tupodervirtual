@@ -31,6 +31,12 @@ import { ManagedLink, LinkSectionKey } from '../types/managedLinks';
 import { INITIAL_MANAGED_LINKS, SECTIONS_META } from '../data/defaultLinks';
 import { LinkEditorModal } from '../components/enyo/LinkEditorModal';
 import { linksService } from '../services/linksService';
+import {
+  getProviderBrandIcon,
+  BloggerIcon,
+  TelegramIcon,
+  WhatsAppIcon,
+} from '../components/BrandIcons';
 
 const STORAGE_KEY = 'tpv_managed_links_v1';
 
@@ -503,8 +509,10 @@ export const ToolsOnlinePage: React.FC = () => {
                       </div>
                     )}
 
-                    <div className="w-9 h-9 rounded-lg bg-slate-800/80 border border-slate-700/80 flex items-center justify-center text-cyan-400 group-hover:scale-105 group-hover:text-cyan-300 transition-all shrink-0 mt-0.5 sm:mt-0">
-                      <Cloud className="w-4 h-4" />
+                    <div className="w-9 h-9 rounded-lg bg-slate-800/80 border border-slate-700/80 flex items-center justify-center group-hover:scale-105 transition-all shrink-0 mt-0.5 sm:mt-0 p-1.5 overflow-hidden">
+                      {getProviderBrandIcon(item.provider, item.title, item.tag) || (
+                        <Cloud className="w-4 h-4 text-cyan-400" />
+                      )}
                     </div>
 
                     <div className="min-w-0 flex-1">
@@ -1307,7 +1315,9 @@ export const ToolsOnlinePage: React.FC = () => {
                   <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded border border-amber-500/30 text-amber-400 bg-amber-500/10">
                     Blog Oficial
                   </span>
-                  <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-amber-400 transition-colors shrink-0" />
+                  <div className="w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center p-1 group-hover:scale-110 transition-transform shrink-0">
+                    <BloggerIcon className="w-5 h-5" />
+                  </div>
                 </div>
                 <h3 className="text-lg font-bold text-white group-hover:text-amber-300 transition-colors leading-tight">
                   <div>Tu Poder Virtual</div>
@@ -1335,7 +1345,9 @@ export const ToolsOnlinePage: React.FC = () => {
                   <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded border border-cyan-500/30 text-cyan-400 bg-cyan-500/10">
                     Mensajería Segura
                   </span>
-                  <Send className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform shrink-0" />
+                  <div className="w-7 h-7 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center p-1 group-hover:scale-110 transition-transform shrink-0">
+                    <TelegramIcon className="w-5 h-5" />
+                  </div>
                 </div>
                 <h3 className="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors leading-tight">
                   <div>Telegram</div>
@@ -1363,7 +1375,9 @@ export const ToolsOnlinePage: React.FC = () => {
                   <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded border border-emerald-500/30 text-emerald-400 bg-emerald-500/10">
                     WhatsApp Directo
                   </span>
-                  <MessageCircle className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform shrink-0" />
+                  <div className="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center p-1 group-hover:scale-110 transition-transform shrink-0">
+                    <WhatsAppIcon className="w-5 h-5" />
+                  </div>
                 </div>
                 <h3 className="text-lg font-bold text-white group-hover:text-emerald-300 transition-colors leading-tight">
                   <div>WhatsApp</div>
