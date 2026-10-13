@@ -374,7 +374,7 @@ export const Hero: React.FC = () => {
               {/* Terminal Content Lines with rock-solid stable height and no visible scrollbar */}
               <div
                 ref={terminalBodyRef}
-                className="p-3.5 sm:p-4 md:p-4.5 space-y-1.5 sm:space-y-2 font-mono leading-relaxed bg-[#0B132B]/95 h-[175px] sm:h-[345px] relative overflow-y-auto overflow-x-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden select-none text-xs sm:text-sm w-full max-w-full"
+                className="p-3 sm:p-3.5 md:p-4 space-y-1.5 sm:space-y-2 font-mono leading-relaxed bg-[#0B132B]/95 h-[165px] sm:h-[268px] relative overflow-y-auto overflow-x-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden select-none text-xs sm:text-sm w-full max-w-full"
               >
                 {/* Ráfaga Matrix de una sola pasada hacia abajo */}
                 <TerminalMatrixRain
