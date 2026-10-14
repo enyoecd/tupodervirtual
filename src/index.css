@@ -60,7 +60,12 @@
 }
 
 .animate-marquee {
-  animation: marquee 28s linear infinite;
+  animation: marquee 56s linear infinite;
+}
+
+.animate-marquee-staggered {
+  animation: marquee 56s linear infinite;
+  animation-delay: -28s;
 }
 
 .animate-wave-rise {

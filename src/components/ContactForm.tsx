@@ -36,6 +36,8 @@ export const ContactForm: React.FC = () => {
 
   const [phoneError, setPhoneError] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [contactMethodError, setContactMethodError] = useState('');
+  const [messageError, setMessageError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [ticketId, setTicketId] = useState('');
@@ -77,33 +79,47 @@ export const ContactForm: React.FC = () => {
 
   const validateForm = () => {
     let isValid = true;
+    setContactMethodError('');
+    setPhoneError('');
+    setEmailError('');
+    setMessageError('');
 
-    if (!formData.name.trim()) {
+    // El nombre no es obligatorio.
+    // Entre teléfono y correo, uno de los dos debe ser obligatorio.
+    const hasPhone = formData.phone.trim().length > 0;
+    const hasEmail = formData.email.trim().length > 0;
+
+    if (!hasPhone && !hasEmail) {
+      setContactMethodError(
+        isEs
+          ? 'Debes ingresar al menos un medio de contacto (teléfono o correo).'
+          : 'Please provide at least one contact method (phone or email).'
+      );
       isValid = false;
     }
 
-    const digitsOnly = formData.phone.replace(/\D/g, '');
-    if (!formData.phone.trim() || digitsOnly.length < 8) {
-      setPhoneError(
-        isEs
-          ? 'Ingresa un número de teléfono válido (mínimo 8 dígitos).'
-          : 'Please enter a valid phone number (minimum 8 digits).'
-      );
-      isValid = false;
-    } else {
-      setPhoneError('');
+    // Teléfono: no requiere longitud mínima (máximo 15 números)
+    // Si escribió correo, validar formato estándar
+    if (hasEmail) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email.trim())) {
+        setEmailError(
+          isEs
+            ? 'Ingresa un correo electrónico con formato válido (ej. usuario@correo.com).'
+            : 'Please enter a valid email address (e.g. user@domain.com).'
+        );
+        isValid = false;
+      }
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formData.email.trim() || !emailRegex.test(formData.email.trim())) {
-      setEmailError(
+    // El mensaje sí debe ser obligatorio
+    if (!formData.message.trim()) {
+      setMessageError(
         isEs
-          ? 'Ingresa un correo electrónico válido (ej. usuario@correo.com).'
-          : 'Please enter a valid email address (e.g. user@domain.com).'
+          ? 'Por favor, describe tu requerimiento o mensaje.'
+          : 'Please enter your message or service requirement.'
       );
       isValid = false;
-    } else {
-      setEmailError('');
     }
 
     return isValid;
@@ -358,74 +374,79 @@ export const ContactForm: React.FC = () => {
                   value={formData.name}
                   onChange={e => setFormData({ ...formData, name: e.target.value })}
                   placeholder={t.namePlaceholder}
-                  required
                   type="text"
                 />
               </div>
 
               {/* Row 2: Teléfono y Correo */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label
-                    className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1"
-                    htmlFor="phone"
-                  >
-                    {t.phoneLabel}
-                  </label>
-                  <input
-                    className={`w-full rounded-xl border ${
-                      phoneError
-                        ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500'
-                        : 'border-slate-300 dark:border-slate-700 focus:border-pink-500 focus:ring-pink-500'
-                    } bg-white dark:bg-[#0F172A] text-sm focus:ring-1 text-slate-900 dark:text-white p-3`}
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={e => {
-                      const formatted = formatPhoneNumber(e.target.value);
-                      setFormData({ ...formData, phone: formatted });
-                      if (phoneError) setPhoneError('');
-                    }}
-                    onKeyDown={handlePhoneKeyDown}
-                    placeholder={t.phonePlaceholder}
-                    maxLength={16}
-                    inputMode="tel"
-                    required
-                    type="tel"
-                  />
-                  {phoneError && (
-                    <p className="text-xs text-rose-500 mt-1 font-medium">{phoneError}</p>
-                  )}
+              <div className="space-y-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1"
+                      htmlFor="phone"
+                    >
+                      {t.phoneLabel}
+                    </label>
+                    <input
+                      className={`w-full rounded-xl border ${
+                        phoneError || contactMethodError
+                          ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500'
+                          : 'border-slate-300 dark:border-slate-700 focus:border-pink-500 focus:ring-pink-500'
+                      } bg-white dark:bg-[#0F172A] text-sm focus:ring-1 text-slate-900 dark:text-white p-3`}
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={e => {
+                        const formatted = formatPhoneNumber(e.target.value);
+                        setFormData({ ...formData, phone: formatted });
+                        if (phoneError) setPhoneError('');
+                        if (contactMethodError) setContactMethodError('');
+                      }}
+                      onKeyDown={handlePhoneKeyDown}
+                      placeholder={t.phonePlaceholder}
+                      maxLength={16}
+                      inputMode="tel"
+                      type="tel"
+                    />
+                    {phoneError && (
+                      <p className="text-xs text-rose-500 mt-1 font-medium">{phoneError}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label
+                      className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1"
+                      htmlFor="email"
+                    >
+                      {t.emailLabel || (isEs ? 'Correo' : 'Email')}
+                    </label>
+                    <input
+                      className={`w-full rounded-xl border ${
+                        emailError || contactMethodError
+                          ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500'
+                          : 'border-slate-300 dark:border-slate-700 focus:border-pink-500 focus:ring-pink-500'
+                      } bg-white dark:bg-[#0F172A] text-sm focus:ring-1 text-slate-900 dark:text-white p-3`}
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={e => {
+                        setFormData({ ...formData, email: e.target.value });
+                        if (emailError) setEmailError('');
+                        if (contactMethodError) setContactMethodError('');
+                      }}
+                      placeholder={t.emailPlaceholder || (isEs ? 'ejemplo@correo.com' : 'example@email.com')}
+                      type="email"
+                    />
+                    {emailError && (
+                      <p className="text-xs text-rose-500 mt-1 font-medium">{emailError}</p>
+                    )}
+                  </div>
                 </div>
 
-                <div>
-                  <label
-                    className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1"
-                    htmlFor="email"
-                  >
-                    {t.emailLabel || (isEs ? 'Correo *' : 'Email *')}
-                  </label>
-                  <input
-                    className={`w-full rounded-xl border ${
-                      emailError
-                        ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500'
-                        : 'border-slate-300 dark:border-slate-700 focus:border-pink-500 focus:ring-pink-500'
-                    } bg-white dark:bg-[#0F172A] text-sm focus:ring-1 text-slate-900 dark:text-white p-3`}
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={e => {
-                      setFormData({ ...formData, email: e.target.value });
-                      if (emailError) setEmailError('');
-                    }}
-                    placeholder={t.emailPlaceholder || (isEs ? 'ejemplo@correo.com' : 'example@email.com')}
-                    required
-                    type="email"
-                  />
-                  {emailError && (
-                    <p className="text-xs text-rose-500 mt-1 font-medium">{emailError}</p>
-                  )}
-                </div>
+                {contactMethodError && (
+                  <p className="text-xs text-rose-500 font-semibold">{contactMethodError}</p>
+                )}
               </div>
 
               {/* Row 3: Servicio Requerido */}
@@ -510,17 +531,28 @@ export const ContactForm: React.FC = () => {
                   className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1"
                   htmlFor="message"
                 >
-                  {t.detailsLabel}
+                  {t.detailsLabel} <span className="text-rose-500">*</span>
                 </label>
                 <textarea
-                  className="w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0F172A] text-sm focus:border-pink-500 focus:ring-1 focus:ring-pink-500 text-slate-900 dark:text-white p-3"
+                  className={`w-full rounded-xl border ${
+                    messageError
+                      ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500'
+                      : 'border-slate-300 dark:border-slate-700 focus:border-pink-500 focus:ring-pink-500'
+                  } bg-white dark:bg-[#0F172A] text-sm focus:ring-1 text-slate-900 dark:text-white p-3`}
                   id="message"
                   name="message"
                   rows={4}
                   value={formData.message}
-                  onChange={e => setFormData({ ...formData, message: e.target.value })}
+                  onChange={e => {
+                    setFormData({ ...formData, message: e.target.value });
+                    if (messageError) setMessageError('');
+                  }}
                   placeholder={t.detailsPlaceholder}
+                  required
                 ></textarea>
+                {messageError && (
+                  <p className="text-xs text-rose-500 mt-1 font-medium">{messageError}</p>
+                )}
               </div>
 
               {/* Submit button with Matrix cascade trigger */}
@@ -571,31 +603,20 @@ export const ContactForm: React.FC = () => {
             </div>
 
             <div className="text-center space-y-2">
-              <span className="text-[11px] font-mono font-bold px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-500 dark:text-emerald-400">
-                PROCESAMIENTO MATRIX COMPLETADO
-              </span>
               <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
-                {isEs ? '¡Solicitud Recibida con Éxito!' : 'Request Successfully Received!'}
+                {isEs ? 'Mensaje enviado' : 'Message sent'}
               </h3>
               <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                 {isEs
-                  ? 'Hemos recibido tu requerimiento. Nuestro equipo técnico en Ecuador 1438, Antofagasta se pondrá en contacto a la brevedad.'
-                  : 'We have received your inquiry. Our technical team at Ecuador 1438, Antofagasta will contact you shortly.'}
+                  ? 'Hemos recibido tu requerimiento. Nuestro equipo técnico se pondrá en contacto a la brevedad.'
+                  : 'We have received your requirement. Our technical team will be in touch shortly.'}
               </p>
             </div>
 
             <div className="mt-5 p-3.5 rounded-xl bg-slate-100 dark:bg-[#0B132B] border border-slate-200 dark:border-slate-800 text-xs font-mono space-y-1 text-slate-700 dark:text-slate-300">
               <div className="flex justify-between">
-                <span className="text-slate-500">Ticket de Telemetría:</span>
+                <span className="text-slate-500">{isEs ? 'Ticket de Seguimiento:' : 'Tracking Ticket:'}</span>
                 <span className="text-emerald-500 font-bold">{ticketId}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Sede Presencial:</span>
-                <span>Ecuador 1438, Antofagasta</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Respuesta Estimada:</span>
-                <span className="text-amber-500">&lt; 30 minutos</span>
               </div>
             </div>
 
