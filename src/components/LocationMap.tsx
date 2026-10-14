@@ -59,7 +59,7 @@ export const LocationMap: React.FC = () => {
 
   return (
     <section
-      className="py-20 bg-white dark:bg-[#0B0F17] transition-colors duration-300 relative"
+      className="py-20 bg-white dark:bg-[#0B0F17] transition-colors duration-300 relative scroll-mt-24"
       id="mapa-ubicacion"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -192,7 +192,10 @@ export const LocationMap: React.FC = () => {
           </div>
 
           {/* Columna Derecha: Vista Real de Google Maps con Zoom Equilibrado */}
-          <div className="lg:col-span-7 bg-white dark:bg-[#0F172A] rounded-3xl border border-slate-200 dark:border-[#1E293B] overflow-hidden relative shadow-lg flex flex-col min-h-[460px] sm:min-h-[500px]">
+          <div
+            id="contenedor-mapa"
+            className="lg:col-span-7 bg-white dark:bg-[#0F172A] rounded-3xl border border-slate-200 dark:border-[#1E293B] overflow-hidden relative shadow-lg flex flex-col min-h-[460px] sm:min-h-[500px] scroll-mt-24"
+          >
             {/* Barra superior de control y visualización de Google Maps */}
             <div className="bg-slate-50/95 dark:bg-[#0F172A]/95 backdrop-blur-md px-4 py-3 border-b border-slate-200 dark:border-[#1E293B] flex flex-wrap items-center justify-between gap-2 z-10">
               <div className="flex items-center gap-2.5">
