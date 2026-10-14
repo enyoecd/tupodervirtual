@@ -1,5 +1,17 @@
 import React, { useState } from 'react';
-import { Phone, MessageSquare, MapPin, Mail, Send, ShieldCheck, CheckCircle2, X, Sparkles } from 'lucide-react';
+import {
+  Phone,
+  MessageSquare,
+  MapPin,
+  Mail,
+  Send,
+  ShieldCheck,
+  CheckCircle2,
+  X,
+  Sparkles,
+  Copy,
+  Check,
+} from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { translations } from '../data/translations';
 
@@ -7,6 +19,9 @@ export const ContactForm: React.FC = () => {
   const { language, triggerSpill } = useApp();
   const t = translations[language].contact;
   const isEs = language === 'ES';
+
+  const [copiedPhone, setCopiedPhone] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -47,6 +62,26 @@ export const ContactForm: React.FC = () => {
     }, 1200);
   };
 
+  const handleCopyPhone = async () => {
+    try {
+      await navigator.clipboard.writeText('+56 9 8767 6879');
+      setCopiedPhone(true);
+      setTimeout(() => setCopiedPhone(false), 2000);
+    } catch {
+      // ignore
+    }
+  };
+
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText('enyoecd@gmail.com');
+      setCopiedEmail(true);
+      setTimeout(() => setCopiedEmail(false), 2000);
+    } catch {
+      // ignore
+    }
+  };
+
   return (
     <section
       className="py-20 bg-slate-50 dark:bg-[#0F172A] border-t border-slate-200 dark:border-[#1E293B] transition-colors duration-300 scroll-mt-24"
@@ -69,16 +104,27 @@ export const ContactForm: React.FC = () => {
               <div className="w-12 h-12 rounded-xl bg-pink-50 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 flex items-center justify-center shrink-0">
                 <Phone className="w-6 h-6" />
               </div>
-              <div>
+              <div className="flex-1 min-w-0">
                 <h4 className="font-bold text-slate-900 dark:text-white text-sm">
                   {t.phoneTitle}
                 </h4>
-                <a
-                  href="tel:+56987676879"
-                  className="text-pink-600 dark:text-pink-400 font-semibold text-sm mt-0.5 hover:underline block"
-                >
-                  +56 9 8767 6879
-                </a>
+                <div className="flex items-center gap-2 mt-0.5">
+                  <a
+                    href="tel:+56987676879"
+                    className="text-pink-600 dark:text-pink-400 font-semibold text-sm hover:underline break-all"
+                  >
+                    +56 9 8767 6879
+                  </a>
+                  <button
+                    type="button"
+                    onClick={handleCopyPhone}
+                    className="inline-flex items-center justify-center rounded-md p-1.5 text-pink-600 dark:text-pink-400 hover:bg-pink-50 dark:hover:bg-pink-950/40 transition-colors"
+                    title={isEs ? 'Copiar teléfono' : 'Copy phone number'}
+                    aria-label={isEs ? 'Copiar teléfono' : 'Copy phone number'}
+                  >
+                    {copiedPhone ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+                  </button>
+                </div>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                   {t.phoneHours}
                 </p>
@@ -136,12 +182,12 @@ export const ContactForm: React.FC = () => {
                   {t.telegramTitle || 'Telegram Directo'}
                 </h4>
                 <a
-                  href="https://t.me/tupodervirtual"
+                  href="https://t.me/enyoecd"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sky-500 dark:text-sky-400 font-semibold text-sm mt-0.5 hover:underline block"
                 >
-                  @tupodervirtual
+                  @enyoecd
                 </a>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                   {t.telegramSub || 'Consultas y soporte vía mensajería'}
@@ -154,19 +200,27 @@ export const ContactForm: React.FC = () => {
               <div className="w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
                 <Mail className="w-6 h-6" />
               </div>
-              <div>
+              <div className="flex-1 min-w-0">
                 <h4 className="font-bold text-slate-900 dark:text-white text-sm">
                   {t.emailTitle || 'Correo Electrónico'}
                 </h4>
-                <a
-                  href="mailto:enyoecd@gmail.com"
-                  className="text-purple-600 dark:text-purple-400 font-semibold text-sm mt-0.5 hover:underline block break-all"
-                >
-                  enyoecd@gmail.com
-                </a>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                  {t.emailSub || 'Contacto formal y envío de requerimientos'}
-                </p>
+                <div className="flex items-center gap-2 mt-0.5">
+                  <a
+                    href="mailto:enyoecd@gmail.com"
+                    className="text-purple-600 dark:text-purple-400 font-semibold text-sm hover:underline break-all"
+                  >
+                    enyoecd@gmail.com
+                  </a>
+                  <button
+                    type="button"
+                    onClick={handleCopyEmail}
+                    className="inline-flex items-center justify-center rounded-md p-1.5 text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-950/40 transition-colors"
+                    title={isEs ? 'Copiar correo' : 'Copy email'}
+                    aria-label={isEs ? 'Copiar correo' : 'Copy email'}
+                  >
+                    {copiedEmail ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
