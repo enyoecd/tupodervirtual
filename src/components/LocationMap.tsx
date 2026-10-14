@@ -116,11 +116,6 @@ export const LocationMap: React.FC = () => {
                     )}
                   </button>
                 </div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                  {isEs
-                    ? 'Sector Centro-Sur (Entre Av. Argentina y Galleguillos Lorca)'
-                    : 'South-Central District (Between Av. Argentina & Galleguillos Lorca)'}
-                </p>
               </div>
 
               <div className="space-y-3.5 text-sm text-slate-700 dark:text-slate-300">
@@ -147,8 +142,8 @@ export const LocationMap: React.FC = () => {
                     </p>
                     <p className="text-xs text-slate-600 dark:text-slate-400">
                       {isEs
-                        ? 'Fácil estacionamiento en calle Ecuador y rápida conectividad por Av. Argentina y Costanera.'
-                        : 'Convenient street parking on Ecuador street and rapid transit connection via Av. Argentina.'}
+                        ? 'Locomoción buses 107 y 108 y colectivos 77 y 70.'
+                        : 'Public transit buses 107 and 108, and colectivos 77 and 70.'}
                     </p>
                   </div>
                 </div>
