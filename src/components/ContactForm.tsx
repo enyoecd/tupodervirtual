@@ -18,6 +18,7 @@ import { translations } from '../data/translations';
 import gmailIcon from '../assets/gmail.png';
 import googleMapsIcon from '../assets/mapas-de-google.png';
 import telegramLogo from '../assets/telegram.svg';
+import { contactService } from '../services/contactService';
 
 export const ContactForm: React.FC = () => {
   const { language, triggerSpill } = useApp();
@@ -49,10 +50,9 @@ export const ContactForm: React.FC = () => {
     message: '',
   });
 
-  // Modo temporal del formulario: 'construccion' | 'activo'
-  // Mientras no esté enlazado el backend en Cloudflare, se muestra el aviso de construcción.
-  // Para activar el mensaje definitivo 'Mensaje enviado', cambiar a 'activo'.
-  const FORM_STATUS_MODE: 'construccion' | 'activo' = 'construccion';
+  // Modo del formulario: 'activo' (envío funcional a Cloudflare / correo / Telegram)
+  // Cambiar el valor inicial a 'construccion' si alguna vez se requiere volver a modo aviso temporal.
+  const [formMode] = useState<'construccion' | 'activo'>('activo');
 
   // Format phone: only numbers allowed, max 15 digits. If '+' is typed anywhere, move it to position 0
   const formatPhoneNumber = (value: string): string => {
@@ -137,39 +137,19 @@ export const ContactForm: React.FC = () => {
     return isValid;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // ========================================================
-    // 1. MODO TEMPORAL: WEB EN CONSTRUCCIÓN
-    // El modal emergente aparece DIRECTAMENTE al tocar el botón
-    // ofreciendo WhatsApp, Telegram, Correo y Teléfono.
-    // ========================================================
-    if (FORM_STATUS_MODE === 'construccion') {
-      setSubmittedData({
-        name: formData.name,
-        phone: formData.phone,
-        email: formData.email,
-        message: formData.message,
-      });
-      setShowSuccessModal(true);
-      return;
-    }
-
-    // ========================================================
-    // 2. MODO DEFINITIVO (GUARDADO PARA CUANDO SE CONECTE EL BACKEND)
-    // Valida y muestra el mensaje de confirmación con ticket.
-    // ========================================================
     if (!validateForm()) return;
 
     setIsSubmitting(true);
 
-    // Trigger dense rapid cascade along entire right side
+    // Activar cascada Matrix al presionar enviar
     const btn = document.getElementById('submit-quote-btn');
     const startY = btn ? btn.getBoundingClientRect().top : window.innerHeight / 2;
     triggerSpill(startY, true);
 
-    // Generate random encrypted ticket code
+    // Generar código de ticket cifrado
     const generatedTicket = `TPV-${Math.floor(100000 + Math.random() * 900000)}`;
     setTicketId(generatedTicket);
     setSubmittedData({
@@ -179,8 +159,20 @@ export const ContactForm: React.FC = () => {
       message: formData.message,
     });
 
-    // Simulate processing data before displaying confirmation
-    setTimeout(() => {
+    try {
+      // Envío de la información a Cloudflare Pages Functions (/api/contact)
+      // Envía a enyoecd@gmail.com, envía copia al cliente y alerta a Telegram
+      await contactService.submitInquiry({
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        service: formData.service,
+        message: formData.message,
+        ticketId: generatedTicket,
+      });
+    } catch (err) {
+      console.warn('Aviso al procesar envío:', err);
+    } finally {
       setIsSubmitting(false);
       setShowSuccessModal(true);
       setFormData({
@@ -192,7 +184,7 @@ export const ContactForm: React.FC = () => {
       });
       setPhoneError('');
       setEmailError('');
-    }, 1200);
+    }
   };
 
   const handleCopyPhone = async () => {
@@ -399,7 +391,7 @@ export const ContactForm: React.FC = () => {
 
             <form
               onSubmit={handleSubmit}
-              noValidate={FORM_STATUS_MODE === 'construccion'}
+              noValidate={formMode === 'construccion'}
               className="space-y-4"
               data-purpose="quote-form"
             >
@@ -600,7 +592,7 @@ export const ContactForm: React.FC = () => {
               </div>
 
               {/* Banner informativo temporal cuando el formulario está en construcción */}
-              {FORM_STATUS_MODE === 'construccion' && (
+              {formMode === 'construccion' && (
                 <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-800 dark:text-amber-300 text-xs">
                   <Construction className="w-4 h-4 shrink-0 text-amber-500" />
                   <span className="leading-snug">
@@ -616,9 +608,9 @@ export const ContactForm: React.FC = () => {
                 id="submit-quote-btn"
                 data-is-submit="true"
                 disabled={isSubmitting}
-                type={FORM_STATUS_MODE === 'construccion' ? 'button' : 'submit'}
+                type={formMode === 'construccion' ? 'button' : 'submit'}
                 onClick={e => {
-                  if (FORM_STATUS_MODE === 'construccion') {
+                  if (formMode === 'construccion') {
                     handleSubmit(e);
                   }
                 }}
@@ -633,7 +625,7 @@ export const ContactForm: React.FC = () => {
                   <>
                     <Send className="w-4 h-4" />
                     <span>{t.submitBtn}</span>
-                    {FORM_STATUS_MODE === 'construccion' && (
+                    {formMode === 'construccion' && (
                       <span className="text-[10px] font-mono uppercase bg-black/20 px-1.5 py-0.5 rounded text-amber-200">
                         {isEs ? 'Temporal' : 'Temp'}
                       </span>
@@ -654,7 +646,13 @@ export const ContactForm: React.FC = () => {
       {/* Confirmation Modal / Temporary Construction Modal */}
       {showSuccessModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fade-in">
-          <div className="bg-white dark:bg-[#0F172A] border-2 border-amber-500/80 dark:border-amber-500/60 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative max-h-[92vh] overflow-y-auto">
+          <div
+            className={`bg-white dark:bg-[#0F172A] border-2 ${
+              formMode === 'construccion'
+                ? 'border-amber-500/80 dark:border-amber-500/60 max-w-lg'
+                : 'border-emerald-500/80 dark:border-emerald-500/60 max-w-md'
+            } rounded-3xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[92vh] overflow-y-auto`}
+          >
             <button
               onClick={() => setShowSuccessModal(false)}
               className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-white p-1"
@@ -662,7 +660,7 @@ export const ContactForm: React.FC = () => {
               <X className="w-5 h-5" />
             </button>
 
-            {FORM_STATUS_MODE === 'construccion' ? (
+            {formMode === 'construccion' ? (
               /* ========================================================
                * 1. AVISO TEMPORAL: WEB EN CONSTRUCCIÓN / ENVÍO DESHABILITADO
                * Muestra directamente los botones de WhatsApp, Telegram, Correo y Teléfono
@@ -800,12 +798,14 @@ export const ContactForm: React.FC = () => {
 
                 <div className="mt-6 flex flex-col sm:flex-row gap-3">
                   <a
-                    href="https://wa.me/56987676879"
+                    href={`https://wa.me/56987676879?text=${encodeURIComponent(
+                      `Hola, acabo de enviar una solicitud desde la web (Ticket: ${ticketId}).`
+                    )}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs text-center transition-colors shadow"
+                    className="flex-1 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs text-center transition-colors shadow flex items-center justify-center gap-1.5"
                   >
-                    {isEs ? 'Abrir en WhatsApp' : 'Open in WhatsApp'}
+                    <span>{isEs ? 'Abrir en WhatsApp' : 'Open in WhatsApp'}</span>
                   </a>
                   <button
                     onClick={() => setShowSuccessModal(false)}

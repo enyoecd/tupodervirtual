@@ -1,0 +1,12 @@
+name = "tupodervirtual-web"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "dist"
+
+[vars]
+ADMIN_EMAIL = "enyoecd@gmail.com"
+FROM_EMAIL = "Tu Poder Virtual <onboarding@resend.dev>"
+# Coloca tus claves aquí o en el panel de Cloudflare Pages:
+# RESEND_API_KEY = "re_..."
+# TELEGRAM_BOT_TOKEN = "..."
+# TELEGRAM_CHAT_ID = "..."
