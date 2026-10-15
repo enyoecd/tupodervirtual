@@ -32,7 +32,7 @@ export const ContactForm: React.FC = () => {
     name: '',
     phone: '',
     email: '',
-    service: 'reparacion-software',
+    service: 'soporte-tecnico',
     message: '',
   });
 
@@ -179,7 +179,7 @@ export const ContactForm: React.FC = () => {
         name: '',
         phone: '',
         email: '',
-        service: 'reparacion-software',
+        service: 'soporte-tecnico',
         message: '',
       });
       setPhoneError('');
@@ -500,65 +500,32 @@ export const ContactForm: React.FC = () => {
                   value={formData.service}
                   onChange={e => setFormData({ ...formData, service: e.target.value })}
                 >
-                  <optgroup label={isEs ? 'Soporte Técnico & Sistemas' : 'Technical Support & Systems'}>
-                    <option value="reparacion-software">
-                      {isEs
-                        ? 'Reparación y mantenimiento de software para PC/Notebooks (con respaldo seguro)'
-                        : 'Software Repair & Maintenance for PC/Laptops (Secure Backup)'}
-                    </option>
-                    <option value="soporte-remoto">
-                      {isEs ? 'Asistencia y soporte técnico remoto (Problemas de equipos)' : 'Remote Tech Support (Computer Issues)'}
-                    </option>
-                    <option value="tickets-empresas">
-                      {isEs
-                        ? 'Tickets presenciales empresas en Antofagasta (Informática, Sistemas, Roll out)'
-                        : 'On-site Corporate Tickets in Antofagasta (IT, Systems, Roll out)'}
-                    </option>
-                    <option value="redes-totems">
-                      {isEs
-                        ? 'Cableado de redes, conectividad y soporte de tótems'
-                        : 'Network Cabling, Connectivity & Self-Service Kiosks'}
-                    </option>
-                    <option value="cctv-alarmas">
-                      {isEs
-                        ? 'Cámaras de seguridad, CCTV y sistemas de alarma'
-                        : 'Security Cameras, CCTV & Alarm Systems'}
-                    </option>
-                    <option value="formateo-windows">
-                      {isEs ? 'Formateo e instalación limpia de Windows y Linux' : 'Windows & Linux Clean Installation'}
-                    </option>
-                    <option value="instalacion-software">
-                      {isEs ? 'Instalación y configuración de software' : 'Software Installation & Config'}
-                    </option>
-                    <option value="antivirus">
-                      {isEs ? 'Eliminación de virus y malware' : 'Virus & Malware Removal'}
-                    </option>
-                    <option value="optimizacion">
-                      {isEs ? 'Optimización de computadores y aceleración' : 'System Speed Optimization'}
-                    </option>
-                    <option value="recuperacion-datos">
-                      {isEs ? 'Recuperación de datos' : 'Data Recovery'}
-                    </option>
-                    <option value="presencial-antofagasta">
-                      {isEs
-                        ? 'Atención presencial en laboratorio (Ecuador 1438, Antofagasta)'
-                        : 'On-site Lab (Ecuador 1438, Antofagasta)'}
-                    </option>
-                  </optgroup>
-                  <optgroup label={isEs ? 'Desarrollo y Soluciones Web' : 'Web Development & Solutions'}>
-                    <option value="pagina-web">
-                      {isEs ? 'Creación de páginas web para empresas' : 'Corporate Website Creation'}
-                    </option>
-                    <option value="sitio-profesional">
-                      {isEs ? 'Diseño de sitios web profesionales' : 'Professional Web Design'}
-                    </option>
-                    <option value="menu-digital">
-                      {isEs ? 'Creación de menús digitales QR para restaurantes' : 'QR Digital Menu for Restaurants'}
-                    </option>
-                    <option value="solucion-web-pyme">
-                      {isEs ? 'Solución web personalizada para PyMEs' : 'Custom Web Solution for SMEs'}
-                    </option>
-                  </optgroup>
+                  <option value="soporte-tecnico">
+                    {isEs ? 'Soporte técnico (PC, notebooks)' : 'Technical Support (PC, notebooks)'}
+                  </option>
+                  <option value="soporte-remoto">
+                    {isEs ? 'Soporte remoto' : 'Remote Support'}
+                  </option>
+                  <option value="tickets-empresas">
+                    {isEs
+                      ? 'Tickets atenciones para empresa en Antofagasta'
+                      : 'Corporate Tickets in Antofagasta'}
+                  </option>
+                  <option value="redes-cableado">
+                    {isEs ? 'Redes, cableado' : 'Networks, Cabling'}
+                  </option>
+                  <option value="camaras-cctv">
+                    {isEs ? 'Cámaras de seguridad (CCTV)' : 'Security Cameras (CCTV)'}
+                  </option>
+                  <option value="sistema-alarma">
+                    {isEs ? 'Sistema de alarma' : 'Alarm System'}
+                  </option>
+                  <option value="creacion-web">
+                    {isEs ? 'Creación página web para empresas' : 'Corporate Website Creation'}
+                  </option>
+                  <option value="menu-qr">
+                    {isEs ? 'Menú QRs para restaurantes' : 'QR Menu for Restaurants'}
+                  </option>
                 </select>
               </div>
 

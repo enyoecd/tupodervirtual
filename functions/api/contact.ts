@@ -48,18 +48,20 @@ export const onRequestOptions = async () => {
 };
 
 const SERVICE_LABELS: Record<string, string> = {
-  'reparacion-software': 'Reparación de Software y Eliminación de Virus',
-  'formateo-instalacion': 'Formateo e Instalación de Windows / Linux',
-  'mantenimiento-preventivo': 'Mantenimiento Preventivo y Optimización',
-  'soporte-remoto': 'Soporte Computacional Remoto Inmediato',
-  'asesoria-armado': 'Asesoría y Armado de Computadores a Medida',
-  'diagnostico-hardware': 'Diagnóstico y Reparación de Hardware',
-  'recuperacion-datos': 'Recuperación de Información y Respaldo de Datos',
-  'redes-wifi': 'Instalación y Configuración de Redes y Wi-Fi',
-  'pagina-web': 'Creación de páginas web para empresas',
-  'sitio-profesional': 'Diseño de sitios web profesionales',
-  'menu-digital': 'Creación de menús digitales QR para restaurantes',
-  'solucion-web-pyme': 'Solución web personalizada para PyMEs',
+  'soporte-tecnico': 'Soporte técnico (PC, notebooks)',
+  'soporte-remoto': 'Soporte remoto',
+  'tickets-empresas': 'Tickets atenciones para empresa en Antofagasta',
+  'redes-cableado': 'Redes, cableado',
+  'camaras-cctv': 'Cámaras de seguridad (CCTV)',
+  'sistema-alarma': 'Sistema de alarma',
+  'creacion-web': 'Creación página web para empresas',
+  'menu-qr': 'Menú QRs para restaurantes',
+  // Compatibilidad anterior
+  'reparacion-software': 'Soporte técnico (PC, notebooks)',
+  'redes-totems': 'Redes, cableado',
+  'cctv-alarmas': 'Cámaras de seguridad (CCTV)',
+  'pagina-web': 'Creación página web para empresas',
+  'menu-digital': 'Menú QRs para restaurantes',
 };
 
 export const onRequestPost = async (context: { request: Request; env: Env }) => {
