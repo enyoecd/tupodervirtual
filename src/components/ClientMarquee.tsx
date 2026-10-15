@@ -18,6 +18,8 @@ import anydeskLogo from '../assets/anydesk.svg';
 import windowsLogo from '../assets/windows.svg';
 import linuxLogo from '../assets/linux.svg';
 import androidLogo from '../assets/android.svg';
+import santanderLogo from '../assets/santander.svg';
+import starbucksLogo from '../assets/starbucks.svg';
 
 interface MarqueeItem {
   name: React.ReactNode;
@@ -76,16 +78,15 @@ export const ClientMarquee: React.FC = () => {
         />
       ),
     },
-    // 5. Starbucks
+    // 5. Starbucks (Medallón oficial original y nombre)
     {
-      name: <span className="font-bold text-[#006241]">Starbucks</span>,
+      name: <span className="font-black text-base text-[#006241] tracking-tight">Starbucks</span>,
       icon: (
-        <svg className="w-6 h-6 shrink-0" viewBox="0 0 32 32">
-          <circle cx="16" cy="16" r="15" fill="#006241" />
-          <path d="M16 7l1.5 3.5 3.5.5-2.5 2.5.5 3.5-3-1.5-3 1.5.5-3.5-2.5-2.5 3.5-.5z" fill="#fff" />
-          <circle cx="16" cy="17" r="4.5" fill="#fff" />
-          <circle cx="16" cy="17" r="3" fill="#006241" />
-        </svg>
+        <img
+          src={starbucksLogo}
+          alt="Starbucks"
+          className="w-7 h-7 sm:w-7.5 sm:h-7.5 object-contain shrink-0 rounded-full shadow-xs"
+        />
       ),
     },
     // 6. LATAM Airlines (Logo oficial original)
@@ -188,9 +189,9 @@ export const ClientMarquee: React.FC = () => {
     },
     // 16. Cisco
     {
-      name: <span className="font-bold text-[#049fd9]">Cisco</span>,
+      name: <span className="font-black text-base text-[#049fd9] tracking-tight">Cisco</span>,
       icon: (
-        <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="#049fd9">
+        <svg className="w-6.5 h-6.5 sm:w-7 sm:h-7 shrink-0" viewBox="0 0 24 24" fill="#049fd9">
           <path d="M2 13h1.5v4H2zm2.5-3h1.5v7H4.5zm2.5-3h1.5v10H7zm2.5 3h1.5v7H9.5zm2.5 3h1.5v4H12zm2.5-3h1.5v7h-1.5zm2.5-3h1.5v10H17zm2.5 3h1.5v7h-1.5zm2.5 3h1.5v4H22z" />
         </svg>
       ),
@@ -219,14 +220,14 @@ export const ClientMarquee: React.FC = () => {
         />
       ),
     },
-    // 3. Santander (logo oficial y letras rojas)
+    // 3. Banco Santander (Logo oficial original de llama roja y letras rojas)
     {
-      name: <span className="font-bold text-[#EC0000]">Santander</span>,
-      icon: (
-        <svg className="w-6 h-6 shrink-0" viewBox="0 0 32 32">
-          <circle cx="16" cy="16" r="14" fill="#EC0000" />
-          <path d="M16 7c-2 4-5 6-4 9 1 3 4 4 4 7 0-3 3-4 4-7 1-3-2-5-4-9z" fill="#fff" />
-        </svg>
+      name: (
+        <img
+          src={santanderLogo}
+          alt="Santander"
+          className="h-4.5 sm:h-5 w-auto object-contain block"
+        />
       ),
     },
     // 4. Burger King (Logo oficial original)
@@ -252,9 +253,9 @@ export const ClientMarquee: React.FC = () => {
     },
     // 6. Sodimac
     {
-      name: <span className="font-bold text-[#004691]">Sodimac</span>,
+      name: <span className="font-black text-base text-[#004691] tracking-tight">Sodimac</span>,
       icon: (
-        <svg className="w-6 h-6 shrink-0" viewBox="0 0 32 32">
+        <svg className="w-7 h-7 sm:w-7.5 sm:h-7.5 shrink-0" viewBox="0 0 32 32">
           <path d="M16 5l12 9H4z" fill="#004691" />
           <path d="M16 5l-8 6h6z" fill="#FFD100" />
           <rect x="6" y="14" width="10" height="13" fill="#D62300" />
@@ -355,13 +356,13 @@ export const ClientMarquee: React.FC = () => {
         />
       ),
     },
-    // 16. Android (Logo oficial original)
+    // 16. Android (Logo oficial original con robot de mayor altura que el texto)
     {
       name: (
         <img
           src={androidLogo}
           alt="Android"
-          className="h-3.5 sm:h-4 w-auto object-contain block"
+          className="h-5 sm:h-5.5 w-auto object-contain block"
         />
       ),
     },
