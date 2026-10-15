@@ -15,6 +15,9 @@ import abcLogo from '../assets/abc.svg';
 import latamLogo from '../assets/latam.svg';
 import bupaLogo from '../assets/bupa.svg';
 import anydeskLogo from '../assets/anydesk.svg';
+import windowsLogo from '../assets/windows.svg';
+import linuxLogo from '../assets/linux.svg';
+import androidLogo from '../assets/android.svg';
 
 interface MarqueeItem {
   name: React.ReactNode;
@@ -163,19 +166,27 @@ export const ClientMarquee: React.FC = () => {
         />
       ),
     },
-    // 14. Microsoft
+    // 14. Windows (Logo oficial original)
     {
-      name: <span className="font-bold text-slate-800">Microsoft</span>,
-      icon: (
-        <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
-          <rect fill="#F25022" height="11" width="11" x="0" y="0"></rect>
-          <rect fill="#7FBA00" height="11" width="11" x="13" y="0"></rect>
-          <rect fill="#00A4EF" height="11" width="11" x="0" y="13"></rect>
-          <rect fill="#FFB900" height="11" width="11" x="13" y="13"></rect>
-        </svg>
+      name: (
+        <img
+          src={windowsLogo}
+          alt="Windows"
+          className="h-5 sm:h-5.5 w-auto object-contain block"
+        />
       ),
     },
-    // 15. Cisco
+    // 15. Linux (Logo oficial original)
+    {
+      name: (
+        <img
+          src={linuxLogo}
+          alt="Linux"
+          className="h-5.5 sm:h-6 w-auto object-contain block"
+        />
+      ),
+    },
+    // 16. Cisco
     {
       name: <span className="font-bold text-[#049fd9]">Cisco</span>,
       icon: (
@@ -344,7 +355,17 @@ export const ClientMarquee: React.FC = () => {
         />
       ),
     },
-    // 16. Intel
+    // 16. Android (Logo oficial original)
+    {
+      name: (
+        <img
+          src={androidLogo}
+          alt="Android"
+          className="h-3.5 sm:h-4 w-auto object-contain block"
+        />
+      ),
+    },
+    // 17. Intel
     {
       name: <span className="font-bold text-[#0068B5]">Intel</span>,
       icon: (

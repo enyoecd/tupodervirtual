@@ -32,7 +32,7 @@ export const ContactForm: React.FC = () => {
     name: '',
     phone: '',
     email: '',
-    service: 'soporte-tecnico',
+    service: 'soporte-remoto',
     message: '',
   });
 
@@ -179,7 +179,7 @@ export const ContactForm: React.FC = () => {
         name: '',
         phone: '',
         email: '',
-        service: 'soporte-tecnico',
+        service: 'soporte-remoto',
         message: '',
       });
       setPhoneError('');
@@ -500,11 +500,21 @@ export const ContactForm: React.FC = () => {
                   value={formData.service}
                   onChange={e => setFormData({ ...formData, service: e.target.value })}
                 >
-                  <option value="soporte-tecnico">
-                    {isEs ? 'Soporte técnico (PC, notebooks)' : 'Technical Support (PC, notebooks)'}
-                  </option>
                   <option value="soporte-remoto">
                     {isEs ? 'Soporte remoto' : 'Remote Support'}
+                  </option>
+                  <option value="soporte-tecnico-presencial">
+                    {isEs
+                      ? 'Soporte técnico presencial (PC, notebooks)'
+                      : 'In-Person Technical Support (PC, notebooks)'}
+                  </option>
+                  <option value="creacion-web">
+                    {isEs
+                      ? 'Creación páginas web para empresas'
+                      : 'Corporate Website Creation'}
+                  </option>
+                  <option value="menu-qr">
+                    {isEs ? 'Menú QR para restaurantes' : 'QR Menu for Restaurants'}
                   </option>
                   <option value="tickets-empresas">
                     {isEs
@@ -520,11 +530,10 @@ export const ContactForm: React.FC = () => {
                   <option value="sistema-alarma">
                     {isEs ? 'Sistema de alarma' : 'Alarm System'}
                   </option>
-                  <option value="creacion-web">
-                    {isEs ? 'Creación página web para empresas' : 'Corporate Website Creation'}
-                  </option>
-                  <option value="menu-qr">
-                    {isEs ? 'Menú QRs para restaurantes' : 'QR Menu for Restaurants'}
+                  <option value="citofono-web">
+                    {isEs
+                      ? 'Sistema citófono web para residencias'
+                      : 'Residential Web Intercom System'}
                   </option>
                 </select>
               </div>
