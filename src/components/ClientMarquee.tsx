@@ -1,9 +1,24 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
+import falabellaLogo from '../assets/falabella.svg';
+import tricotLogo from '../assets/tricot.svg';
+import bancoEstadoLogo from '../assets/banco-estado.svg';
+import bancoDeChileLogo from '../assets/banco-de-chile.svg';
+import burgerKingLogo from '../assets/burger-king.svg';
+import carabinerosLogo from '../assets/carabineros.svg';
+import salcobrandLogo from '../assets/salcobrand.svg';
+import bancoFalabellaLogo from '../assets/banco-falabella.svg';
+import suraLogo from '../assets/sura.svg';
+import totalPackLogo from '../assets/totalpack.svg';
+import sekronLogo from '../assets/sekron.svg';
+import abcLogo from '../assets/abc.svg';
+import latamLogo from '../assets/latam.svg';
+import bupaLogo from '../assets/bupa.svg';
+import anydeskLogo from '../assets/anydesk.svg';
 
 interface MarqueeItem {
   name: React.ReactNode;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
 }
 
 export const ClientMarquee: React.FC = () => {
@@ -17,21 +32,22 @@ export const ClientMarquee: React.FC = () => {
 
   // Row 1 Items (15 clients & tech partners)
   const row1: MarqueeItem[] = [
-    // 1. Falabella
+    // 1. Falabella (Logo oficial original con zoom aumentado)
     {
-      name: <span className="font-bold text-[#5B8C00]">Falabella</span>,
-      icon: (
-        <span className="w-6 h-6 rounded-md bg-[#A1C900] text-white flex items-center justify-center font-serif italic font-bold text-base shadow-xs">
-          f
-        </span>
+      name: (
+        <img
+          src={falabellaLogo}
+          alt="Falabella"
+          className="h-7 sm:h-7.5 w-auto object-contain block"
+        />
       ),
     },
     // 2. Walmart
     {
-      name: <span className="font-bold text-[#0071CE]">Walmart</span>,
+      name: <span className="font-black text-base text-[#0071CE] tracking-tight">Walmart</span>,
       icon: (
-        <svg className="w-6 h-6 shrink-0" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2v5M12 17v5M3.34 7l4.33 2.5M16.33 14.5l4.33 2.5M3.34 17l4.33-2.5M16.33 9.5l4.33-2.5" stroke="#FFC220" strokeWidth="3" strokeLinecap="round" />
+        <svg className="w-6.5 h-6.5 shrink-0" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2v5M12 17v5M3.34 7l4.33 2.5M16.33 14.5l4.33 2.5M3.34 17l4.33-2.5M16.33 9.5l4.33-2.5" stroke="#FFC220" strokeWidth="3.2" strokeLinecap="round" />
         </svg>
       ),
     },
@@ -47,17 +63,14 @@ export const ClientMarquee: React.FC = () => {
         </svg>
       ),
     },
-    // 4. BancoEstado (Emblema escalonado oficial "patito" naranja y negro)
+    // 4. BancoEstado (Logo oficial original)
     {
-      name: <span className="font-black text-slate-900">BancoEstado</span>,
-      icon: (
-        <svg className="w-6 h-6 shrink-0" viewBox="0 0 32 32">
-          <rect width="32" height="32" rx="4" fill="#1A1A1A" />
-          <path d="M1 16l11-5v-3.5a14 14 0 008.5-4.8l11 8.8V1H1z" fill="#F39200" />
-          <polygon points="12,17.5 12,14.3 1,18.9 1,22.2" fill="#F39200" />
-          <polygon points="12,20.8 1,25.4 12,25.4" fill="#F39200" />
-          <polygon points="20,25.4 31,25.4 31,11.5 20,2.9" fill="#F39200" />
-        </svg>
+      name: (
+        <img
+          src={bancoEstadoLogo}
+          alt="BancoEstado"
+          className="h-5 sm:h-5.5 w-auto object-contain block"
+        />
       ),
     },
     // 5. Starbucks
@@ -72,14 +85,14 @@ export const ClientMarquee: React.FC = () => {
         </svg>
       ),
     },
-    // 6. Latam (solo Latam)
+    // 6. LATAM Airlines (Logo oficial original)
     {
-      name: <span className="font-bold text-[#001952]">Latam</span>,
-      icon: (
-        <svg className="w-6 h-6 shrink-0" viewBox="0 0 32 32">
-          <rect width="30" height="30" x="1" y="1" rx="6" fill="#001952" />
-          <path d="M7 11h18l-5 4H7zM7 17h14l-4 4H7z" fill="#E60046" />
-        </svg>
+      name: (
+        <img
+          src={latamLogo}
+          alt="LATAM Airlines"
+          className="h-4.5 sm:h-5 w-auto object-contain block"
+        />
       ),
     },
     // 7. Easy
@@ -110,13 +123,14 @@ export const ClientMarquee: React.FC = () => {
         </svg>
       ),
     },
-    // 10. Bupa
+    // 10. Bupa (Logo oficial original)
     {
-      name: <span className="font-bold text-[#0079C8]">Bupa</span>,
-      icon: (
-        <span className="w-6 h-6 rounded-md bg-[#0079C8] text-white flex items-center justify-center font-bold text-[10px] italic shadow-xs">
-          Bupa
-        </span>
+      name: (
+        <img
+          src={bupaLogo}
+          alt="Bupa"
+          className="h-5 sm:h-5.5 w-auto object-contain block"
+        />
       ),
     },
     // 11. Hites
@@ -128,24 +142,25 @@ export const ClientMarquee: React.FC = () => {
         </span>
       ),
     },
-    // 12. SEKRON (con K y letras rojas oficiales)
+    // 12. SEKRON Digital (Logo oficial original)
     {
-      name: <span className="font-black text-[#E30613] tracking-wider">SEKRON</span>,
-      icon: (
-        <svg className="w-6 h-6 shrink-0" viewBox="0 0 32 32">
-          <circle cx="16" cy="16" r="13" stroke="#E30613" strokeWidth="2.5" fill="none" />
-          <circle cx="16" cy="16" r="5" fill="#E30613" />
-        </svg>
+      name: (
+        <img
+          src={sekronLogo}
+          alt="SEKRON Digital"
+          className="h-5 sm:h-5.5 w-auto object-contain block"
+        />
       ),
     },
     // 13. Carabineros
     {
       name: <span className="font-bold text-[#006633]">Carabineros</span>,
       icon: (
-        <svg className="w-6 h-6 shrink-0" viewBox="0 0 24 24">
-          <path d="M12 2L4 5v7c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" fill="#006633" />
-          <path d="M7 8l10 8M17 8L7 16" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
-        </svg>
+        <img
+          src={carabinerosLogo}
+          alt="Carabineros de Chile"
+          className="w-6 h-6 sm:w-6.5 sm:h-6.5 object-contain shrink-0"
+        />
       ),
     },
     // 14. Microsoft
@@ -173,23 +188,24 @@ export const ClientMarquee: React.FC = () => {
 
   // Row 2 Items (16 clients & tech partners)
   const row2: MarqueeItem[] = [
-    // 1. Banco Falabella
+    // 1. Banco Falabella (Logo oficial original)
     {
-      name: <span className="font-bold text-[#007A33]">Banco Falabella</span>,
-      icon: (
-        <svg className="w-6 h-6 shrink-0" viewBox="0 0 32 32">
-          <ellipse cx="12" cy="18" rx="10" ry="7" fill="#007A33" transform="rotate(-25 12 18)" />
-          <ellipse cx="18" cy="12" rx="9" ry="6" fill="#A4D233" transform="rotate(-25 18 12)" />
-        </svg>
+      name: (
+        <img
+          src={bancoFalabellaLogo}
+          alt="Banco Falabella"
+          className="h-5.5 sm:h-6 w-auto object-contain block"
+        />
       ),
     },
-    // 2. Banco de Chile
+    // 2. Banco de Chile (Logo oficial original)
     {
-      name: <span className="font-bold text-[#001E62]">Banco de Chile</span>,
-      icon: (
-        <span className="w-6 h-6 rounded-md bg-[#001E62] text-white flex items-center justify-center font-serif font-black text-xs shadow-xs">
-          BC
-        </span>
+      name: (
+        <img
+          src={bancoDeChileLogo}
+          alt="Banco de Chile"
+          className="h-4.5 sm:h-5 w-auto object-contain block"
+        />
       ),
     },
     // 3. Santander (logo oficial y letras rojas)
@@ -202,24 +218,25 @@ export const ClientMarquee: React.FC = () => {
         </svg>
       ),
     },
-    // 4. Burger King (Logo oficial Burger King 2020 con pan y tipografía oficial)
+    // 4. Burger King (Logo oficial original)
     {
       name: <span className="font-black text-[#D62300]">Burger King</span>,
       icon: (
-        <svg className="w-6 h-6 shrink-0" viewBox="0 0 569 620">
-          <path fill="#FF8732" d="M494.188,550.318C453.292,573.4,383.129,580,286.078,580c-97.05,0-167.214-6.6-208.104-29.682c-24.553-13.824-36.973-32.67-36.973-46.184c0-7.69,4.093-12.096,13.206-12.096h463.733c9.12,0,13.213,4.404,13.213,12.096c0.006,13.514-12.421,32.358-36.961,46.184H494.188 M517.942,192.196H54.208c-9.12,0-13.206-4.71-13.206-13.188C41.002,128.74,116.662,40,286.078,40c167.851,0,245.082,88.74,245.082,139.008C531.16,187.486,527.068,192.196,517.942,192.196L517.942,192.196"/>
-          <path fill="#D62300" d="M59.398,313.93h22.188c20.922,0,33.66-13.979,33.66-31.416c0-13.98-8.34-20.418-10.224-21.99c-0.78-0.63-1.566-1.254-1.566-1.884c0-0.78,0.468-1.098,1.26-2.04c2.982-3.456,5.971-8.952,5.971-16.968c0-18.84-12.744-28.902-32.563-28.902h-18.72c-12.426,0-18.402,7.236-18.402,16.968v69.264C41.002,306.706,46.978,313.93,59.398,313.93 M139.78,399.532c-1.416-2.196-1.566-3.612-1.566-4.236c0-1.728,0.942-2.981,2.826-4.71c4.405-4.092,15.265-14.298,21.24-23.563c4.56-7.067,6.444-13.506,6.444-18.84c0-13.666-12.42-24.354-25.957-24.354c-8.652,0-16.83,4.872-22.332,13.824c-7.393,11.934-16.206,25.758-21.863,31.26c-1.417,1.417-2.202,1.729-3.3,1.729c-1.891,0-2.676-1.26-2.676-3.299v-15.703c0-15.391-9.12-27.805-25.639-27.805c-16.674,0-25.645,12.408-25.645,27.805v96.756c0,15.39,8.964,27.81,25.645,27.81c16.519,0,25.639-12.408,25.639-27.81V426.1c0-1.89,0.785-3.3,2.676-3.3c2.52,0,3.149,2.516,3.78,3.77c3.617,8.64,14.147,27.012,23.909,37.854c6.605,7.225,14.784,11.784,23.437,11.784c14.628,0,26.904-12.726,26.904-26.394c0-8.479-3.624-14.762-10.542-22.297c-8.813-9.6-19.2-22.169-22.98-27.978V399.532 M211.516,323.824c-17.616,0-27.217,13.188-27.217,29.682V446.5c0,16.5,9.601,29.688,27.217,29.688c17.615,0,27.21-13.193,27.21-29.688v-92.994C238.726,337.023,229.138,323.824,211.516,323.824 M335.95,314.872c24.695,0,40.271-15.708,40.271-38.64c0-14.604-8.82-24.66-26.43-24.66h-5.028c-9.288,0-16.524,4.404-16.524,14.298c0,8.796,7.71,13.038,13.53,13.038c2.988,0,4.884,0.942,4.884,3.144c0,2.82-3.3,4.71-7.081,4.71c-11.802,0-19.823-8.329-19.823-23.88c0-17.274,11.017-23.55,19.507-23.55c10.38,0,12.113,5.34,19.35,5.34c8.339,0,14.004-6.912,14.004-14.136c0-5.34-2.364-9.42-5.981-12.252c-6.606-4.872-15.883-8.478-29.725-8.478c-24.39,0-48.138,16.02-48.138,53.088C288.754,298.378,312.509,314.872,335.95,314.872"/>
-        </svg>
+        <img
+          src={burgerKingLogo}
+          alt="Burger King"
+          className="w-6 h-6 sm:w-6.5 sm:h-6.5 object-contain shrink-0"
+        />
       ),
     },
-    // 5. SURA
+    // 5. SURA (Logo oficial original)
     {
-      name: <span className="font-bold text-[#002F6C]">SURA</span>,
-      icon: (
-        <svg className="w-6 h-6 shrink-0" viewBox="0 0 32 32">
-          <circle cx="16" cy="16" r="14" fill="#002F6C" />
-          <path d="M11 21c4-2 9-6 13-11-2 4-6 9-11 11zM14 23c3-1 6-4 9-7-2 3-5 6-8 7z" fill="#00A3E0" />
-        </svg>
+      name: (
+        <img
+          src={suraLogo}
+          alt="SURA"
+          className="h-6.5 sm:h-7 w-auto object-contain block"
+        />
       ),
     },
     // 6. Sodimac
@@ -236,9 +253,9 @@ export const ClientMarquee: React.FC = () => {
     },
     // 7. Paris
     {
-      name: <span className="font-bold text-[#00A0E2]">Paris</span>,
+      name: <span className="font-black text-base text-[#00A0E2] tracking-tight">Paris</span>,
       icon: (
-        <span className="w-6 h-6 rounded-full bg-[#00A0E2] text-white flex items-center justify-center font-bold text-[10px] tracking-tight shadow-xs">
+        <span className="w-7 h-7 rounded-full bg-[#00A0E2] text-white flex items-center justify-center font-bold text-xs tracking-tight shadow-xs">
           paris
         </span>
       ),
@@ -247,44 +264,41 @@ export const ClientMarquee: React.FC = () => {
     {
       name: <span className="font-bold text-[#0072CE]">Salcobrand</span>,
       icon: (
-        <span className="w-6 h-6 rounded-full bg-[#0072CE] text-white flex items-center justify-center font-bold text-[10px] shadow-xs">
-          sb
-        </span>
+        <img
+          src={salcobrandLogo}
+          alt="Salcobrand"
+          className="w-6.5 h-6.5 sm:w-7 sm:h-7 object-contain shrink-0"
+        />
       ),
     },
-    // 9. Total Pack (Letras azul y gris oficiales con logo de atención)
+    // 9. Total Pack (Logo oficial original)
     {
       name: (
-        <span className="font-black text-sm whitespace-nowrap">
-          <span className="text-[#0050A0]">Total</span>
-          <span className="text-slate-500">Pack</span>
-        </span>
-      ),
-      icon: (
-        <svg className="w-6 h-6 shrink-0" viewBox="0 0 32 32">
-          <circle cx="16" cy="16" r="14" fill="#0050A0" />
-          <circle cx="16" cy="16" r="8.5" fill="#fff" />
-          <circle cx="16" cy="16" r="4.5" fill="#0050A0" />
-          <path d="M16 4a12 12 0 0 1 12 12" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-        </svg>
+        <img
+          src={totalPackLogo}
+          alt="Total Pack"
+          className="h-6.5 sm:h-7 w-auto object-contain block"
+        />
       ),
     },
-    // 10. Tricot (Letras rojas oficiales)
+    // 10. Tricot (Logo oficial original con letras rojas)
     {
-      name: <span className="font-black text-[#E30613] tracking-tight">Tricot</span>,
-      icon: (
-        <span className="w-6 h-6 rounded-full bg-[#E30613] text-white flex items-center justify-center font-bold text-xs shadow-xs">
-          t
-        </span>
+      name: (
+        <img
+          src={tricotLogo}
+          alt="Tricot"
+          className="h-3.5 sm:h-4 w-auto object-contain block"
+        />
       ),
     },
-    // 11. Abcdin
+    // 11. abc (Logo oficial original - anteriormente Abcdin)
     {
-      name: <span className="font-bold text-[#ED1C24]">Abcdin</span>,
-      icon: (
-        <span className="w-6 h-6 rounded-md bg-[#ED1C24] text-white flex items-center justify-center font-bold text-[10px] shadow-xs">
-          abc
-        </span>
+      name: (
+        <img
+          src={abcLogo}
+          alt="abc"
+          className="h-5 sm:h-5.5 w-auto object-contain block"
+        />
       ),
     },
     // 12. Nova-TIC
@@ -320,10 +334,15 @@ export const ClientMarquee: React.FC = () => {
         </svg>
       ),
     },
-    // 15. AnyDesk
+    // 15. AnyDesk (Logo oficial original)
     {
-      name: <span className="font-bold text-slate-800">AnyDesk</span>,
-      icon: <span className="w-3.5 h-3.5 rounded-full bg-rose-500 shrink-0 shadow-xs"></span>,
+      name: (
+        <img
+          src={anydeskLogo}
+          alt="AnyDesk"
+          className="h-4.5 sm:h-5 w-auto object-contain block"
+        />
+      ),
     },
     // 16. Intel
     {
@@ -362,10 +381,10 @@ export const ClientMarquee: React.FC = () => {
           {marqueeRow1.map((item, index) => (
             <div
               key={`row1-${index}`}
-              className="flex items-center gap-2.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl bg-white border border-slate-200/90 shadow-sm shrink-0 hover:border-pink-500 hover:shadow-md transition-all"
+              className="flex items-center gap-2.5 px-4 sm:px-5 py-2 sm:py-2.5 min-h-[46px] rounded-2xl bg-white border border-slate-200/90 shadow-sm shrink-0 hover:border-pink-500 hover:shadow-md transition-all"
             >
               {item.icon}
-              <div className="text-sm whitespace-nowrap">
+              <div className="text-sm whitespace-nowrap flex items-center">
                 {item.name}
               </div>
             </div>
@@ -377,10 +396,10 @@ export const ClientMarquee: React.FC = () => {
           {marqueeRow2.map((item, index) => (
             <div
               key={`row2-${index}`}
-              className="flex items-center gap-2.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl bg-white border border-slate-200/90 shadow-sm shrink-0 hover:border-pink-500 hover:shadow-md transition-all"
+              className="flex items-center gap-2.5 px-4 sm:px-5 py-2 sm:py-2.5 min-h-[46px] rounded-2xl bg-white border border-slate-200/90 shadow-sm shrink-0 hover:border-pink-500 hover:shadow-md transition-all"
             >
               {item.icon}
-              <div className="text-sm whitespace-nowrap">
+              <div className="text-sm whitespace-nowrap flex items-center">
                 {item.name}
               </div>
             </div>
