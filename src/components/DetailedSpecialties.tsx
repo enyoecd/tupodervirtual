@@ -43,24 +43,6 @@ export const DetailedSpecialties: React.FC = () => {
                 <div>
                   <h4 className="font-bold text-slate-900 dark:text-white text-sm">
                     {isEs
-                      ? 'Reparación y mantenimiento de software para PC de escritorio y notebooks, con respaldo seguro de datos y sistemas.'
-                      : 'Software repair & maintenance for desktop PCs and laptops, with secure data and system backup.'}
-                  </h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    {isEs
-                      ? 'Mantenimiento preventivo y correctivo de software, resguardo íntegro de tus archivos.'
-                      : 'Preventative and corrective software maintenance, full data protection.'}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-pink-50 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs border border-pink-200 dark:border-pink-800">
-                  ✓
-                </div>
-                <div>
-                  <h4 className="font-bold text-slate-900 dark:text-white text-sm">
-                    {isEs
                       ? 'Formateo e instalación de Windows, Linux, macOS y Android.'
                       : 'Formatting & Installation of Windows, Linux, macOS & Android.'}
                   </h4>
@@ -111,13 +93,13 @@ export const DetailedSpecialties: React.FC = () => {
                 <div>
                   <h4 className="font-bold text-slate-900 dark:text-white text-sm">
                     {isEs
-                      ? 'Tickets Presenciales Empresas en Antofagasta & Soporte Remoto'
-                      : 'Corporate On-Site Tickets in Antofagasta & Remote Support'}
+                      ? 'Soporte técnico remoto'
+                      : 'Remote Technical Support'}
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
                     {isEs
-                      ? 'Informática, redes, tótems, roll out, periféricos, CCTV/alarmas y asistencia remota express para problemas en equipos.'
-                      : 'IT systems, networking, kiosks, roll out, peripherals, CCTV/alarms, and live remote troubleshooting.'}
+                      ? 'Resolución de fallas, problemas de configuración e instalación de programas.'
+                      : 'Troubleshooting errors, configuration issues, and software installation.'}
                   </p>
                 </div>
               </div>
@@ -214,24 +196,6 @@ export const DetailedSpecialties: React.FC = () => {
                 <div>
                   <h4 className="font-bold text-slate-900 dark:text-white text-sm">
                     {isEs
-                      ? 'Creación de páginas web para empresas y negocios'
-                      : 'Corporate & Business Web Development'}
-                  </h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    {isEs
-                      ? 'Diseños modernos, directos y adaptados a la identidad visual de tu marca.'
-                      : 'Clean, modern layouts crafted around your brand identity.'}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs border border-amber-200 dark:border-amber-800">
-                  ✓
-                </div>
-                <div>
-                  <h4 className="font-bold text-slate-900 dark:text-white text-sm">
-                    {isEs
                       ? 'Menús digitales QR y NFC para restaurantes'
                       : 'Interactive QR & NFC Menus for Restaurants & Cafés'}
                   </h4>
@@ -239,22 +203,6 @@ export const DetailedSpecialties: React.FC = () => {
                     {isEs
                       ? 'Acceso instantáneo mediante código QR o al acercar el teléfono con NFC. Cartas atractivas y fáciles de actualizar.'
                       : 'Instant access via QR code or NFC tap. Blazing fast mobile menus, effortless live updates without reprinting.'}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs border border-amber-200 dark:border-amber-800">
-                  ✓
-                </div>
-                <div>
-                  <h4 className="font-bold text-slate-900 dark:text-white text-sm">
-                    {isEs ? 'Soluciones web personalizadas para PyMEs' : 'Tailored Digital Solutions for SMEs'}
-                  </h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    {isEs
-                      ? 'Funcionalidades hechas a la medida de tu flujo de atención y ventas.'
-                      : 'Customized features specifically aligned with your workflow and booking needs.'}
                   </p>
                 </div>
               </div>

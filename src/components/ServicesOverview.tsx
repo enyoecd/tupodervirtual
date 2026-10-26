@@ -16,14 +16,6 @@ export const ServicesOverview: React.FC = () => {
           rest: 'Mantenimiento preventivo y correctivo para PC de escritorio y notebooks con respaldo seguro.',
         },
         {
-          bold: 'Soporte técnico y remoto:',
-          rest: 'Resolución de fallas, virus, problemas de configuración e instalación de programas.',
-        },
-        {
-          bold: 'Formateo y optimización de sistemas:',
-          rest: 'Instalación limpia de Windows y Linux con drivers actualizados.',
-        },
-        {
           bold: 'Soporte presencial en Antofagasta:',
           rest: 'Atención a empresas en área de informática, sistemas, cableado de redes.',
         },
@@ -42,14 +34,6 @@ export const ServicesOverview: React.FC = () => {
           rest: 'preventive and corrective maintenance for desktop PCs and notebooks with secure backups.',
         },
         {
-          bold: 'Technical & remote support:',
-          rest: 'troubleshooting errors, virus removal, configuration issues, and software installation.',
-        },
-        {
-          bold: 'System formatting & optimization:',
-          rest: 'clean installation of Windows and Linux with updated official drivers.',
-        },
-        {
           bold: 'On-site support in Antofagasta:',
           rest: 'corporate assistance in IT systems, hardware infrastructure, and network cabling.',
         },
@@ -63,14 +47,19 @@ export const ServicesOverview: React.FC = () => {
         },
       ];
 
-  const webBullets = [
-    { bold: 'Creación de páginas web para empresas y negocios', rest: 'con diseño profesional.' },
-    { bold: 'Diseño de sitios web profesionales', rest: 'atractivos, limpios y confiables.' },
-    { bold: 'Creación de menús digitales para restaurantes', rest: 'interactivos mediante código QR y NFC.' },
-    { bold: 'Soluciones web personalizadas adaptadas a las necesidades', rest: 'de cada negocio.' },
-    { bold: 'Presencia web para pequeños y medianos negocios', rest: '(PyMEs y emprendedores).' },
-    { bold: 'Sitios 100% responsivos optimizados para', rest: 'PC, celulares y tablets.' },
-  ];
+  const webBullets = isEs
+    ? [
+        { bold: 'Creación de páginas web para empresas y negocios', rest: 'con diseño profesional.' },
+        { bold: 'Diseño de sitios web profesionales', rest: 'atractivos, limpios y confiables.' },
+        { bold: 'Presencia web para pequeños y medianos negocios', rest: '(PyMEs y emprendedores).' },
+        { bold: 'Soluciones web personalizadas adaptadas a las necesidades', rest: 'de cada negocio.' },
+      ]
+    : [
+        { bold: 'Website creation for companies and businesses', rest: 'with professional design.' },
+        { bold: 'Professional website design', rest: 'attractive, clean, and reliable.' },
+        { bold: 'Web presence for small and medium businesses', rest: '(SMEs and entrepreneurs).' },
+        { bold: 'Custom web solutions tailored to the needs', rest: 'of each business.' },
+      ];
 
   return (
     <section
