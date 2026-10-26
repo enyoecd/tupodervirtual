@@ -130,8 +130,9 @@ export const Header: React.FC = () => {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 dark:bg-[#0F172A]/95 backdrop-blur-md border-b border-slate-200 dark:border-[#1E293B] shadow-xs transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <>
+      <header className="fixed top-0 left-0 right-0 w-full z-50 bg-white/95 dark:bg-[#0F172A]/95 backdrop-blur-md border-b border-slate-200 dark:border-[#1E293B] shadow-sm transition-colors duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 gap-3 xl:gap-6">
           {/* Brand Logo */}
           <a
@@ -508,6 +509,8 @@ export const Header: React.FC = () => {
           </div>
         )}
       </div>
-    </header>
+      </header>
+      <div className="h-20 w-full shrink-0" aria-hidden="true" />
+    </>
   );
 };
