@@ -26,7 +26,7 @@ export const DetailedSpecialties: React.FC = () => {
             <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
               {isEs ? (
                 <>
-                  En <strong className="text-slate-900 dark:text-white">Tu Poder Virtual</strong> resolvemos fallas de software, lentitud y configuración en notebooks y PC de escritorio, garantizando un servicio confiable con respaldo seguro de datos y sistemas, así como atención presencial de tickets para empresas en Antofagasta.
+                  En <strong className="text-slate-900 dark:text-white">Tu Poder Virtual</strong> resolvemos fallas de software, lentitud y configuración en notebooks y PC de escritorio, garantizando un servicio confiable con respaldo seguro de datos, así como atención presencial de tickets para empresas en Antofagasta.
                 </>
               ) : (
                 <>
@@ -48,8 +48,8 @@ export const DetailedSpecialties: React.FC = () => {
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
                     {isEs
-                      ? 'Mantenimiento preventivo y correctivo de software, desinfección y resguardo íntegro de tus archivos.'
-                      : 'Preventative and corrective software maintenance, malware elimination, and full data protection.'}
+                      ? 'Mantenimiento preventivo y correctivo de software, resguardo íntegro de tus archivos.'
+                      : 'Preventative and corrective software maintenance, full data protection.'}
                   </p>
                 </div>
               </div>
@@ -60,12 +60,14 @@ export const DetailedSpecialties: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-900 dark:text-white text-sm">
-                    {isEs ? 'Formateo e instalación de Windows' : 'Windows Clean Installation & Drivers'}
+                    {isEs
+                      ? 'Formateo e instalación de Windows, Linux, macOS y Android.'
+                      : 'Formatting & Installation of Windows, Linux, macOS & Android.'}
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
                     {isEs
                       ? 'Sistemas operativos estables, limpios y configurados a la medida.'
-                      : 'Clean, verified Windows installation configured with updated official drivers.'}
+                      : 'Clean, stable operating systems configured to your needs.'}
                   </p>
                 </div>
               </div>
@@ -76,12 +78,12 @@ export const DetailedSpecialties: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-900 dark:text-white text-sm">
-                    {isEs ? 'Optimización y eliminación de virus o malware' : 'Optimization & Malware Removal'}
+                    {isEs ? 'Optimización y eliminación de virus' : 'Optimization & Virus Removal'}
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
                     {isEs
-                      ? 'Aceleración del sistema y limpieza completa de amenazas que ralentizan tu equipo.'
-                      : 'Deep scan isolation of background threats to restore swift responsiveness.'}
+                      ? 'Limpieza completa de amenazas que ralentizan tu equipo.'
+                      : 'Complete removal of threats that slow down your computer.'}
                   </p>
                 </div>
               </div>
@@ -92,12 +94,12 @@ export const DetailedSpecialties: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-900 dark:text-white text-sm">
-                    {isEs ? 'Recuperación de datos y solución de problemas' : 'Data Recovery & Diagnostic Troubleshooting'}
+                    {isEs ? 'Recuperación de datos y solución de problemas' : 'Data Recovery & Troubleshooting'}
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
                     {isEs
-                      ? 'Recuperación de archivos esenciales y diagnósticos certeros.'
-                      : 'Retrieval of inaccessible files, damaged sectors, and accurate root-cause analysis.'}
+                      ? 'Diagnósticos certeros.'
+                      : 'Accurate diagnostics.'}
                   </p>
                 </div>
               </div>
@@ -164,7 +166,7 @@ export const DetailedSpecialties: React.FC = () => {
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVNfS3dlHkwi6jx_rdOJuwFky1X_drXFGMHH1mXlmjlg3IowaTE1CSlL06XQZ56Z_oU12-TJBuDbsp7rN_9UqPXuR8yEEJOm-jINYVxPk0lvTWSC55G60Bey4j8V2N6bzwT6Mz9HE6qbEFqHxHFd31C1nF-rJY2sZXr6-U5px4543TV4scPLKyTbz3C58Ah5XqbCM1WOw7iG03POFeqeHz7CxYc3voKCaBSUhJ1CGEOh0b80Y4IH0N"
               />
               <div className="mt-3 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-mono px-2">
-                <span>📍 Taller Técnico: Ecuador 1438, Antofagasta</span>
+                <span>📍 Taller Técnico: Ecuador 1438, Antofagasta, Chile</span>
                 <span className="text-emerald-500 font-bold">Garantizado</span>
               </div>
             </div>
