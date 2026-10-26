@@ -606,7 +606,7 @@ export const TechnicalSupportPage: React.FC = () => {
                   </span>
                 </div>
                 <h3 className="font-bold text-slate-900 dark:text-white text-base">
-                  {isEs ? 'Roll Out de Infraestructura' : 'Tech Roll Out'}
+                  {isEs ? 'Roll Out de Equipos' : 'Equipment Roll Out'}
                 </h3>
                 <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                   {isEs
@@ -1108,7 +1108,7 @@ export const TechnicalSupportPage: React.FC = () => {
                         onChange={e => setFormData({ ...formData, modalidad: e.target.value })}
                         className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-[#0B0F17] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white text-sm focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none transition-colors cursor-pointer"
                       >
-                        <option value="remoto">{isEs ? 'Soporte Remoto Online (Todo Chile)' : 'Remote Support (All Chile)'}</option>
+                        <option value="remoto">{isEs ? 'Soporte Remoto Online (Cualquier ubicación)' : 'Remote Support Online (Any location)'}</option>
                         <option value="antofagasta">{isEs ? 'Presencial en Laboratorio (Ecuador 1438, Antofagasta)' : 'On-Site Lab (Ecuador 1438, Antofagasta)'}</option>
                         <option value="terreno-empresas">{isEs ? 'Ticket en Terreno para Empresas (Antofagasta)' : 'On-Site Corporate Ticket (Antofagasta)'}</option>
                       </select>
@@ -1168,33 +1168,19 @@ export const TechnicalSupportPage: React.FC = () => {
                     </div>
                   )}
 
-                  <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+                  <div className="pt-2">
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full sm:flex-1 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 cursor-pointer"
+                      className="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 cursor-pointer"
                     >
                       <Send className="w-4 h-4" />
                       <span>
                         {isSubmitting
-                          ? (isEs ? 'Conectando...' : 'Connecting...')
-                          : (isEs ? 'Enviar Solicitud y Conectar con Técnico' : 'Send & Connect with Technician')}
+                          ? (isEs ? 'Enviando...' : 'Sending...')
+                          : (isEs ? 'Enviar Solicitud' : 'Send Request')}
                       </span>
                     </button>
-
-                    <a
-                      href={`https://wa.me/56987676879?text=${encodeURIComponent(
-                        isEs
-                          ? 'Hola Tu Poder Virtual, necesito soporte técnico para mi computador.'
-                          : 'Hello Tu Poder Virtual, I need technical computer support.'
-                      )}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full sm:w-auto px-5 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-lg shadow-emerald-600/25"
-                    >
-                      <MessageSquare className="w-4 h-4" />
-                      <span>WhatsApp (+56 9 8767 6879)</span>
-                    </a>
                   </div>
                 </form>
               </div>
