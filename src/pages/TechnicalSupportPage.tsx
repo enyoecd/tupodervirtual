@@ -143,7 +143,7 @@ export const TechnicalSupportPage: React.FC = () => {
               <div className="flex flex-wrap items-center gap-2">
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-sky-300 text-xs font-bold uppercase tracking-wider">
                   <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
-                  {isEs ? 'Laboratorio Activo · Antofagasta & Remoto' : 'Active Lab · Antofagasta & Remote'}
+                  {isEs ? 'Laboratorio Activo · Presencial y Remoto' : 'Active Lab · On-Site & Remote'}
                 </div>
                 <span className="hidden sm:inline text-slate-300 dark:text-slate-700">|</span>
                 <span className="text-xs font-mono text-slate-600 dark:text-slate-400 font-semibold">
@@ -351,7 +351,7 @@ export const TechnicalSupportPage: React.FC = () => {
 
               <div className="pt-6 mt-6 border-t border-slate-200 dark:border-[#1E293B] flex items-center justify-between">
                 <span className="text-xs font-mono text-sky-600 dark:text-sky-400 font-semibold">
-                  {isEs ? 'Modalidad: Remoto Todo Chile' : 'Modality: Remote Nationwide'}
+                  {isEs ? 'Modalidad: Remoto' : 'Modality: Remote'}
                 </span>
                 <button
                   type="button"
