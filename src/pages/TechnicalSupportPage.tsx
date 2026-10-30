@@ -184,7 +184,7 @@ export const TechnicalSupportPage: React.FC = () => {
                   <Clock className="w-5 h-5 text-sky-500 shrink-0" />
                   <div>
                     <p className="text-[11px] font-mono text-slate-500 dark:text-slate-400 uppercase">{isEs ? 'Respuesta' : 'Response'}</p>
-                    <p className="text-sm font-bold text-slate-900 dark:text-white">15-30 min</p>
+                    <p className="text-sm font-bold text-slate-900 dark:text-white">{isEs ? 'El mismo día' : 'Same day'}</p>
                   </div>
                 </div>
 
