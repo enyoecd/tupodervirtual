@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   Home,
   ChevronRight,
@@ -32,9 +32,18 @@ import {
   Building2,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { TerminalMatrixRain } from '../components/matrix/TerminalMatrixRain';
+
+interface ConsoleHistoryItem {
+  prompt?: string;
+  output?: string;
+  isLink?: boolean;
+  url?: string;
+  targetPage?: 'tools-online';
+}
 
 export const TechnicalSupportPage: React.FC = () => {
-  const { language, navigateTo, triggerSpill } = useApp();
+  const { language, navigateTo, triggerSpill, unlockEnyoWithAnimation } = useApp();
   const isEs = language === 'ES';
 
   const [formData, setFormData] = useState({
@@ -49,24 +58,149 @@ export const TechnicalSupportPage: React.FC = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [ticketId, setTicketId] = useState('');
 
-  // Terminal active stream simulation
-  const [activeLogIndex, setActiveLogIndex] = useState(6);
-  const logLines = [
-    { time: '09:41:02', text: 'Invocando agente de análisis Tu Poder Virtual v4.2...', color: 'text-slate-400' },
-    { time: '09:41:03', text: '> Iniciando lectura de registro de sistema: Windows 11 Pro 23H2 / 64-bit', color: 'text-sky-400' },
-    { time: '09:41:05', text: 'Detección de bloatware: 27 procesos residentes en segundo plano.', color: 'text-slate-200' },
-    { time: '09:41:07', text: '> Consumo pasivo de RAM liberable: ~3.8 GB detectados.', color: 'text-pink-400' },
-    { time: '09:41:09', text: 'Auditoría de seguridad: 0 rootkits críticos. 3 secuestradores adware en caché navegador.', color: 'text-slate-200' },
-    { time: '09:41:12', text: '> Canales de asistencia disponibles: AnyDesk (AES-256) / RustDesk cifrado directo.', color: 'text-amber-400' },
-    { time: '09:41:14', text: 'Preparado para optimización remota y limpieza profunda sin pérdida de datos.', color: 'text-emerald-400' },
-  ];
+  // Console state & behavior identical to Home console
+  const [activeStep, setActiveStep] = useState(0);
+  const [isConsoleGlitching, setIsConsoleGlitching] = useState(false);
+  const [historyItems, setHistoryItems] = useState<ConsoleHistoryItem[]>([]);
+  const [inputCmd, setInputCmd] = useState('');
+
+  const animTimeoutsRef = useRef<NodeJS.Timeout[]>([]);
+  const terminalBodyRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const runTypingSequence = useCallback((initialDelay = 100) => {
+    animTimeoutsRef.current.forEach(clearTimeout);
+    animTimeoutsRef.current = [];
+
+    setActiveStep(0);
+    setHistoryItems([]);
+    setInputCmd('');
+    terminalBodyRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const t1 = setTimeout(() => setActiveStep(1), initialDelay + 140);
+    const t2 = setTimeout(() => setActiveStep(2), initialDelay + 300);
+    const t3 = setTimeout(() => setActiveStep(3), initialDelay + 460);
+    const t4 = setTimeout(() => setActiveStep(4), initialDelay + 620);
+    const t5 = setTimeout(() => setActiveStep(5), initialDelay + 780);
+    const t6 = setTimeout(() => setActiveStep(6), initialDelay + 940);
+
+    animTimeoutsRef.current.push(t1, t2, t3, t4, t5, t6);
+  }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveLogIndex(prev => (prev < logLines.length - 1 ? prev + 1 : prev));
-    }, 2000);
-    return () => clearInterval(interval);
-  }, [logLines.length]);
+    runTypingSequence(300);
+    return () => {
+      animTimeoutsRef.current.forEach(clearTimeout);
+    };
+  }, [runTypingSequence]);
+
+  const handleConsoleClick = () => {
+    if (isConsoleGlitching) return;
+
+    animTimeoutsRef.current.forEach(clearTimeout);
+    animTimeoutsRef.current = [];
+
+    setActiveStep(-1);
+    setHistoryItems([]);
+    setInputCmd('');
+    terminalBodyRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+
+    setIsConsoleGlitching(true);
+  };
+
+  const handleMatrixRainFinish = useCallback(() => {
+    setIsConsoleGlitching(false);
+    runTypingSequence(80);
+  }, [runTypingSequence]);
+
+  const handleCommandKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const entered = inputCmd;
+      const clean = entered.trim().toLowerCase();
+
+      if (!clean) {
+        setHistoryItems(prev => [...prev, { prompt: '' }]);
+        setInputCmd('');
+        setTimeout(() => {
+          terminalBodyRef.current?.scrollTo({
+            top: terminalBodyRef.current.scrollHeight,
+            behavior: 'smooth',
+          });
+        }, 50);
+        return;
+      }
+
+      if (clean === 'matrix') {
+        setHistoryItems(prev => [...prev, { prompt: entered }]);
+        setInputCmd('');
+        handleConsoleClick();
+        return;
+      }
+
+      if (clean === 'clear') {
+        setHistoryItems([]);
+        setInputCmd('');
+        runTypingSequence(100);
+        return;
+      }
+
+      if (
+        clean === 'enyo' ||
+        clean === '/enyo' ||
+        clean === 'enyo/' ||
+        clean === 'enjo' ||
+        clean === '/enjo' ||
+        clean === 'enjo/'
+      ) {
+        let originUrl = 'https://tupodervirtual.pages.dev';
+        let basePath = '';
+        if (typeof window !== 'undefined' && window.location.origin && window.location.origin !== 'null') {
+          originUrl = window.location.origin;
+          const segments = window.location.pathname
+            .split('/')
+            .filter(Boolean)
+            .filter(seg => {
+              const s = seg.toLowerCase();
+              return s !== 'index.html' && s !== 'enyo' && s !== 'enjo';
+            });
+          basePath = segments.length > 0 ? '/' + segments.join('/') : '';
+        }
+        const fullUrl = `${originUrl}${basePath}/enyo`;
+
+        unlockEnyoWithAnimation();
+
+        setHistoryItems(prev => [
+          ...prev,
+          { prompt: entered },
+          {
+            isLink: true,
+            url: fullUrl,
+            targetPage: 'tools-online',
+          },
+        ]);
+        setInputCmd('');
+
+        setTimeout(() => {
+          terminalBodyRef.current?.scrollTo({
+            top: terminalBodyRef.current.scrollHeight,
+            behavior: 'smooth',
+          });
+        }, 50);
+        return;
+      }
+
+      setHistoryItems(prev => [...prev, { prompt: entered }]);
+      setInputCmd('');
+
+      setTimeout(() => {
+        terminalBodyRef.current?.scrollTo({
+          top: terminalBodyRef.current.scrollHeight,
+          behavior: 'smooth',
+        });
+      }, 50);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -153,29 +287,13 @@ export const TechnicalSupportPage: React.FC = () => {
 
               {/* Main Headline */}
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.15]">
-                {isEs ? (
-                  <>
-                    Soporte Técnico de Software,{' '}
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-sky-500 to-teal-400 dark:from-sky-400 dark:to-teal-300">
-                      Respaldo Seguro
-                    </span>{' '}
-                    & Tickets TI
-                  </>
-                ) : (
-                  <>
-                    Software Technical Support,{' '}
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-sky-500 to-teal-400 dark:from-sky-400 dark:to-teal-300">
-                      Secure Backup
-                    </span>{' '}
-                    & Corporate IT
-                  </>
-                )}
+                {isEs ? 'Soporte Técnico de Software' : 'Software Technical Support'}
               </h1>
 
               <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
                 {isEs
-                  ? 'Reparación y mantenimiento de software para PC de escritorio y notebooks, con respaldo seguro de datos y sistemas. Atendemos actividades remotas para problemas en equipos en todo Chile y tickets de atención presencial en Antofagasta para empresas (informática, cableado de redes, tótems, roll out, periféricos y CCTV).'
-                  : 'Software repair and maintenance for desktop PCs and laptops, with secure data and system backup. We provide remote assistance for computer issues nationwide and on-site corporate tickets in Antofagasta (IT systems, network cabling, kiosks, roll out, peripherals, and CCTV).'}
+                  ? 'Reparación de problemas, mantenimiento de software y optimización de equipos para PC de escritorio y notebooks con respaldo seguro de datos. Atendemos actividades presenciales en Antofagasta, Chile, además de asistencia técnica remota.'
+                  : 'Troubleshooting, software maintenance, and performance optimization for desktop PCs and laptops with secure data backup. We provide on-site service in Antofagasta, Chile, as well as remote technical assistance.'}
               </p>
 
               {/* 3 Value Commitment Badges */}
@@ -227,64 +345,202 @@ export const TechnicalSupportPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Right Column: High-Tech Telemetry Terminal */}
-            <div className="xl:col-span-5 flex flex-col">
-              <div className="w-full rounded-2xl bg-[#060A10] border border-slate-700/80 shadow-2xl overflow-hidden relative font-mono text-xs">
-                {/* Console Window Header */}
-                <div className="flex items-center justify-between px-4 py-3 bg-[#0E1626] border-b border-slate-700/80">
-                  <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-rose-500 inline-block" />
-                    <span className="w-3 h-3 rounded-full bg-amber-400 inline-block" />
-                    <span className="w-3 h-3 rounded-full bg-sky-400 inline-block" />
+            {/* Right Column: Console identical in style & behavior to Home Console */}
+            <div className="xl:col-span-5 relative min-w-0">
+              <div
+                onClick={handleConsoleClick}
+                title="Haz clic para activar ráfaga Matrix"
+                className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-700/80 dark:border-[#1E293B] bg-[#0B132B] text-slate-100 font-mono text-xs sm:text-sm cursor-pointer group transition-all hover:border-emerald-500/60 hover:shadow-emerald-950/30"
+              >
+                {/* Window Titlebar with 3 control dots on the right */}
+                <div
+                  onClick={handleConsoleClick}
+                  className="bg-[#152238] px-3.5 sm:px-4 py-2.5 sm:py-3 border-b border-slate-800 flex items-center justify-between cursor-pointer select-none group"
+                  title="Haz clic para activar ráfaga Matrix"
+                >
+                  <div className="flex items-center gap-2 min-w-0">
+                    <Terminal className="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-400 transition-colors shrink-0" />
+                    <span className="text-xs text-slate-300 font-mono truncate">
+                      <span className="md:hidden">Tu Poder Virtual</span>
+                      <span className="hidden md:inline">Tu Poder Virtual (Consola)</span>
+                    </span>
                   </div>
-                  <div className="flex items-center gap-1.5 text-slate-400 text-[11px]">
-                    <Lock className="w-3 h-3 text-sky-400" />
-                    <span>ops@tpv-lab: ~ /diagnostico</span>
+
+                  {/* Controles de ventana en la esquina derecha: Amarillo, Verde y Rojo */}
+                  <div className="flex items-center gap-2 shrink-0 ml-2" aria-label="Controles de ventana">
+                    <button
+                      type="button"
+                      onClick={handleConsoleClick}
+                      className="w-3 h-3 rounded-full bg-amber-400 inline-block shadow-xs hover:brightness-110 active:scale-90 transition-all cursor-pointer"
+                      title="Minimizar (Activar Matrix)"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleConsoleClick}
+                      className="w-3 h-3 rounded-full bg-emerald-500 inline-block shadow-xs hover:brightness-110 active:scale-90 transition-all cursor-pointer"
+                      title="Maximizar (Activar Matrix)"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleConsoleClick}
+                      className="w-3 h-3 rounded-full bg-rose-500 inline-block shadow-xs hover:brightness-110 active:scale-90 transition-all cursor-pointer"
+                      title="Cerrar (Activar Matrix)"
+                    />
                   </div>
-                  <span className="px-2 py-0.5 rounded bg-[#060A10] text-[10px] text-sky-400 border border-sky-500/30">
-                    SSH-TLS
-                  </span>
                 </div>
 
-                {/* Telemetry Strip */}
-                <div className="grid grid-cols-3 gap-1 p-2.5 bg-[#0A101C] border-b border-slate-800">
-                  <div className="p-2 rounded bg-[#060A10] flex flex-col">
-                    <span className="text-[10px] text-slate-500">LATENCIA NOC</span>
-                    <span className="text-xs font-bold text-sky-400">8.4 ms (CHL)</span>
-                  </div>
-                  <div className="p-2 rounded bg-[#060A10] flex flex-col">
-                    <span className="text-[10px] text-slate-500">ESTADO TÚNEL</span>
-                    <span className="text-xs font-bold text-blue-400">ACTIVO / VNC</span>
-                  </div>
-                  <div className="p-2 rounded bg-[#060A10] flex flex-col">
-                    <span className="text-[10px] text-slate-500">INTEGRIDAD SO</span>
-                    <span className="text-xs font-bold text-pink-400">99.8% LÓGICA</span>
-                  </div>
-                </div>
+                {/* Terminal Content Lines */}
+                <div
+                  ref={terminalBodyRef}
+                  className="p-3 sm:p-3.5 md:p-4 space-y-2 sm:space-y-2.5 font-mono leading-relaxed bg-[#0B132B]/95 h-[200px] sm:h-[268px] relative overflow-y-auto overflow-x-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden select-none text-xs sm:text-sm w-full max-w-full"
+                >
+                  {/* Ráfaga Matrix de una sola pasada hacia abajo */}
+                  <TerminalMatrixRain
+                    isActive={isConsoleGlitching}
+                    onFinish={handleMatrixRainFinish}
+                    durationMs={900}
+                  />
 
-                {/* Streamed Diagnostic Output */}
-                <div className="p-4 space-y-2 h-64 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden text-[11px] leading-relaxed select-none">
-                  {logLines.slice(0, activeLogIndex + 1).map((log, idx) => (
-                    <p key={idx} className={log.color}>
-                      <span className="text-slate-600">[{log.time}]</span> {log.text}
-                    </p>
-                  ))}
-                  <div className="flex items-center gap-1.5 text-sky-400 pt-2">
-                    <span className="text-pink-400">ops@tpv-lab:~$</span>
+                  {/* Primera línea: X:\source> */}
+                  <div className="text-slate-400 flex items-center text-xs sm:text-sm">
+                    <span className="text-emerald-400 font-bold mr-1.5 shrink-0">X:\source&gt;</span>
+                    {activeStep === 0 && (
+                      <span className="inline-block w-2 h-4 bg-emerald-400 animate-pulse ml-0.5 shrink-0" />
+                    )}
+                  </div>
+
+                  {/* Línea 1: Se inicia optimización de Windows 11 */}
+                  <div
+                    className={`text-sky-400 text-[11px] sm:text-xs lg:text-[13px] transition-opacity duration-200 ${
+                      activeStep >= 1 ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    {isEs
+                      ? '> Se inicia optimización de Windows 11'
+                      : '> Starting Windows 11 optimization'}
+                  </div>
+
+                  {/* Línea 2: Optimización de arranque y aplicaciones de inicio de Windows */}
+                  <div
+                    className={`text-pink-400 text-[11px] sm:text-xs lg:text-[13px] transition-opacity duration-200 ${
+                      activeStep >= 2 ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    {isEs
+                      ? '> Optimización de arranque y aplicaciones de inicio de Windows'
+                      : '> Windows boot & startup applications optimization'}
+                  </div>
+
+                  {/* Línea 3: Asistencia remota AnyDesk y RustDesk */}
+                  <div
+                    className={`text-amber-400 text-[11px] sm:text-xs lg:text-[13px] transition-opacity duration-200 ${
+                      activeStep >= 3 ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    {isEs
+                      ? '> Asistencia remota AnyDesk y RustDesk, cifrado directo'
+                      : '> Remote assistance AnyDesk & RustDesk, direct encryption'}
+                  </div>
+
+                  {/* Línea 4 (Verde): Limpieza profunda sin pérdida de datos */}
+                  <div
+                    className={`text-emerald-400 text-[11px] sm:text-xs lg:text-[13px] transition-opacity duration-200 ${
+                      activeStep >= 4 ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    {isEs
+                      ? 'Limpieza profunda sin pérdida de datos.'
+                      : 'Deep cleaning with zero data loss.'}
+                  </div>
+
+                  {/* Línea 5 (Blanca): Comando de telemetría */}
+                  <div
+                    className={`flex items-center flex-wrap gap-1.5 text-[11px] sm:text-xs lg:text-[13px] pt-0.5 transition-opacity duration-200 ${
+                      activeStep >= 5 ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    <span className="text-pink-400 font-bold shrink-0">ops@tpv-lab:~$</span>
                     <span className="text-slate-200">telemetria --optimizar-rendimiento --sin-perdida</span>
-                    <span className="w-2 h-3.5 bg-sky-400 animate-pulse inline-block" />
                   </div>
+
+                  {/* Historial de comandos ingresados por el usuario */}
+                  {historyItems.map((item, idx) => (
+                    <div key={idx} className="pt-1">
+                      {item.prompt !== undefined && (
+                        <div className="text-emerald-400 flex items-center gap-1 font-bold text-[11px] sm:text-xs lg:text-[13px]">
+                          <span className="text-emerald-400 font-bold shrink-0">root@system:~#</span>
+                          <span className="text-slate-200 font-normal ml-1 break-all">{item.prompt}</span>
+                        </div>
+                      )}
+                      {item.output && (
+                        <div className="text-slate-300 pl-4 font-mono text-xs leading-relaxed">
+                          {item.output}
+                        </div>
+                      )}
+                      {item.isLink && item.targetPage && (
+                        <div className="pl-4 pt-0.5">
+                          <a
+                            href={item.url || '/enyo'}
+                            onClick={e => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              unlockEnyoWithAnimation();
+                              try {
+                                const parsed = new URL(item.url || '/enyo', window.location.href);
+                                window.history.pushState(null, '', parsed.pathname + parsed.search + parsed.hash);
+                              } catch {
+                                window.history.pushState(null, '', item.url || '/enyo');
+                              }
+                              if (item.targetPage) {
+                                navigateTo(item.targetPage, 'enyo');
+                              }
+                            }}
+                            className="text-emerald-400 hover:text-emerald-300 underline font-mono text-xs sm:text-sm inline-block break-all cursor-pointer transition-colors"
+                          >
+                            {item.url || '/enyo'}
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+
+                  {/* Última línea: root@system:~# con cursor parpadeante esperando ingreso (igual a la consola de inicio) */}
+                  {activeStep >= 6 && (
+                    <div
+                      onClick={e => {
+                        e.stopPropagation();
+                        inputRef.current?.focus({ preventScroll: true });
+                      }}
+                      className="pt-1 text-emerald-400 flex items-center flex-wrap font-bold cursor-text select-text text-[11px] sm:text-xs lg:text-[13px]"
+                    >
+                      <span className="text-emerald-400 font-bold shrink-0">root@system:~#&nbsp;</span>
+                      <div className="relative inline-flex items-center max-w-full">
+                        <span className="text-slate-100 font-mono text-xs sm:text-sm font-normal break-all">
+                          {inputCmd}
+                        </span>
+                        <span className="inline-block w-2 sm:w-2.5 h-4 bg-emerald-400 animate-pulse-terminal shrink-0 ml-0.5 select-none" />
+                        <input
+                          ref={inputRef}
+                          type="text"
+                          value={inputCmd}
+                          onChange={e => setInputCmd(e.target.value)}
+                          onKeyDown={handleCommandKeyDown}
+                          className="absolute inset-0 w-full h-full opacity-0 text-transparent bg-transparent border-none focus:outline-none focus:ring-0 p-0 font-mono text-xs sm:text-sm cursor-text caret-transparent"
+                          spellCheck="false"
+                          autoComplete="off"
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                {/* Terminal Footer */}
-                <div className="px-4 py-2 bg-[#0E1626] border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
-                  <span className="flex items-center gap-1.5">
-                    <Terminal className="w-3.5 h-3.5 text-sky-400" /> Terminal Remota TPV
-                  </span>
-                  <div className="flex items-center gap-1.5 text-pink-400 font-semibold">
-                    <span className="w-2 h-2 rounded-full bg-pink-400 animate-pulse" />
-                    <span>MODO SEGURO</span>
-                  </div>
+                {/* Bottom Console Status Bar */}
+                <div
+                  onClick={handleConsoleClick}
+                  className="bg-[#0e172a] px-4 py-2 text-[11px] text-slate-400 hover:text-slate-200 border-t border-slate-800 flex items-center justify-between cursor-pointer transition-colors"
+                  title="Haz clic para activar ráfaga Matrix"
+                >
+                  <span>{isEs ? 'Soporte Técnico & Soluciones Digitales' : 'Technical Support & Digital Solutions'}</span>
                 </div>
               </div>
             </div>
@@ -321,18 +577,18 @@ export const TechnicalSupportPage: React.FC = () => {
                     <Zap className="w-6 h-6" />
                   </div>
                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-slate-100 dark:bg-[#1E293B] text-sky-600 dark:text-sky-300 border border-slate-200 dark:border-slate-700">
-                    TELEASISTENCIA EN VIVO
+                    {isEs ? 'REMOTO' : 'REMOTE'}
                   </span>
                 </div>
 
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-                  {isEs ? 'Soporte Técnico y Teleasistencia Remota' : 'Technical Support & Remote Teleassistance'}
+                  {isEs ? 'Soporte Técnico Remoto' : 'Remote Technical Support'}
                 </h3>
 
                 <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                   {isEs
-                    ? 'Atenciones de actividades remotas para problemas con los equipos: resolución ágil de lentitud extrema, errores de software, pantallas azules, desinfección de malware y soporte en tiempo real vía herramientas seguras y cifradas (AnyDesk, TeamViewer, RustDesk).'
-                    : 'Remote support for computer issues: swift resolution of extreme lag, software crashes, blue screens, malware disinfection, and live assistance via encrypted tools (AnyDesk, TeamViewer, RustDesk).'}
+                    ? 'Atenciones de actividades remotas para problemas con los equipos: solución de problemas de lentitud, errores de sistema, instalación de software a solicitud y soporte en tiempo real vía herramientas seguras y cifradas (AnyDesk, TeamViewer, RustDesk).'
+                    : 'Remote support for computer issues: lag resolution, system errors, on-request software installation, and live assistance via encrypted tools (AnyDesk, TeamViewer, RustDesk).'}
                 </p>
 
                 {/* Capacity Chips */}
@@ -506,8 +762,8 @@ export const TechnicalSupportPage: React.FC = () => {
                 </h3>
                 <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                   {isEs
-                    ? 'Soporte y diagnóstico in situ para estaciones operativas, entornos de trabajo corporativos, configuración de dominios y continuidad de sistemas.'
-                    : 'On-site diagnosis and support for workstations, corporate environments, domain setup, and operational continuity.'}
+                    ? 'Soporte y diagnóstico in situ para estaciones operativas, entornos de trabajo corporativos, configuración de sistema para empresas y continuidad de sistemas.'
+                    : 'On-site diagnosis and support for workstations, corporate environments, enterprise system configuration, and operational continuity.'}
                 </p>
               </div>
               <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-mono text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
@@ -862,8 +1118,8 @@ export const TechnicalSupportPage: React.FC = () => {
 
                 <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                   {isEs
-                    ? 'Atención personalizada en laboratorio para evaluación detallada, formateos integrales con respaldo seguro de información y diagnósticos de software in situ.'
-                    : 'Personalized attention at our lab for detailed checks, clean reinstalls with secure mass data backup, and software diagnostics.'}
+                    ? 'Atención personalizada recibiendo tu equipo en nuestro local para evaluación detallada, desinfección profunda de virus y malware, formateos integrales con respaldo seguro de información y diagnósticos de software in situ.'
+                    : 'Personalized service receiving your computer at our local lab for detailed checks, deep virus & malware disinfection, clean reinstalls with secure data backup, and software diagnostics.'}
                 </p>
 
                 <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#0B0F17] border border-slate-200 dark:border-slate-800 space-y-2 text-xs font-mono">
@@ -1060,7 +1316,7 @@ export const TechnicalSupportPage: React.FC = () => {
                   </a>
                   <p className="text-xs text-slate-500 dark:text-slate-400 pl-6 flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span>{isEs ? 'Respuesta típica en menos de 15 minutos' : 'Typical reply in under 15 minutes'}</span>
+                    <span>{isEs ? 'Respuesta durante el mismo día' : 'Same-day reply'}</span>
                   </p>
                 </div>
               </div>
@@ -1161,8 +1417,8 @@ export const TechnicalSupportPage: React.FC = () => {
                         </p>
                         <p className="text-xs text-emerald-700 dark:text-emerald-400 mt-0.5">
                           {isEs
-                            ? 'Un técnico de Tu Poder Virtual te contactará en breves minutos.'
-                            : 'A technician will contact you via WhatsApp in a few minutes.'}
+                            ? 'Un técnico de Tu Poder Virtual te contactará durante el mismo día.'
+                            : 'A technician will contact you via WhatsApp the same day.'}
                         </p>
                       </div>
                     </div>
