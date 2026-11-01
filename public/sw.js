@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tpv-pwa-v1';
+const CACHE_NAME = 'tpv-pwa-v2';
 const PRECACHE_URLS = [
   '/',
   '/index.html',
