@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es" class="dark scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tu Poder Virtual | Desarrollo Web y Soporte Técnico</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=9" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png?v=9" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png?v=9" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=9" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=9" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=9" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="shortcut icon" href="/favicon.ico?v=9" />
+    <meta name="theme-color" content="#0F172A" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Tu Poder Virtual" />
+    <meta name="description" content="Tu Poder Virtual: Desarrollo Web Profesional, Menús Digitales para Restaurantes y Soporte Técnico Computacional. Atención presencial y asistencia remota con efectos visuales Matrix en modo oscuro y claro." />
+    <meta property="og:site_name" content="Tu Poder Virtual" />
+    <meta property="og:title" content="Tu Poder Virtual | Desarrollo Web y Soporte Técnico" />
+    <meta property="og:description" content="Tu Poder Virtual: Desarrollo Web Profesional, Menús Digitales para Restaurantes y Soporte Técnico Computacional. Atención presencial y asistencia remota con efectos visuales Matrix en modo oscuro y claro." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://tupodervirtual.pages.dev/" />
+    <meta property="og:image" content="https://tupodervirtual.pages.dev/android-chrome-512x512.png" />
+    <meta property="og:image:secure_url" content="https://tupodervirtual.pages.dev/android-chrome-512x512.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:alt" content="Tu Poder Virtual | Desarrollo Web y Soporte Técnico" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Tu Poder Virtual | Desarrollo Web y Soporte Técnico" />
+    <meta name="twitter:description" content="Tu Poder Virtual: Desarrollo Web Profesional, Menús Digitales para Restaurantes y Soporte Técnico Computacional. Atención presencial y asistencia remota con efectos visuales Matrix en modo oscuro y claro." />
+    <meta name="twitter:image" content="https://tupodervirtual.pages.dev/android-chrome-512x512.png" />
+    <meta itemprop="name" content="Tu Poder Virtual | Desarrollo Web y Soporte Técnico" />
+    <meta itemprop="description" content="Tu Poder Virtual: Desarrollo Web Profesional, Menús Digitales para Restaurantes y Soporte Técnico Computacional. Atención presencial y asistencia remota con efectos visuales Matrix en modo oscuro y claro." />
+    <meta itemprop="image" content="https://tupodervirtual.pages.dev/android-chrome-512x512.png" />
+    <link rel="image_src" href="https://tupodervirtual.pages.dev/android-chrome-512x512.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <script>
+      (function() {
+        try {
+          // Soporte SPA para GitHub Pages u hostings estáticos sin reescritura directa
+          var params = new URLSearchParams(window.location.search);
+          var spaPath = params.get('spa_path');
+          var isGithub = window.location.hostname.indexOf('github.io') !== -1;
+          var segments = window.location.pathname.split('/').filter(Boolean);
+          var repoBase = (isGithub && segments.length > 0 && segments[0].toLowerCase() !== 'enyo' && segments[0].toLowerCase() !== 'enjo') ? '/' + segments[0] : '';
+
+          if (spaPath) {
+            spaPath = decodeURIComponent(spaPath);
+            var cleanSub = spaPath.startsWith('/') ? spaPath : '/' + spaPath;
+            window.history.replaceState(null, '', repoBase + cleanSub);
+          }
+
+          // Asegurar que la imagen del logo y la URL en OpenGraph apunten al dominio actual al compartir desde navegador móvil
+          var absLogoUrl = window.location.origin + repoBase + '/android-chrome-512x512.png';
+          var ogImg = document.querySelector('meta[property="og:image"]');
+          var ogImgSecure = document.querySelector('meta[property="og:image:secure_url"]');
+          var twImg = document.querySelector('meta[name="twitter:image"]');
+          var itemImg = document.querySelector('meta[itemprop="image"]');
+          var linkImg = document.querySelector('link[rel="image_src"]');
+          var ogUrl = document.querySelector('meta[property="og:url"]');
+          if (ogImg) ogImg.setAttribute('content', absLogoUrl);
+          if (ogImgSecure) ogImgSecure.setAttribute('content', absLogoUrl);
+          if (twImg) twImg.setAttribute('content', absLogoUrl);
+          if (itemImg) itemImg.setAttribute('content', absLogoUrl);
+          if (linkImg) linkImg.setAttribute('href', absLogoUrl);
+          if (ogUrl) ogUrl.setAttribute('content', window.location.href);
+
+          // Prevenir indexación si la URL contiene /enyo o /enjo
+          var p = window.location.pathname.toLowerCase();
+          var h = window.location.hash.toLowerCase();
+          var s = window.location.search.toLowerCase();
+          if (p.indexOf('enyo') !== -1 || h.indexOf('enyo') !== -1 || s.indexOf('enyo') !== -1 ||
+              p.indexOf('enjo') !== -1 || h.indexOf('enjo') !== -1 || s.indexOf('enjo') !== -1) {
+            var meta = document.createElement('meta');
+            meta.name = 'robots';
+            meta.content = 'noindex, nofollow, noarchive, nosnippet';
+            document.head.appendChild(meta);
+          }
+
+          // Clear any old testing flag in localStorage
+          localStorage.removeItem('tpv-theme');
+          var userTheme = sessionStorage.getItem('tpv-theme');
+          if (userTheme === 'light') {
+            document.documentElement.classList.remove('dark');
+          } else {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-Dds8K6xh.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-0jJuWGsq.css">
+  </head>
+  <body class="bg-white dark:bg-[#0B0F17] text-slate-800 dark:text-slate-100 font-sans antialiased selection:bg-pink-900 selection:text-pink-100 transition-colors duration-300">
+    <div id="root"></div>
+  </body>
+</html>
+

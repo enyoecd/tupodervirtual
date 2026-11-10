@@ -2,6 +2,7 @@ import React from 'react';
 import { Phone, MessageSquare } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { translations } from '../data/translations';
+import { RecordlyReveal } from './ui/RecordlyReveal';
 
 export const CtaBanner: React.FC = () => {
   const { language } = useApp();
@@ -15,7 +16,7 @@ export const CtaBanner: React.FC = () => {
       {/* Decorative Matrix grid glow */}
       <div className="absolute inset-0 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none"></div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-6">
+      <RecordlyReveal variant="spring-perspective" delay={0.1} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-6">
         <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
           {t.title}
         </h2>
@@ -44,7 +45,7 @@ export const CtaBanner: React.FC = () => {
             {t.waBtn}
           </a>
         </div>
-      </div>
+      </RecordlyReveal>
     </section>
   );
 };

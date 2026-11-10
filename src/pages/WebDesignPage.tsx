@@ -23,6 +23,7 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { RecordlyReveal, RecordlyScrollDepthCard } from '../components/ui/RecordlyReveal';
 
 export const WebDesignPage: React.FC = () => {
   const { language, navigateTo, triggerSpill } = useApp();
@@ -104,86 +105,100 @@ export const WebDesignPage: React.FC = () => {
           </nav>
 
           {/* Badge System */}
-          <div className="flex items-center flex-wrap gap-2.5 mb-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pink-50 dark:bg-pink-950/60 border border-pink-200 dark:border-pink-800/80 text-pink-700 dark:text-pink-300 text-xs font-bold tracking-wider uppercase">
-              <span className="w-2 h-2 rounded-full bg-pink-500 animate-pulse" />
-              {isEs ? 'Desarrollo a Medida // Software & Presencia Digital' : 'Custom Web Development // Software & Digital Presence'}
+          <RecordlyReveal variant="fade-up" delay={0.05} yOffset={24} triggerOnMount>
+            <div className="flex items-center flex-wrap gap-2.5 mb-6">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pink-50 dark:bg-pink-950/60 border border-pink-200 dark:border-pink-800/80 text-pink-700 dark:text-pink-300 text-xs font-bold tracking-wider uppercase">
+                <span className="w-2 h-2 rounded-full bg-pink-500 animate-pulse" />
+                {isEs ? 'Desarrollo a Medida // Software & Presencia Digital' : 'Custom Web Development // Software & Digital Presence'}
+              </div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300 text-xs font-mono font-semibold">
+                <Sparkles className="w-3.5 h-3.5" />
+                STACK V4.9 FAST-EDGE
+              </div>
             </div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300 text-xs font-mono font-semibold">
-              <Sparkles className="w-3.5 h-3.5" />
-              STACK V4.9 FAST-EDGE
-            </div>
-          </div>
+          </RecordlyReveal>
 
           {/* Main Headline */}
           <div className="max-w-4xl space-y-4 mb-10">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.15]">
-              {isEs ? (
-                <>
-                  Diseño Web Profesional,{' '}
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-600 via-rose-500 to-amber-500 dark:from-pink-500 dark:to-amber-400">
-                    Rápido
-                  </span>{' '}
-                  y Optimizado para Impulsar tu Negocio
-                </>
-              ) : (
-                <>
-                  Professional Web Design,{' '}
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-600 via-rose-500 to-amber-500 dark:from-pink-500 dark:to-amber-400">
-                    Fast
-                  </span>{' '}
-                  and Optimized to Boost Your Business
-                </>
-              )}
-            </h1>
-            <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl">
-              {isEs
-                ? 'Creamos soluciones digitales con arquitectura moderna, carga instantánea y diseño responsive a medida en Antofagasta y todo Chile. Desde sitios informativos hasta menús QR interactivos y plataformas corporativas.'
-                : 'We build digital solutions with modern architecture, instant loading, and tailored responsive design in Antofagasta and throughout Chile. From corporate showcases to interactive QR menus and business platforms.'}
-            </p>
+            <RecordlyReveal variant="blur-up" delay={0.12} triggerOnMount>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.15]">
+                {isEs ? (
+                  <>
+                    Diseño Web Profesional,{' '}
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-600 via-rose-500 to-amber-500 dark:from-pink-500 dark:to-amber-400">
+                      Rápido
+                    </span>{' '}
+                    y Optimizado para Impulsar tu Negocio
+                  </>
+                ) : (
+                  <>
+                    Professional Web Design,{' '}
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-600 via-rose-500 to-amber-500 dark:from-pink-500 dark:to-amber-400">
+                      Fast
+                    </span>{' '}
+                    and Optimized to Boost Your Business
+                  </>
+                )}
+              </h1>
+            </RecordlyReveal>
+            <RecordlyReveal variant="blur-up" delay={0.22} triggerOnMount>
+              <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl">
+                {isEs
+                  ? 'Creamos soluciones digitales con arquitectura moderna, carga instantánea y diseño responsive a medida en Antofagasta y todo Chile. Desde sitios informativos hasta menús QR interactivos y plataformas corporativas.'
+                  : 'We build digital solutions with modern architecture, instant loading, and tailored responsive design in Antofagasta and throughout Chile. From corporate showcases to interactive QR menus and business platforms.'}
+              </p>
+            </RecordlyReveal>
           </div>
 
           {/* Value Metric Badges (4 Cards) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="flex items-center gap-3.5 p-4 bg-slate-50 dark:bg-[#0F172A] rounded-2xl border border-slate-200/80 dark:border-[#1E293B] shadow-xs">
-              <div className="w-11 h-11 rounded-xl bg-pink-100 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 flex items-center justify-center shrink-0">
-                <Monitor className="w-5 h-5" />
+            <RecordlyReveal variant="fade-up" delay={0.3} yOffset={28} triggerOnMount>
+              <div className="flex items-center gap-3.5 p-4 bg-slate-50 dark:bg-[#0F172A] rounded-2xl border border-slate-200/80 dark:border-[#1E293B] shadow-xs">
+                <div className="w-11 h-11 rounded-xl bg-pink-100 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 flex items-center justify-center shrink-0">
+                  <Monitor className="w-5 h-5" />
+                </div>
+                <div className="min-w-0">
+                  <p className="font-bold text-slate-900 dark:text-white text-sm">100% Responsive</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{isEs ? 'PC, celulares y tablets' : 'PCs, phones & tablets'}</p>
+                </div>
               </div>
-              <div className="min-w-0">
-                <p className="font-bold text-slate-900 dark:text-white text-sm">100% Responsive</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{isEs ? 'PC, celulares y tablets' : 'PCs, phones & tablets'}</p>
-              </div>
-            </div>
+            </RecordlyReveal>
 
-            <div className="flex items-center gap-3.5 p-4 bg-slate-50 dark:bg-[#0F172A] rounded-2xl border border-slate-200/80 dark:border-[#1E293B] shadow-xs">
-              <div className="w-11 h-11 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-sky-400 flex items-center justify-center shrink-0">
-                <Server className="w-5 h-5" />
+            <RecordlyReveal variant="fade-up" delay={0.4} yOffset={28} triggerOnMount>
+              <div className="flex items-center gap-3.5 p-4 bg-slate-50 dark:bg-[#0F172A] rounded-2xl border border-slate-200/80 dark:border-[#1E293B] shadow-xs">
+                <div className="w-11 h-11 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-sky-400 flex items-center justify-center shrink-0">
+                  <Server className="w-5 h-5" />
+                </div>
+                <div className="min-w-0">
+                  <p className="font-bold text-slate-900 dark:text-white text-sm">{isEs ? 'Dominio + Hosting SSD' : 'Domain + SSD Hosting'}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{isEs ? 'Alta velocidad incluida' : 'High speed included'}</p>
+                </div>
               </div>
-              <div className="min-w-0">
-                <p className="font-bold text-slate-900 dark:text-white text-sm">{isEs ? 'Dominio + Hosting SSD' : 'Domain + SSD Hosting'}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{isEs ? 'Alta velocidad incluida' : 'High speed included'}</p>
-              </div>
-            </div>
+            </RecordlyReveal>
 
-            <div className="flex items-center gap-3.5 p-4 bg-slate-50 dark:bg-[#0F172A] rounded-2xl border border-slate-200/80 dark:border-[#1E293B] shadow-xs">
-              <div className="w-11 h-11 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
-                <Lock className="w-5 h-5" />
+            <RecordlyReveal variant="fade-up" delay={0.5} yOffset={28} triggerOnMount>
+              <div className="flex items-center gap-3.5 p-4 bg-slate-50 dark:bg-[#0F172A] rounded-2xl border border-slate-200/80 dark:border-[#1E293B] shadow-xs">
+                <div className="w-11 h-11 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                  <Lock className="w-5 h-5" />
+                </div>
+                <div className="min-w-0">
+                  <p className="font-bold text-slate-900 dark:text-white text-sm">{isEs ? 'Certificado SSL' : 'SSL Certificate'}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{isEs ? 'Cifrado TLS Gratuito' : 'Free TLS Encryption'}</p>
+                </div>
               </div>
-              <div className="min-w-0">
-                <p className="font-bold text-slate-900 dark:text-white text-sm">{isEs ? 'Certificado SSL' : 'SSL Certificate'}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{isEs ? 'Cifrado TLS Gratuito' : 'Free TLS Encryption'}</p>
-              </div>
-            </div>
+            </RecordlyReveal>
 
-            <div className="flex items-center gap-3.5 p-4 bg-slate-50 dark:bg-[#0F172A] rounded-2xl border border-slate-200/80 dark:border-[#1E293B] shadow-xs">
-              <div className="w-11 h-11 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
-                <RefreshCw className="w-5 h-5" />
+            <RecordlyReveal variant="fade-up" delay={0.6} yOffset={28} triggerOnMount>
+              <div className="flex items-center gap-3.5 p-4 bg-slate-50 dark:bg-[#0F172A] rounded-2xl border border-slate-200/80 dark:border-[#1E293B] shadow-xs">
+                <div className="w-11 h-11 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+                  <RefreshCw className="w-5 h-5" />
+                </div>
+                <div className="min-w-0">
+                  <p className="font-bold text-slate-900 dark:text-white text-sm">{isEs ? 'Revisiones Continuas' : 'Continuous Reviews'}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{isEs ? 'Hasta tu total aprobación' : 'Until total approval'}</p>
+                </div>
               </div>
-              <div className="min-w-0">
-                <p className="font-bold text-slate-900 dark:text-white text-sm">{isEs ? 'Revisiones Continuas' : 'Continuous Reviews'}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{isEs ? 'Hasta tu total aprobación' : 'Until total approval'}</p>
-              </div>
-            </div>
+            </RecordlyReveal>
           </div>
         </div>
       </section>
@@ -192,6 +207,7 @@ export const WebDesignPage: React.FC = () => {
       <section className="py-20 bg-slate-50/70 dark:bg-[#070B12]/80 border-b border-slate-200 dark:border-[#1E293B]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-24">
           {/* FILA 1: Páginas Web Informativas (Texto Izquierda, Imagen Derecha) */}
+          <RecordlyScrollDepthCard>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             <div className="lg:col-span-6 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-pink-50 dark:bg-pink-950/60 text-pink-700 dark:text-pink-300 text-xs font-bold uppercase tracking-wider border border-pink-200 dark:border-pink-800">
@@ -285,8 +301,10 @@ export const WebDesignPage: React.FC = () => {
               </div>
             </div>
           </div>
+          </RecordlyScrollDepthCard>
 
           {/* FILA 2: Menús QR para Gastronomía (Imagen Izquierda, Texto Derecha) */}
+          <RecordlyScrollDepthCard>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             {/* Imagen Fila 2 (Izquierda en desktop) */}
             <div className="lg:col-span-6 w-full order-2 lg:order-1">
@@ -412,8 +430,10 @@ export const WebDesignPage: React.FC = () => {
               </div>
             </div>
           </div>
+          </RecordlyScrollDepthCard>
 
           {/* FILA 3: Páginas Web Corporativas (Texto Izquierda, Imagen Derecha) */}
+          <RecordlyScrollDepthCard>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             <div className="lg:col-span-6 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-sky-300 text-xs font-bold uppercase tracking-wider border border-blue-200 dark:border-blue-800">
@@ -507,13 +527,14 @@ export const WebDesignPage: React.FC = () => {
               </div>
             </div>
           </div>
+          </RecordlyScrollDepthCard>
         </div>
       </section>
 
       {/* TECHNICAL STANDARDS / VALUE ADDED GRID */}
       <section className="py-20 bg-white dark:bg-[#0B0F17] border-b border-slate-200 dark:border-[#1E293B]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+          <RecordlyReveal variant="blur-up" className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
             <div>
               <span className="text-xs font-mono font-bold text-pink-600 dark:text-pink-400 uppercase tracking-widest">
                 {isEs ? 'ESTÁNDAR DE INGENIERÍA' : 'ENGINEERING STANDARD'}
@@ -527,80 +548,88 @@ export const WebDesignPage: React.FC = () => {
                 ? 'Sin costos ocultos ni configuraciones pendientes. Entregamos plataformas llaves en mano totalmente operativas desde el día uno.'
                 : 'No hidden costs or pending configurations. We deliver turnkey digital platforms ready to operate from day one.'}
             </p>
-          </div>
+          </RecordlyReveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Feature 1 */}
-            <div className="p-6 bg-slate-50 dark:bg-[#0F172A] rounded-2xl border border-slate-200 dark:border-[#1E293B] hover:border-pink-500/50 transition-all hover:shadow-lg flex flex-col justify-between group">
-              <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-pink-100 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Monitor className="w-6 h-6" />
+            <RecordlyReveal variant="fade-up" delay={0.05} className="h-full">
+              <div className="h-full p-6 bg-slate-50 dark:bg-[#0F172A] rounded-2xl border border-slate-200 dark:border-[#1E293B] hover:border-pink-500/50 transition-all hover:shadow-lg flex flex-col justify-between group">
+                <div className="space-y-3">
+                  <div className="w-12 h-12 rounded-xl bg-pink-100 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Monitor className="w-6 h-6" />
+                  </div>
+                  <h4 className="font-bold text-slate-900 dark:text-white text-lg">100% Responsive</h4>
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                    {isEs
+                      ? 'Adaptabilidad milimétrica en PC, celulares y tablets sin quiebre de componentes.'
+                      : 'Pixel-perfect adaptability on PCs, smartphones, and tablets.'}
+                  </p>
                 </div>
-                <h4 className="font-bold text-slate-900 dark:text-white text-lg">100% Responsive</h4>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                  {isEs
-                    ? 'Adaptabilidad milimétrica en PC, celulares y tablets sin quiebre de componentes.'
-                    : 'Pixel-perfect adaptability on PCs, smartphones, and tablets.'}
-                </p>
+                <div className="pt-4 mt-4 border-t border-slate-200 dark:border-[#1E293B] font-mono text-[11px] text-pink-600 dark:text-pink-400 font-semibold">
+                  TESTED: iOS & Android
+                </div>
               </div>
-              <div className="pt-4 mt-4 border-t border-slate-200 dark:border-[#1E293B] font-mono text-[11px] text-pink-600 dark:text-pink-400 font-semibold">
-                TESTED: iOS & Android
-              </div>
-            </div>
+            </RecordlyReveal>
 
             {/* Feature 2 */}
-            <div className="p-6 bg-slate-50 dark:bg-[#0F172A] rounded-2xl border border-slate-200 dark:border-[#1E293B] hover:border-blue-500/50 transition-all hover:shadow-lg flex flex-col justify-between group">
-              <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-sky-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Zap className="w-6 h-6" />
+            <RecordlyReveal variant="fade-up" delay={0.15} className="h-full">
+              <div className="h-full p-6 bg-slate-50 dark:bg-[#0F172A] rounded-2xl border border-slate-200 dark:border-[#1E293B] hover:border-blue-500/50 transition-all hover:shadow-lg flex flex-col justify-between group">
+                <div className="space-y-3">
+                  <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-sky-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Zap className="w-6 h-6" />
+                  </div>
+                  <h4 className="font-bold text-slate-900 dark:text-white text-lg">{isEs ? 'Dominio & Hosting SSD' : 'Domain & SSD Hosting'}</h4>
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                    {isEs
+                      ? 'Gestión completa del dominio .cl o .com con servidores NVMe de alta velocidad, DNS gestionadas y 99.9% de uptime garantizado.'
+                      : 'Complete management of your .cl or .com domain with high-speed NVMe servers, managed DNS, and 99.9% uptime.'}
+                  </p>
                 </div>
-                <h4 className="font-bold text-slate-900 dark:text-white text-lg">{isEs ? 'Dominio & Hosting SSD' : 'Domain & SSD Hosting'}</h4>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                  {isEs
-                    ? 'Gestión completa del dominio .cl o .com con servidores NVMe de alta velocidad, DNS gestionadas y 99.9% de uptime garantizado.'
-                    : 'Complete management of your .cl or .com domain with high-speed NVMe servers, managed DNS, and 99.9% uptime.'}
-                </p>
+                <div className="pt-4 mt-4 border-t border-slate-200 dark:border-[#1E293B] font-mono text-[11px] text-blue-600 dark:text-sky-400 font-semibold">
+                  NVME SSD SERVERS
+                </div>
               </div>
-              <div className="pt-4 mt-4 border-t border-slate-200 dark:border-[#1E293B] font-mono text-[11px] text-blue-600 dark:text-sky-400 font-semibold">
-                NVME SSD SERVERS
-              </div>
-            </div>
+            </RecordlyReveal>
 
             {/* Feature 3 */}
-            <div className="p-6 bg-slate-50 dark:bg-[#0F172A] rounded-2xl border border-slate-200 dark:border-[#1E293B] hover:border-emerald-500/50 transition-all hover:shadow-lg flex flex-col justify-between group">
-              <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Lock className="w-6 h-6" />
+            <RecordlyReveal variant="fade-up" delay={0.25} className="h-full">
+              <div className="h-full p-6 bg-slate-50 dark:bg-[#0F172A] rounded-2xl border border-slate-200 dark:border-[#1E293B] hover:border-emerald-500/50 transition-all hover:shadow-lg flex flex-col justify-between group">
+                <div className="space-y-3">
+                  <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Lock className="w-6 h-6" />
+                  </div>
+                  <h4 className="font-bold text-slate-900 dark:text-white text-lg">{isEs ? 'Seguridad SSL & HTTPS' : 'SSL & HTTPS Security'}</h4>
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                    {isEs
+                      ? 'Instalación de cifrado TLS para proteger datos, generar absoluta credibilidad comercial y evitar penalizaciones de Google.'
+                      : 'TLS encryption install to guard data, generate immediate commercial trust, and avoid Google penalties.'}
+                  </p>
                 </div>
-                <h4 className="font-bold text-slate-900 dark:text-white text-lg">{isEs ? 'Seguridad SSL & HTTPS' : 'SSL & HTTPS Security'}</h4>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                  {isEs
-                    ? 'Instalación de cifrado TLS para proteger datos, generar absoluta credibilidad comercial y evitar penalizaciones de Google.'
-                    : 'TLS encryption install to guard data, generate immediate commercial trust, and avoid Google penalties.'}
-                </p>
+                <div className="pt-4 mt-4 border-t border-slate-200 dark:border-[#1E293B] font-mono text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">
+                  CERT-SSL TLS 1.3
+                </div>
               </div>
-              <div className="pt-4 mt-4 border-t border-slate-200 dark:border-[#1E293B] font-mono text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">
-                CERT-SSL TLS 1.3
-              </div>
-            </div>
+            </RecordlyReveal>
 
             {/* Feature 4 */}
-            <div className="p-6 bg-slate-50 dark:bg-[#0F172A] rounded-2xl border border-slate-200 dark:border-[#1E293B] hover:border-amber-500/50 transition-all hover:shadow-lg flex flex-col justify-between group">
-              <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <RefreshCw className="w-6 h-6" />
+            <RecordlyReveal variant="fade-up" delay={0.35} className="h-full">
+              <div className="h-full p-6 bg-slate-50 dark:bg-[#0F172A] rounded-2xl border border-slate-200 dark:border-[#1E293B] hover:border-amber-500/50 transition-all hover:shadow-lg flex flex-col justify-between group">
+                <div className="space-y-3">
+                  <div className="w-12 h-12 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <RefreshCw className="w-6 h-6" />
+                  </div>
+                  <h4 className="font-bold text-slate-900 dark:text-white text-lg">{isEs ? 'Revisiones & Soporte' : 'Reviews & Support'}</h4>
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                    {isEs
+                      ? 'Ajustes hasta tu aprobación final, copias de seguridad de respaldo y planes continuos de mantención y actualización.'
+                      : 'Iterative adjustments until your approval, backups, and ongoing support and update plans.'}
+                  </p>
                 </div>
-                <h4 className="font-bold text-slate-900 dark:text-white text-lg">{isEs ? 'Revisiones & Soporte' : 'Reviews & Support'}</h4>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                  {isEs
-                    ? 'Ajustes hasta tu aprobación final, copias de seguridad de respaldo y planes continuos de mantención y actualización.'
-                    : 'Iterative adjustments until your approval, backups, and ongoing support and update plans.'}
-                </p>
+                <div className="pt-4 mt-4 border-t border-slate-200 dark:border-[#1E293B] font-mono text-[11px] text-amber-600 dark:text-amber-400 font-semibold">
+                  ANTOFAGASTA LOCAL SUPPORT
+                </div>
               </div>
-              <div className="pt-4 mt-4 border-t border-slate-200 dark:border-[#1E293B] font-mono text-[11px] text-amber-600 dark:text-amber-400 font-semibold">
-                ANTOFAGASTA LOCAL SUPPORT
-              </div>
-            </div>
+            </RecordlyReveal>
           </div>
         </div>
       </section>
@@ -608,7 +637,7 @@ export const WebDesignPage: React.FC = () => {
       {/* INTERACTIVE QUOTATION / DIRECT CONTACT FORM SECTION */}
       <section className="py-20 bg-slate-50/70 dark:bg-[#070B12]/80" id="formulario-cotizacion">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-12">
+          <RecordlyReveal variant="blur-up" className="text-center max-w-3xl mx-auto mb-12">
             <span className="inline-block px-3 py-1 rounded-md bg-pink-50 dark:bg-pink-950/60 text-pink-700 dark:text-pink-300 text-xs font-mono font-bold uppercase tracking-wider mb-3 border border-pink-200 dark:border-pink-800">
               {isEs ? 'DESPACHO DE PROYECTO INMEDIATO' : 'INSTANT PROJECT DISPATCH'}
             </span>
@@ -620,9 +649,10 @@ export const WebDesignPage: React.FC = () => {
                 ? 'Sin compromisos. Evaluamos tus requerimientos técnicos y te asesoramos con la arquitectura adecuada para tu negocio.'
                 : 'No commitments. We evaluate your technical requirements and advise you on the best architecture for your business.'}
             </p>
-          </div>
+          </RecordlyReveal>
 
           {/* Form Container */}
+          <RecordlyReveal variant="spring-perspective" delay={0.15}>
           <div className="bg-white dark:bg-[#0F172A] p-6 sm:p-10 rounded-3xl border border-slate-200 dark:border-[#1E293B] shadow-2xl relative overflow-hidden">
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Input 1: Nombre */}
@@ -758,6 +788,7 @@ export const WebDesignPage: React.FC = () => {
               </div>
             </div>
           </div>
+          </RecordlyReveal>
         </div>
       </section>
     </div>

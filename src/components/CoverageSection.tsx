@@ -2,6 +2,7 @@ import React from 'react';
 import { MapPin, Globe2, ShieldCheck, Clock, Zap } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { translations } from '../data/translations';
+import { RecordlyReveal } from './ui/RecordlyReveal';
 
 export const CoverageSection: React.FC = () => {
   const { language } = useApp();
@@ -13,18 +14,19 @@ export const CoverageSection: React.FC = () => {
       id="cobertura"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <RecordlyReveal variant="blur-up" className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
             {t.title}
           </h2>
           <p className="mt-3 text-base sm:text-lg text-slate-600 dark:text-slate-300">
             {t.subtitle}
           </p>
-        </div>
+        </RecordlyReveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Box 1: Presencial Antofagasta */}
-          <div className="bg-white dark:bg-[#0B0F17] rounded-2xl sm:rounded-3xl p-5 sm:p-8 border-2 border-pink-200 dark:border-pink-800/80 shadow-sm relative overflow-hidden group hover:border-pink-500 transition-colors">
+          <RecordlyReveal variant="fade-up" delay={0.1} className="h-full">
+            <div className="h-full bg-white dark:bg-[#0B0F17] rounded-2xl sm:rounded-3xl p-5 sm:p-8 border-2 border-pink-200 dark:border-pink-800/80 shadow-sm relative overflow-hidden group hover:border-pink-500 transition-colors">
             <div className="absolute top-0 right-0 bg-pink-600 text-white text-[10px] font-extrabold uppercase px-3.5 py-1.5 rounded-bl-xl tracking-wider">
               {t.presencialBadge}
             </div>
@@ -61,10 +63,12 @@ export const CoverageSection: React.FC = () => {
                 </span>
               </p>
             </div>
-          </div>
+            </div>
+          </RecordlyReveal>
 
           {/* Box 2: Remoto Nacional y Mundial */}
-          <div className="bg-white dark:bg-[#0B0F17] rounded-2xl sm:rounded-3xl p-5 sm:p-8 border-2 border-slate-200 dark:border-[#1E293B] shadow-sm relative overflow-hidden group hover:border-sky-500 transition-colors">
+          <RecordlyReveal variant="fade-up" delay={0.25} className="h-full">
+            <div className="h-full bg-white dark:bg-[#0B0F17] rounded-2xl sm:rounded-3xl p-5 sm:p-8 border-2 border-slate-200 dark:border-[#1E293B] shadow-sm relative overflow-hidden group hover:border-sky-500 transition-colors">
             <div className="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-extrabold uppercase px-3.5 py-1.5 rounded-bl-xl tracking-wider">
               {t.remoteBadge}
             </div>
@@ -101,7 +105,8 @@ export const CoverageSection: React.FC = () => {
                 </span>
               </p>
             </div>
-          </div>
+            </div>
+          </RecordlyReveal>
         </div>
       </div>
     </section>

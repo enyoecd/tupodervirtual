@@ -19,6 +19,7 @@ import gmailIcon from '../assets/gmail.png';
 import googleMapsIcon from '../assets/mapas-de-google.png';
 import telegramLogo from '../assets/telegram.svg';
 import { contactService } from '../services/contactService';
+import { RecordlyReveal } from './ui/RecordlyReveal';
 
 export const ContactForm: React.FC = () => {
   const { language, triggerSpill } = useApp();
@@ -213,175 +214,184 @@ export const ContactForm: React.FC = () => {
       id="contacto"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <RecordlyReveal variant="blur-up" className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
             {t.title}
           </h2>
           <p className="mt-2 text-base text-slate-600 dark:text-slate-300">
             {t.subtitle}
           </p>
-        </div>
+        </RecordlyReveal>
 
         <div className="grid lg:grid-cols-12 gap-10 items-start">
           {/* Left Column: Contact Information Cards */}
           <div className="lg:col-span-5 space-y-6">
             {/* 1. Teléfono y WhatsApp Fused Card */}
-            <div className="bg-white dark:bg-[#0B0F17] rounded-2xl p-6 border border-slate-200/80 dark:border-[#1E293B] shadow-sm flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-600/25">
-                <svg className="w-7 h-7 fill-white" viewBox="0 0 24 24">
-                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"></path>
-                </svg>
-              </div>
-              <div className="flex-1 min-w-0">
-                <h4 className="font-bold text-slate-900 dark:text-white text-sm">
-                  {t.phoneTitle}
-                </h4>
-                <div className="flex items-center flex-wrap gap-2 mt-1">
-                  <a
-                    href="https://wa.me/56987676879"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-emerald-600 dark:text-emerald-400 font-bold text-sm sm:text-base hover:underline break-all"
-                    title={isEs ? 'Escribir por WhatsApp' : 'Chat on WhatsApp'}
-                  >
-                    +56 9 8767 6879
-                  </a>
-                  <div className="flex items-center gap-1 shrink-0">
-                    {/* 2. El botoncito de WhatsApp */}
+            <RecordlyReveal variant="fade-up" delay={0.1}>
+              <div className="bg-white dark:bg-[#0B0F17] rounded-2xl p-6 border border-slate-200/80 dark:border-[#1E293B] shadow-sm flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-600/25">
+                  <svg className="w-7 h-7 fill-white" viewBox="0 0 24 24">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"></path>
+                  </svg>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-bold text-slate-900 dark:text-white text-sm">
+                    {t.phoneTitle}
+                  </h4>
+                  <div className="flex items-center flex-wrap gap-2 mt-1">
                     <a
                       href="https://wa.me/56987676879"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center rounded-md p-1.5 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 transition-colors"
-                      title={isEs ? 'Ir a WhatsApp' : 'Go to WhatsApp'}
-                      aria-label={isEs ? 'Ir a WhatsApp' : 'Go to WhatsApp'}
+                      className="text-emerald-600 dark:text-emerald-400 font-bold text-sm sm:text-base hover:underline break-all"
+                      title={isEs ? 'Escribir por WhatsApp' : 'Chat on WhatsApp'}
                     >
-                      <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-                      </svg>
+                      +56 9 8767 6879
                     </a>
+                    <div className="flex items-center gap-1 shrink-0">
+                      {/* 2. El botoncito de WhatsApp */}
+                      <a
+                        href="https://wa.me/56987676879"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center rounded-md p-1.5 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 transition-colors"
+                        title={isEs ? 'Ir a WhatsApp' : 'Go to WhatsApp'}
+                        aria-label={isEs ? 'Ir a WhatsApp' : 'Go to WhatsApp'}
+                      >
+                        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                        </svg>
+                      </a>
 
-                    {/* 3. El icono de llamada */}
+                      {/* 3. El icono de llamada */}
+                      <a
+                        href="tel:+56987676879"
+                        className="inline-flex items-center justify-center rounded-md p-1.5 text-pink-600 dark:text-pink-400 hover:bg-pink-50 dark:hover:bg-pink-950/40 transition-colors"
+                        title={isEs ? 'Llamar por teléfono' : 'Make phone call'}
+                        aria-label={isEs ? 'Llamar al +56 9 8767 6879' : 'Call +56 9 8767 6879'}
+                      >
+                        <Phone className="w-4 h-4" />
+                      </a>
+
+                      {/* 4. El icono de copiar */}
+                      <button
+                        type="button"
+                        onClick={handleCopyPhone}
+                        className="inline-flex items-center justify-center rounded-md p-1.5 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                        title={isEs ? 'Copiar teléfono' : 'Copy phone number'}
+                        aria-label={isEs ? 'Copiar teléfono' : 'Copy phone number'}
+                      >
+                        {copiedPhone ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+                      </button>
+                    </div>
+                  </div>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    {t.phoneHours}
+                  </p>
+                </div>
+              </div>
+            </RecordlyReveal>
+
+            {/* 2. Telegram Card */}
+            <RecordlyReveal variant="fade-up" delay={0.2}>
+              <div className="bg-white dark:bg-[#0B0F17] rounded-2xl p-6 border border-slate-200/80 dark:border-[#1E293B] shadow-sm flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-white dark:bg-[#1E293B] border border-slate-200/80 dark:border-slate-700/80 flex items-center justify-center shrink-0 p-2 shadow-xs">
+                  <img src={telegramLogo} alt="Telegram" className="w-8 h-8 object-contain" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-900 dark:text-white text-sm">
+                    {t.telegramTitle || 'Telegram'}
+                  </h4>
+                  <a
+                    href="https://t.me/enyoecd"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sky-500 dark:text-sky-400 font-semibold text-sm mt-0.5 hover:underline block"
+                  >
+                    @enyoecd
+                  </a>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    {t.telegramSub || 'Consultas y soporte vía mensajería'}
+                  </p>
+                </div>
+              </div>
+            </RecordlyReveal>
+
+            {/* 3. Correo Card */}
+            <RecordlyReveal variant="fade-up" delay={0.3}>
+              <div className="bg-white dark:bg-[#0B0F17] rounded-2xl p-6 border border-slate-200/80 dark:border-[#1E293B] shadow-sm flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-white dark:bg-[#1E293B] border border-slate-200/80 dark:border-slate-700/80 flex items-center justify-center shrink-0 p-2 shadow-xs">
+                  <img src={gmailIcon} alt="Gmail" className="w-7 h-7 object-contain" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-bold text-slate-900 dark:text-white text-sm">
+                    {t.emailTitle || 'Correo Electrónico'}
+                  </h4>
+                  <div className="flex items-center gap-2 mt-0.5">
                     <a
-                      href="tel:+56987676879"
-                      className="inline-flex items-center justify-center rounded-md p-1.5 text-pink-600 dark:text-pink-400 hover:bg-pink-50 dark:hover:bg-pink-950/40 transition-colors"
-                      title={isEs ? 'Llamar por teléfono' : 'Make phone call'}
-                      aria-label={isEs ? 'Llamar al +56 9 8767 6879' : 'Call +56 9 8767 6879'}
+                      href="mailto:enyoecd@gmail.com"
+                      className="text-purple-600 dark:text-purple-400 font-semibold text-sm hover:underline break-all"
                     >
-                      <Phone className="w-4 h-4" />
+                      enyoecd@gmail.com
                     </a>
-
-                    {/* 4. El icono de copiar */}
                     <button
                       type="button"
-                      onClick={handleCopyPhone}
-                      className="inline-flex items-center justify-center rounded-md p-1.5 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-                      title={isEs ? 'Copiar teléfono' : 'Copy phone number'}
-                      aria-label={isEs ? 'Copiar teléfono' : 'Copy phone number'}
+                      onClick={handleCopyEmail}
+                      className="inline-flex items-center justify-center rounded-md p-1.5 text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-950/40 transition-colors"
+                      title={isEs ? 'Copiar correo' : 'Copy email'}
+                      aria-label={isEs ? 'Copiar correo' : 'Copy email'}
                     >
-                      {copiedPhone ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+                      {copiedEmail ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
                     </button>
                   </div>
                 </div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                  {t.phoneHours}
-                </p>
               </div>
-            </div>
-
-            {/* 2. Telegram Card */}
-            <div className="bg-white dark:bg-[#0B0F17] rounded-2xl p-6 border border-slate-200/80 dark:border-[#1E293B] shadow-sm flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-white dark:bg-[#1E293B] border border-slate-200/80 dark:border-slate-700/80 flex items-center justify-center shrink-0 p-2 shadow-xs">
-                <img src={telegramLogo} alt="Telegram" className="w-8 h-8 object-contain" />
-              </div>
-              <div>
-                <h4 className="font-bold text-slate-900 dark:text-white text-sm">
-                  {t.telegramTitle || 'Telegram'}
-                </h4>
-                <a
-                  href="https://t.me/enyoecd"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sky-500 dark:text-sky-400 font-semibold text-sm mt-0.5 hover:underline block"
-                >
-                  @enyoecd
-                </a>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                  {t.telegramSub || 'Consultas y soporte vía mensajería'}
-                </p>
-              </div>
-            </div>
-
-            {/* 3. Correo Card */}
-            <div className="bg-white dark:bg-[#0B0F17] rounded-2xl p-6 border border-slate-200/80 dark:border-[#1E293B] shadow-sm flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-white dark:bg-[#1E293B] border border-slate-200/80 dark:border-slate-700/80 flex items-center justify-center shrink-0 p-2 shadow-xs">
-                <img src={gmailIcon} alt="Gmail" className="w-7 h-7 object-contain" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <h4 className="font-bold text-slate-900 dark:text-white text-sm">
-                  {t.emailTitle || 'Correo Electrónico'}
-                </h4>
-                <div className="flex items-center gap-2 mt-0.5">
-                  <a
-                    href="mailto:enyoecd@gmail.com"
-                    className="text-purple-600 dark:text-purple-400 font-semibold text-sm hover:underline break-all"
-                  >
-                    enyoecd@gmail.com
-                  </a>
-                  <button
-                    type="button"
-                    onClick={handleCopyEmail}
-                    className="inline-flex items-center justify-center rounded-md p-1.5 text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-950/40 transition-colors"
-                    title={isEs ? 'Copiar correo' : 'Copy email'}
-                    aria-label={isEs ? 'Copiar correo' : 'Copy email'}
-                  >
-                    {copiedEmail ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
-                  </button>
-                </div>
-              </div>
-            </div>
+            </RecordlyReveal>
 
             {/* 4. Taller presencial Card (click on Ecuador 1438 scrolls up to map) */}
-            <div className="bg-white dark:bg-[#0B0F17] rounded-2xl p-6 border border-slate-200/80 dark:border-[#1E293B] shadow-sm flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-white dark:bg-[#1E293B] border border-slate-200/80 dark:border-slate-700/80 flex items-center justify-center shrink-0 p-2 shadow-xs">
-                <img src={googleMapsIcon} alt="Google Maps" className="w-7 h-7 object-contain" />
+            <RecordlyReveal variant="fade-up" delay={0.4}>
+              <div className="bg-white dark:bg-[#0B0F17] rounded-2xl p-6 border border-slate-200/80 dark:border-[#1E293B] shadow-sm flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-white dark:bg-[#1E293B] border border-slate-200/80 dark:border-slate-700/80 flex items-center justify-center shrink-0 p-2 shadow-xs">
+                  <img src={googleMapsIcon} alt="Google Maps" className="w-7 h-7 object-contain" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-900 dark:text-white text-sm">
+                    {t.workshopTitle}
+                  </h4>
+                  <a
+                    href="#contenedor-mapa"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const mapEl = document.getElementById('contenedor-mapa') || document.getElementById('mapa-ubicacion');
+                      if (mapEl) {
+                        const header = document.querySelector('header');
+                        const headerHeight = header ? header.getBoundingClientRect().height : 80;
+                        const elementTop = mapEl.getBoundingClientRect().top + window.scrollY;
+                        window.scrollTo({
+                          top: Math.max(0, elementTop - headerHeight - 12),
+                          behavior: 'smooth',
+                        });
+                      }
+                    }}
+                    className="text-slate-800 dark:text-slate-200 font-semibold text-sm mt-0.5 hover:text-pink-600 dark:hover:text-pink-400 hover:underline block cursor-pointer transition-colors"
+                    title={isEs ? 'Ver ubicación en el mapa' : 'View location on map'}
+                  >
+                    Ecuador 1438, Antofagasta, Chile
+                  </a>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    {t.workshopSub}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h4 className="font-bold text-slate-900 dark:text-white text-sm">
-                  {t.workshopTitle}
-                </h4>
-                <a
-                  href="#contenedor-mapa"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const mapEl = document.getElementById('contenedor-mapa') || document.getElementById('mapa-ubicacion');
-                    if (mapEl) {
-                      const header = document.querySelector('header');
-                      const headerHeight = header ? header.getBoundingClientRect().height : 80;
-                      const elementTop = mapEl.getBoundingClientRect().top + window.scrollY;
-                      window.scrollTo({
-                        top: Math.max(0, elementTop - headerHeight - 12),
-                        behavior: 'smooth',
-                      });
-                    }
-                  }}
-                  className="text-slate-800 dark:text-slate-200 font-semibold text-sm mt-0.5 hover:text-pink-600 dark:hover:text-pink-400 hover:underline block cursor-pointer transition-colors"
-                  title={isEs ? 'Ver ubicación en el mapa' : 'View location on map'}
-                >
-                  Ecuador 1438, Antofagasta, Chile
-                </a>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                  {t.workshopSub}
-                </p>
-              </div>
-            </div>
+            </RecordlyReveal>
           </div>
 
           {/* Right Column: Interactive Form */}
-          <div
-            id="formulario-cotizacion"
-            className="lg:col-span-7 bg-white dark:bg-[#0B0F17] rounded-3xl p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm relative scroll-mt-24 lg:scroll-mt-28"
-          >
+          <RecordlyReveal variant="spring-perspective" delay={0.2} className="lg:col-span-7">
+            <div
+              id="formulario-cotizacion"
+              className="bg-white dark:bg-[#0B0F17] rounded-3xl p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm relative scroll-mt-24 lg:scroll-mt-28"
+            >
             <h3
               id="solicitar-cotizacion"
               className="text-xl font-bold text-slate-900 dark:text-white mb-6 scroll-mt-24 lg:scroll-mt-28"
@@ -615,7 +625,8 @@ export const ContactForm: React.FC = () => {
                 <span>{t.privacyText}</span>
               </div>
             </form>
-          </div>
+            </div>
+          </RecordlyReveal>
         </div>
       </div>
 

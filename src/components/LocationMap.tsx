@@ -15,6 +15,7 @@ import {
   Minus
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { RecordlyReveal } from './ui/RecordlyReveal';
 
 export const LocationMap: React.FC = () => {
   const { language } = useApp();
@@ -63,7 +64,7 @@ export const LocationMap: React.FC = () => {
       id="mapa-ubicacion"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-12">
+        <RecordlyReveal variant="blur-up" className="text-center max-w-3xl mx-auto mb-12">
           <span className="text-xs uppercase font-extrabold tracking-wider text-pink-700 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/60 px-3 py-1 rounded-md border border-pink-200 dark:border-pink-800/80">
             {isEs ? 'Presencial Antofagasta' : 'On-Site Workshop Antofagasta'}
           </span>
@@ -75,11 +76,12 @@ export const LocationMap: React.FC = () => {
               ? 'Visítanos directamente en nuestro taller técnico en el corazón de Antofagasta. Fácil acceso por Av. Argentina y Costanera.'
               : 'Visit us directly at our tech workshop located in the heart of Antofagasta. Convenient access from coastal highway & Av. Argentina.'}
           </p>
-        </div>
+        </RecordlyReveal>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-w-6xl mx-auto">
           {/* Columna Izquierda: Información de Atención Presencial */}
-          <div className="lg:col-span-5 bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] rounded-3xl p-7 sm:p-8 flex flex-col justify-between shadow-sm">
+          <RecordlyReveal variant="fade-up" delay={0.1} className="lg:col-span-5 flex">
+            <div className="w-full bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] rounded-3xl p-7 sm:p-8 flex flex-col justify-between shadow-sm">
             <div className="space-y-6">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-pink-100 dark:bg-pink-900/60 text-pink-700 dark:text-pink-300 flex items-center justify-center font-bold text-lg">
@@ -184,13 +186,15 @@ export const LocationMap: React.FC = () => {
                 {isEs ? 'Waze' : 'Waze'}
               </a>
             </div>
-          </div>
+            </div>
+          </RecordlyReveal>
 
           {/* Columna Derecha: Vista Real de Google Maps con Zoom Equilibrado */}
-          <div
-            id="contenedor-mapa"
-            className="lg:col-span-7 bg-white dark:bg-[#0F172A] rounded-3xl border border-slate-200 dark:border-[#1E293B] overflow-hidden relative shadow-lg flex flex-col min-h-[460px] sm:min-h-[500px] scroll-mt-24"
-          >
+          <RecordlyReveal variant="spring-perspective" delay={0.25} className="lg:col-span-7 flex">
+            <div
+              id="contenedor-mapa"
+              className="w-full bg-white dark:bg-[#0F172A] rounded-3xl border border-slate-200 dark:border-[#1E293B] overflow-hidden relative shadow-lg flex flex-col min-h-[460px] sm:min-h-[500px] scroll-mt-24"
+            >
             {/* Barra superior de control y visualización de Google Maps */}
             <div className="bg-slate-50/95 dark:bg-[#0F172A]/95 backdrop-blur-md px-4 py-3 border-b border-slate-200 dark:border-[#1E293B] flex flex-wrap items-center justify-between gap-2 z-10">
               <div className="flex items-center gap-2.5">
@@ -328,7 +332,8 @@ export const LocationMap: React.FC = () => {
                 {isEs ? 'Centrar' : 'Center'}
               </button>
             </div>
-          </div>
+            </div>
+          </RecordlyReveal>
         </div>
       </div>
     </section>

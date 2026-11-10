@@ -1,6 +1,7 @@
 import React from 'react';
 import { Check, Shield, Cpu, RefreshCw, HardDrive, Smartphone, Store, UtensilsCrossed, MonitorCheck } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { RecordlyReveal, RecordlyScrollDepthCard } from './ui/RecordlyReveal';
 
 export const DetailedSpecialties: React.FC = () => {
   const { language, navigateTo } = useApp();
@@ -11,8 +12,9 @@ export const DetailedSpecialties: React.FC = () => {
     <section className="py-20 bg-white dark:bg-[#0B0F17] transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24">
         {/* Specialty 1: Soporte Técnico Informático */}
-        <div className="grid lg:grid-cols-12 gap-12 items-center scroll-mt-24" id="soporte-tecnico">
-          <div className="lg:col-span-6 space-y-6">
+        <RecordlyScrollDepthCard id="soporte-tecnico" className="scroll-mt-24">
+          <div className="grid lg:grid-cols-12 gap-12 items-center">
+            <RecordlyReveal variant="blur-up" delay={0.05} className="lg:col-span-6 space-y-6">
             <span className="text-xs uppercase font-extrabold tracking-wider text-pink-700 dark:text-pink-300 bg-pink-50 dark:bg-pink-950/60 px-3 py-1 rounded-md border border-pink-200 dark:border-pink-800/80">
               {isEs ? 'Soporte Informático' : 'IT & Computer Support'}
             </span>
@@ -138,9 +140,9 @@ export const DetailedSpecialties: React.FC = () => {
                 {isEs ? 'Consultar por WhatsApp' : 'Inquire on WhatsApp'}
               </a>
             </div>
-          </div>
+          </RecordlyReveal>
 
-          <div className="lg:col-span-6">
+          <RecordlyReveal variant="spring-perspective" delay={0.2} className="lg:col-span-6">
             <div className="bg-slate-100 dark:bg-[#0F172A] rounded-3xl p-4 sm:p-6 border border-slate-200 dark:border-[#1E293B] shadow-lg relative group">
               <img
                 alt="Mantenimiento de software, respaldo seguro y soporte técnico para computadores"
@@ -152,26 +154,28 @@ export const DetailedSpecialties: React.FC = () => {
                 <span className="text-emerald-500 font-bold">Garantizado</span>
               </div>
             </div>
+          </RecordlyReveal>
           </div>
-        </div>
+        </RecordlyScrollDepthCard>
 
         {/* Specialty 2: Soluciones Web & Menús QR */}
-        <div className="grid lg:grid-cols-12 gap-12 items-center scroll-mt-24" id="desarrollo-web">
-          <div className="lg:col-span-6 order-2 lg:order-1">
-            <div className="bg-slate-100 dark:bg-[#0F172A] rounded-3xl p-4 sm:p-6 border border-slate-200 dark:border-[#1E293B] shadow-lg relative group">
-              <img
-                alt="Diseño Web y Menú QR digital moderno"
-                className="rounded-2xl shadow-md w-full object-cover aspect-[4/3] group-hover:scale-[1.01] transition-transform duration-300"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhFtMxfael_9nrpu4SWqASDKppsJsMwe7rBLV7Xiuizzq68dN-2DOocA3ry5Q265ldqNU2dPH_Dvtlrd8D2aDDqEABYC5pIu2b_VHSQsT0_1LQILqqGi97pfUT2K2Ia7SfjLdi1uAvBe-5JPKkp8GaqAcNVzyNUPSnzWZrGm7OeQw4haPSwiqGy4PC6troLxmtz9XO8KKCVxgQkcdfz2EHTCpXtWllObgjzhYzdwRkAq4WrjmZm0g0"
-              />
-              <div className="mt-3 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-mono px-2">
-                <span>⚡ Menús QR Interactivos & Sitios Web PyMEs</span>
-                <span className="text-pink-500 font-bold">100% Responsivo</span>
+        <RecordlyScrollDepthCard id="desarrollo-web" className="scroll-mt-24">
+          <div className="grid lg:grid-cols-12 gap-12 items-center">
+            <RecordlyReveal variant="spring-perspective" delay={0.15} className="lg:col-span-6 order-2 lg:order-1">
+              <div className="bg-slate-100 dark:bg-[#0F172A] rounded-3xl p-4 sm:p-6 border border-slate-200 dark:border-[#1E293B] shadow-lg relative group">
+                <img
+                  alt="Diseño Web y Menú QR digital moderno"
+                  className="rounded-2xl shadow-md w-full object-cover aspect-[4/3] group-hover:scale-[1.01] transition-transform duration-300"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhFtMxfael_9nrpu4SWqASDKppsJsMwe7rBLV7Xiuizzq68dN-2DOocA3ry5Q265ldqNU2dPH_Dvtlrd8D2aDDqEABYC5pIu2b_VHSQsT0_1LQILqqGi97pfUT2K2Ia7SfjLdi1uAvBe-5JPKkp8GaqAcNVzyNUPSnzWZrGm7OeQw4haPSwiqGy4PC6troLxmtz9XO8KKCVxgQkcdfz2EHTCpXtWllObgjzhYzdwRkAq4WrjmZm0g0"
+                />
+                <div className="mt-3 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-mono px-2">
+                  <span>⚡ Menús QR Interactivos & Sitios Web PyMEs</span>
+                  <span className="text-pink-500 font-bold">100% Responsivo</span>
+                </div>
               </div>
-            </div>
-          </div>
+            </RecordlyReveal>
 
-          <div className="lg:col-span-6 order-1 lg:order-2 space-y-6">
+            <RecordlyReveal variant="blur-up" delay={0.05} className="lg:col-span-6 order-1 lg:order-2 space-y-6">
             <span className="text-xs uppercase font-extrabold tracking-wider text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 px-3 py-1 rounded-md border border-amber-200 dark:border-amber-800/60">
               {isEs ? 'Desarrollo Web' : 'Web Development'}
             </span>
@@ -249,8 +253,9 @@ export const DetailedSpecialties: React.FC = () => {
                 {isEs ? 'Cotizar Mi Sitio Web o Menú QR' : 'Quote Website or QR Menu'}
               </a>
             </div>
+            </RecordlyReveal>
           </div>
-        </div>
+        </RecordlyScrollDepthCard>
       </div>
     </section>
   );

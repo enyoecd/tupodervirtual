@@ -33,6 +33,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { TerminalMatrixRain } from '../components/matrix/TerminalMatrixRain';
+import { RecordlyReveal } from '../components/ui/RecordlyReveal';
 
 interface ConsoleHistoryItem {
   prompt?: string;
@@ -274,79 +275,94 @@ export const TechnicalSupportPage: React.FC = () => {
             {/* Left Column: Headline, Subtitle, Badges, CTAs */}
             <div className="xl:col-span-7 space-y-6">
               {/* Operational Status Pill */}
-              <div className="flex flex-wrap items-center gap-2">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-sky-300 text-xs font-bold uppercase tracking-wider">
-                  <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
-                  {isEs ? 'Laboratorio Activo · Presencial y Remoto' : 'Active Lab · On-Site & Remote'}
+              <RecordlyReveal variant="fade-up" delay={0.05} yOffset={24} triggerOnMount>
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-sky-300 text-xs font-bold uppercase tracking-wider">
+                    <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
+                    {isEs ? 'Laboratorio Activo · Presencial y Remoto' : 'Active Lab · On-Site & Remote'}
+                  </div>
+                  <span className="hidden sm:inline text-slate-300 dark:text-slate-700">|</span>
+                  <span className="text-xs font-mono text-slate-600 dark:text-slate-400 font-semibold">
+                    100% Software & Seguridad Lógica
+                  </span>
                 </div>
-                <span className="hidden sm:inline text-slate-300 dark:text-slate-700">|</span>
-                <span className="text-xs font-mono text-slate-600 dark:text-slate-400 font-semibold">
-                  100% Software & Seguridad Lógica
-                </span>
-              </div>
+              </RecordlyReveal>
 
               {/* Main Headline */}
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.15]">
-                {isEs ? 'Soporte Técnico de Software' : 'Software Technical Support'}
-              </h1>
+              <RecordlyReveal variant="blur-up" delay={0.12} triggerOnMount>
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.15]">
+                  {isEs ? 'Soporte Técnico de Software' : 'Software Technical Support'}
+                </h1>
+              </RecordlyReveal>
 
-              <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
-                {isEs
-                  ? 'Reparación de problemas, mantenimiento de software y optimización de equipos para PC de escritorio y notebooks con respaldo seguro de datos. Atendemos actividades presenciales en Antofagasta, Chile, además de asistencia técnica remota.'
-                  : 'Troubleshooting, software maintenance, and performance optimization for desktop PCs and laptops with secure data backup. We provide on-site service in Antofagasta, Chile, as well as remote technical assistance.'}
-              </p>
+              <RecordlyReveal variant="blur-up" delay={0.22} triggerOnMount>
+                <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
+                  {isEs
+                    ? 'Reparación de problemas, mantenimiento de software y optimización de equipos para PC de escritorio y notebooks con respaldo seguro de datos. Atendemos actividades presenciales en Antofagasta, Chile, además de asistencia técnica remota.'
+                    : 'Troubleshooting, software maintenance, and performance optimization for desktop PCs and laptops with secure data backup. We provide on-site service in Antofagasta, Chile, as well as remote technical assistance.'}
+                </p>
+              </RecordlyReveal>
 
               {/* 3 Value Commitment Badges */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                <div className="flex items-center gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-[#0F172A] border border-slate-200/80 dark:border-[#1E293B]">
-                  <Clock className="w-5 h-5 text-sky-500 shrink-0" />
-                  <div>
-                    <p className="text-[11px] font-mono text-slate-500 dark:text-slate-400 uppercase">{isEs ? 'Respuesta' : 'Response'}</p>
-                    <p className="text-sm font-bold text-slate-900 dark:text-white">{isEs ? 'El mismo día' : 'Same day'}</p>
+                <RecordlyReveal variant="fade-up" delay={0.3} yOffset={28} triggerOnMount>
+                  <div className="flex items-center gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-[#0F172A] border border-slate-200/80 dark:border-[#1E293B]">
+                    <Clock className="w-5 h-5 text-sky-500 shrink-0" />
+                    <div>
+                      <p className="text-[11px] font-mono text-slate-500 dark:text-slate-400 uppercase">{isEs ? 'Respuesta' : 'Response'}</p>
+                      <p className="text-sm font-bold text-slate-900 dark:text-white">{isEs ? 'El mismo día' : 'Same day'}</p>
+                    </div>
                   </div>
-                </div>
+                </RecordlyReveal>
 
-                <div className="flex items-center gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-[#0F172A] border border-slate-200/80 dark:border-[#1E293B]">
-                  <Shield className="w-5 h-5 text-blue-500 shrink-0" />
-                  <div>
-                    <p className="text-[11px] font-mono text-slate-500 dark:text-slate-400 uppercase">{isEs ? 'Garantía Técnica' : 'Warranty'}</p>
-                    <p className="text-sm font-bold text-slate-900 dark:text-white">{isEs ? '30 a 90 días' : '30 to 90 days'}</p>
+                <RecordlyReveal variant="fade-up" delay={0.4} yOffset={28} triggerOnMount>
+                  <div className="flex items-center gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-[#0F172A] border border-slate-200/80 dark:border-[#1E293B]">
+                    <Shield className="w-5 h-5 text-blue-500 shrink-0" />
+                    <div>
+                      <p className="text-[11px] font-mono text-slate-500 dark:text-slate-400 uppercase">{isEs ? 'Garantía Técnica' : 'Warranty'}</p>
+                      <p className="text-sm font-bold text-slate-900 dark:text-white">{isEs ? '30 a 90 días' : '30 to 90 days'}</p>
+                    </div>
                   </div>
-                </div>
+                </RecordlyReveal>
 
-                <div className="flex items-center gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-[#0F172A] border border-slate-200/80 dark:border-[#1E293B]">
-                  <FileCheck className="w-5 h-5 text-pink-500 shrink-0" />
-                  <div>
-                    <p className="text-[11px] font-mono text-slate-500 dark:text-slate-400 uppercase">{isEs ? 'Archivos Protegidos' : 'Files Protected'}</p>
-                    <p className="text-sm font-bold text-slate-900 dark:text-white">{isEs ? '100% Sin Pérdida' : '100% Zero Loss'}</p>
+                <RecordlyReveal variant="fade-up" delay={0.5} yOffset={28} triggerOnMount>
+                  <div className="flex items-center gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-[#0F172A] border border-slate-200/80 dark:border-[#1E293B]">
+                    <FileCheck className="w-5 h-5 text-pink-500 shrink-0" />
+                    <div>
+                      <p className="text-[11px] font-mono text-slate-500 dark:text-slate-400 uppercase">{isEs ? 'Archivos Protegidos' : 'Files Protected'}</p>
+                      <p className="text-sm font-bold text-slate-900 dark:text-white">{isEs ? '100% Sin Pérdida' : '100% Zero Loss'}</p>
+                    </div>
                   </div>
-                </div>
+                </RecordlyReveal>
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-4 pt-2">
-                <button
-                  type="button"
-                  onClick={() => scrollToContact('optimizacion', 'remoto')}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-blue-600/30 hover:scale-105 cursor-pointer"
-                >
-                  <Zap className="w-4 h-4" />
-                  <span>{isEs ? 'Solicitar Asistencia Remota' : 'Request Remote Support'}</span>
-                </button>
+              <RecordlyReveal variant="fade-up" delay={0.55} yOffset={28} triggerOnMount>
+                <div className="flex flex-wrap items-center gap-4 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => scrollToContact('optimizacion', 'remoto')}
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-blue-600/30 hover:scale-105 cursor-pointer"
+                  >
+                    <Zap className="w-4 h-4" />
+                    <span>{isEs ? 'Solicitar Asistencia Remota' : 'Request Remote Support'}</span>
+                  </button>
 
-                <button
-                  type="button"
-                  onClick={() => scrollToContact('optimizacion', 'antofagasta')}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-[#1E293B] dark:hover:bg-[#283852] text-slate-900 dark:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 dark:border-slate-700 transition-all hover:scale-105 cursor-pointer"
-                >
-                  <MapPin className="w-4 h-4 text-pink-500" />
-                  <span>{isEs ? 'Agendar en Antofagasta' : 'Book Lab in Antofagasta'}</span>
-                </button>
-              </div>
+                  <button
+                    type="button"
+                    onClick={() => scrollToContact('optimizacion', 'antofagasta')}
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-[#1E293B] dark:hover:bg-[#283852] text-slate-900 dark:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 dark:border-slate-700 transition-all hover:scale-105 cursor-pointer"
+                  >
+                    <MapPin className="w-4 h-4 text-pink-500" />
+                    <span>{isEs ? 'Agendar en Antofagasta' : 'Book Lab in Antofagasta'}</span>
+                  </button>
+                </div>
+              </RecordlyReveal>
             </div>
 
             {/* Right Column: Console identical in style & behavior to Home Console */}
-            <div className="xl:col-span-5 relative min-w-0">
+            <RecordlyReveal variant="spring-perspective" delay={0.25} triggerOnMount className="xl:col-span-5 relative min-w-0">
+              <div>
               <div
                 onClick={handleConsoleClick}
                 title="Haz clic para activar ráfaga Matrix"
@@ -543,7 +559,8 @@ export const TechnicalSupportPage: React.FC = () => {
                   <span>{isEs ? 'Soporte Técnico & Soluciones Digitales' : 'Technical Support & Digital Solutions'}</span>
                 </div>
               </div>
-            </div>
+              </div>
+            </RecordlyReveal>
           </div>
         </div>
       </section>
@@ -551,7 +568,7 @@ export const TechnicalSupportPage: React.FC = () => {
       {/* LOS 3 SERVICIOS PRINCIPALES DE SOFTWARE */}
       <section className="py-20 bg-slate-50/70 dark:bg-[#070B12]/80 border-b border-slate-200 dark:border-[#1E293B]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+          <RecordlyReveal variant="blur-up" className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
             <div>
               <span className="text-xs font-mono font-bold text-blue-600 dark:text-sky-400 uppercase tracking-widest">
                 {isEs ? 'CATÁLOGO OPERATIVO ESPECIALIZADO' : 'SPECIALIZED OPERATIONAL CATALOG'}
@@ -565,12 +582,13 @@ export const TechnicalSupportPage: React.FC = () => {
                 ? 'Intervenciones de máxima precisión orientadas exclusivamente a la arquitectura lógica, integridad de datos y velocidad del sistema.'
                 : 'High-precision technical interventions exclusively focused on logical system architecture, data safety, and raw speed.'}
             </p>
-          </div>
+          </RecordlyReveal>
 
           {/* 3 Symmetrical Bento Cards */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Card 1: Soporte Técnico y Teleasistencia Remota */}
-            <div className="bg-white dark:bg-[#0F172A] rounded-3xl p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-xl hover:border-sky-500/50 transition-all flex flex-col justify-between group">
+            <RecordlyReveal variant="fade-up" delay={0.1} className="h-full">
+            <div className="h-full bg-white dark:bg-[#0F172A] rounded-3xl p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-xl hover:border-sky-500/50 transition-all flex flex-col justify-between group">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="w-12 h-12 rounded-2xl bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400 flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -619,9 +637,11 @@ export const TechnicalSupportPage: React.FC = () => {
                 </button>
               </div>
             </div>
+            </RecordlyReveal>
 
             {/* Card 2: Reparación de Software y Respaldo Seguro */}
-            <div className="bg-white dark:bg-[#0F172A] rounded-3xl p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-xl hover:border-blue-500/50 transition-all flex flex-col justify-between group">
+            <RecordlyReveal variant="fade-up" delay={0.2} className="h-full">
+            <div className="h-full bg-white dark:bg-[#0F172A] rounded-3xl p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-xl hover:border-blue-500/50 transition-all flex flex-col justify-between group">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-sky-400 flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -670,9 +690,11 @@ export const TechnicalSupportPage: React.FC = () => {
                 </button>
               </div>
             </div>
+            </RecordlyReveal>
 
             {/* Card 3: Tickets Presenciales para Empresas en Antofagasta */}
-            <div className="bg-white dark:bg-[#0F172A] rounded-3xl p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-xl hover:border-pink-500/50 transition-all flex flex-col justify-between group">
+            <RecordlyReveal variant="fade-up" delay={0.3} className="h-full">
+            <div className="h-full bg-white dark:bg-[#0F172A] rounded-3xl p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-xl hover:border-pink-500/50 transition-all flex flex-col justify-between group">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="w-12 h-12 rounded-2xl bg-pink-50 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -721,6 +743,7 @@ export const TechnicalSupportPage: React.FC = () => {
                 </button>
               </div>
             </div>
+            </RecordlyReveal>
           </div>
         </div>
       </section>
@@ -728,7 +751,7 @@ export const TechnicalSupportPage: React.FC = () => {
       {/* SECCIÓN DETALLADA: TICKETS DE ATENCIÓN PRESENCIAL EN ANTOFAGASTA PARA EMPRESAS */}
       <section className="py-20 bg-slate-50/80 dark:bg-[#070B12] border-b border-slate-200 dark:border-[#1E293B]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-14">
+          <RecordlyReveal variant="blur-up" className="text-center max-w-3xl mx-auto mb-14">
             <span className="text-xs font-mono font-bold text-pink-600 dark:text-pink-400 uppercase tracking-widest px-3 py-1 rounded-full bg-pink-50 dark:bg-pink-950/60 border border-pink-200 dark:border-pink-800">
               {isEs ? 'COBERTURA CORPORATIVA & EN TERRENO' : 'CORPORATE & ON-SITE COVERAGE'}
             </span>
@@ -742,12 +765,13 @@ export const TechnicalSupportPage: React.FC = () => {
                 ? 'Brindamos soporte técnico in situ para empresas, comercios e industrias de Antofagasta. Atendemos requerimientos críticos de informática, sistemas, infraestructura de red, tótems y seguridad con total garantía y respuesta oportuna.'
                 : 'We provide on-site technical support for companies, retail, and industry across Antofagasta. We resolve critical IT, systems, network cabling, kiosk, and electronic security needs with full warranty.'}
             </p>
-          </div>
+          </RecordlyReveal>
 
           {/* Grid de 8 Especialidades de Terreno */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* 1. Informática y Sistemas */}
-            <div className="p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-blue-500/40 transition-all flex flex-col justify-between group">
+            <RecordlyReveal variant="fade-up" delay={0.05} className="h-full">
+            <div className="h-full p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-blue-500/40 transition-all flex flex-col justify-between group">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-sky-400 flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -771,9 +795,11 @@ export const TechnicalSupportPage: React.FC = () => {
                 <span>Estaciones de trabajo & SO</span>
               </div>
             </div>
+            </RecordlyReveal>
 
             {/* 2. Cableado de Redes y Conectividad */}
-            <div className="p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-sky-500/40 transition-all flex flex-col justify-between group">
+            <RecordlyReveal variant="fade-up" delay={0.12} className="h-full">
+            <div className="h-full p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-sky-500/40 transition-all flex flex-col justify-between group">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400 flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -797,9 +823,11 @@ export const TechnicalSupportPage: React.FC = () => {
                 <span>Puntos de red & Racks</span>
               </div>
             </div>
+            </RecordlyReveal>
 
             {/* 3. Atención con Tótems */}
-            <div className="p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-purple-500/40 transition-all flex flex-col justify-between group">
+            <RecordlyReveal variant="fade-up" delay={0.19} className="h-full">
+            <div className="h-full p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-purple-500/40 transition-all flex flex-col justify-between group">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -823,9 +851,11 @@ export const TechnicalSupportPage: React.FC = () => {
                 <span>Mantenimiento & calibración</span>
               </div>
             </div>
+            </RecordlyReveal>
 
             {/* 4. Equipos Computacionales */}
-            <div className="p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-emerald-500/40 transition-all flex flex-col justify-between group">
+            <RecordlyReveal variant="fade-up" delay={0.26} className="h-full">
+            <div className="h-full p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-emerald-500/40 transition-all flex flex-col justify-between group">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -849,9 +879,11 @@ export const TechnicalSupportPage: React.FC = () => {
                 <span>PCs & Notebooks corporativos</span>
               </div>
             </div>
+            </RecordlyReveal>
 
             {/* 5. Roll Out Tecnológico */}
-            <div className="p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-pink-500/40 transition-all flex flex-col justify-between group">
+            <RecordlyReveal variant="fade-up" delay={0.08} className="h-full">
+            <div className="h-full p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-pink-500/40 transition-all flex flex-col justify-between group">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-pink-50 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -875,9 +907,11 @@ export const TechnicalSupportPage: React.FC = () => {
                 <span>Renovación tecnológica</span>
               </div>
             </div>
+            </RecordlyReveal>
 
             {/* 6. Mantenimientos Preventivos y Correctivos */}
-            <div className="p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-amber-500/40 transition-all flex flex-col justify-between group">
+            <RecordlyReveal variant="fade-up" delay={0.15} className="h-full">
+            <div className="h-full p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-amber-500/40 transition-all flex flex-col justify-between group">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -901,9 +935,11 @@ export const TechnicalSupportPage: React.FC = () => {
                 <span>Planes periódicos y urgencias</span>
               </div>
             </div>
+            </RecordlyReveal>
 
             {/* 7. Instalación de Equipos Nuevos & Periféricos */}
-            <div className="p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-teal-500/40 transition-all flex flex-col justify-between group">
+            <RecordlyReveal variant="fade-up" delay={0.22} className="h-full">
+            <div className="h-full p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-teal-500/40 transition-all flex flex-col justify-between group">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -927,9 +963,11 @@ export const TechnicalSupportPage: React.FC = () => {
                 <span>Impresoras, lectores & escáneres</span>
               </div>
             </div>
+            </RecordlyReveal>
 
             {/* 8. Cámaras de Seguridad (CCTV) & Sistemas de Alarma */}
-            <div className="p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-rose-500/40 transition-all flex flex-col justify-between group">
+            <RecordlyReveal variant="fade-up" delay={0.29} className="h-full">
+            <div className="h-full p-6 rounded-2xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-lg hover:border-rose-500/40 transition-all flex flex-col justify-between group">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -953,9 +991,11 @@ export const TechnicalSupportPage: React.FC = () => {
                 <span>DVR/NVR, cableado & alarmas</span>
               </div>
             </div>
+            </RecordlyReveal>
           </div>
 
           {/* Action Callout for Corporate Tickets */}
+          <RecordlyReveal variant="spring-perspective" delay={0.15}>
           <div className="mt-12 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-blue-900/90 via-slate-900 to-indigo-950 text-white border border-blue-700/40 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-6">
             <div className="space-y-2 text-center lg:text-left">
               <span className="inline-flex items-center gap-2 text-xs font-mono font-bold text-sky-300 uppercase tracking-wider">
@@ -993,13 +1033,14 @@ export const TechnicalSupportPage: React.FC = () => {
               </a>
             </div>
           </div>
+          </RecordlyReveal>
         </div>
       </section>
 
       {/* PROCEDIMIENTOS CLAVE DE SOFTWARE */}
       <section className="py-20 bg-white dark:bg-[#0B0F17] border-b border-slate-200 dark:border-[#1E293B]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-12">
+          <RecordlyReveal variant="blur-up" className="flex items-center justify-between mb-12">
             <div>
               <span className="text-xs font-mono font-bold text-pink-600 dark:text-pink-400 uppercase tracking-widest">
                 {isEs ? 'PROTOCOLO TÉCNICO LÓGICO' : 'LOGICAL TECHNICAL PROTOCOL'}
@@ -1012,11 +1053,12 @@ export const TechnicalSupportPage: React.FC = () => {
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
               <span className="text-xs font-mono text-slate-500 dark:text-slate-400">PROCESO ESTANDARIZADO</span>
             </div>
-          </div>
+          </RecordlyReveal>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Proc 1 */}
-            <div className="p-6 rounded-2xl bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] flex flex-col justify-between">
+            <RecordlyReveal variant="fade-up" delay={0.1} className="h-full">
+            <div className="h-full p-6 rounded-2xl bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] flex flex-col justify-between">
               <div className="space-y-3">
                 <span className="font-mono text-xs font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider">
                   01. PROCEDIMIENTO
@@ -1035,9 +1077,11 @@ export const TechnicalSupportPage: React.FC = () => {
                 <span>{isEs ? 'Registro Saneado' : 'Clean Registry'}</span>
               </div>
             </div>
+            </RecordlyReveal>
 
             {/* Proc 2 */}
-            <div className="p-6 rounded-2xl bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] flex flex-col justify-between">
+            <RecordlyReveal variant="fade-up" delay={0.2} className="h-full">
+            <div className="h-full p-6 rounded-2xl bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] flex flex-col justify-between">
               <div className="space-y-3">
                 <span className="font-mono text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
                   02. PROCEDIMIENTO
@@ -1056,9 +1100,11 @@ export const TechnicalSupportPage: React.FC = () => {
                 <span>{isEs ? 'Máxima Fluidez' : 'Peak Fluidity'}</span>
               </div>
             </div>
+            </RecordlyReveal>
 
             {/* Proc 3 */}
-            <div className="p-6 rounded-2xl bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] flex flex-col justify-between">
+            <RecordlyReveal variant="fade-up" delay={0.3} className="h-full">
+            <div className="h-full p-6 rounded-2xl bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] flex flex-col justify-between">
               <div className="space-y-3">
                 <span className="font-mono text-xs font-bold text-pink-600 dark:text-pink-400 uppercase tracking-wider">
                   03. PROCEDIMIENTO
@@ -1077,6 +1123,7 @@ export const TechnicalSupportPage: React.FC = () => {
                 <span>{isEs ? 'Archivos Seguros' : 'Safe Files'}</span>
               </div>
             </div>
+            </RecordlyReveal>
           </div>
         </div>
       </section>
@@ -1084,7 +1131,7 @@ export const TechnicalSupportPage: React.FC = () => {
       {/* COBERTURA Y MODALIDADES (ANTOFAGASTA VS TODO CHILE) */}
       <section className="py-20 bg-slate-50/70 dark:bg-[#070B12]/80 border-b border-slate-200 dark:border-[#1E293B]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-14">
+          <RecordlyReveal variant="blur-up" className="text-center max-w-3xl mx-auto mb-14">
             <span className="text-xs font-mono font-bold text-sky-600 dark:text-sky-400 uppercase tracking-widest">
               {isEs ? 'MODALIDADES FLEXIBLES' : 'FLEXIBLE MODALITIES'}
             </span>
@@ -1096,11 +1143,12 @@ export const TechnicalSupportPage: React.FC = () => {
                 ? 'Elige entre atención directa en nuestro laboratorio técnico o conexión remota segura sin importar en qué punto del país te encuentres.'
                 : 'Choose between direct service at our physical lab or encrypted remote teleassistance from anywhere in Chile.'}
             </p>
-          </div>
+          </RecordlyReveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Bloque Presencial Antofagasta */}
-            <div className="p-8 rounded-3xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-xl flex flex-col justify-between">
+            <RecordlyReveal variant="fade-up" delay={0.1} className="h-full">
+            <div className="h-full p-8 rounded-3xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-xl flex flex-col justify-between">
               <div className="space-y-5">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
@@ -1145,9 +1193,11 @@ export const TechnicalSupportPage: React.FC = () => {
                 </button>
               </div>
             </div>
+            </RecordlyReveal>
 
             {/* Bloque Soporte Remoto Todo Chile */}
-            <div className="p-8 rounded-3xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-xl flex flex-col justify-between">
+            <RecordlyReveal variant="fade-up" delay={0.25} className="h-full">
+            <div className="h-full p-8 rounded-3xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-xl flex flex-col justify-between">
               <div className="space-y-5">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
@@ -1195,6 +1245,7 @@ export const TechnicalSupportPage: React.FC = () => {
                 </button>
               </div>
             </div>
+            </RecordlyReveal>
           </div>
         </div>
       </section>
@@ -1202,18 +1253,19 @@ export const TechnicalSupportPage: React.FC = () => {
       {/* PROTOCOLO EN 4 PASOS */}
       <section className="py-20 bg-white dark:bg-[#0B0F17] border-b border-slate-200 dark:border-[#1E293B]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-12">
+          <RecordlyReveal variant="blur-up" className="mb-12">
             <span className="text-xs font-mono font-bold text-blue-600 dark:text-sky-400 uppercase tracking-widest">
               {isEs ? 'METODOLOGÍA ÁGIL Y TRANSPARENTE' : 'AGILE & TRANSPARENT METHODOLOGY'}
             </span>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight mt-1">
               {isEs ? 'Protocolo en 4 Pasos' : '4-Step Protocol'}
             </h2>
-          </div>
+          </RecordlyReveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Step 1 */}
-            <div className="p-6 rounded-2xl bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] space-y-3">
+            <RecordlyReveal variant="fade-up" delay={0.05} className="h-full">
+            <div className="h-full p-6 rounded-2xl bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] space-y-3">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-2xl font-black text-sky-500">01</span>
                 <span className="text-xs font-mono text-slate-400">PASO</span>
@@ -1227,9 +1279,11 @@ export const TechnicalSupportPage: React.FC = () => {
                   : 'Fast coordination on WhatsApp, secure one-time remote link, or device intake at the Antofagasta workshop.'}
               </p>
             </div>
+            </RecordlyReveal>
 
             {/* Step 2 */}
-            <div className="p-6 rounded-2xl bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] space-y-3">
+            <RecordlyReveal variant="fade-up" delay={0.15} className="h-full">
+            <div className="h-full p-6 rounded-2xl bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] space-y-3">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-2xl font-black text-blue-500">02</span>
                 <span className="text-xs font-mono text-slate-400">PASO</span>
@@ -1243,9 +1297,11 @@ export const TechnicalSupportPage: React.FC = () => {
                   : 'Logical system audit in 15 to 30 min: resource hogging, latent threats, disk fragmentation, and software crashes.'}
               </p>
             </div>
+            </RecordlyReveal>
 
             {/* Step 3 */}
-            <div className="p-6 rounded-2xl bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] space-y-3">
+            <RecordlyReveal variant="fade-up" delay={0.25} className="h-full">
+            <div className="h-full p-6 rounded-2xl bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] space-y-3">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-2xl font-black text-pink-500">03</span>
                 <span className="text-xs font-mono text-slate-400">PASO</span>
@@ -1259,9 +1315,11 @@ export const TechnicalSupportPage: React.FC = () => {
                   : 'Surgical software execution: disinfection, startup boost, patch installs without touching or risking your data.'}
               </p>
             </div>
+            </RecordlyReveal>
 
             {/* Step 4 */}
-            <div className="p-6 rounded-2xl bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] space-y-3">
+            <RecordlyReveal variant="fade-up" delay={0.35} className="h-full">
+            <div className="h-full p-6 rounded-2xl bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] space-y-3">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-2xl font-black text-emerald-500">04</span>
                 <span className="text-xs font-mono text-slate-400">PASO</span>
@@ -1275,6 +1333,7 @@ export const TechnicalSupportPage: React.FC = () => {
                   : 'Joint performance test on your screen, session termination, and warranty backed for 30 to 90 days.'}
               </p>
             </div>
+            </RecordlyReveal>
           </div>
         </div>
       </section>
@@ -1282,6 +1341,7 @@ export const TechnicalSupportPage: React.FC = () => {
       {/* FORMULARIO RÁPIDO & CONTACTO DIRECTO */}
       <section className="py-20 bg-slate-50/70 dark:bg-[#070B12]/80" id="contacto-rapido">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <RecordlyReveal variant="spring-perspective" delay={0.15}>
           <div className="bg-white dark:bg-[#0F172A] p-6 sm:p-10 rounded-3xl border border-slate-200 dark:border-[#1E293B] shadow-2xl relative overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* Info Column */}
@@ -1442,6 +1502,7 @@ export const TechnicalSupportPage: React.FC = () => {
               </div>
             </div>
           </div>
+          </RecordlyReveal>
         </div>
       </section>
     </div>

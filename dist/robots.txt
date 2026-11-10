@@ -1,0 +1,12 @@
+User-agent: *
+Disallow: /enyo
+Disallow: /enyo/
+Disallow: /#enyo
+Disallow: /*enyo
+Disallow: /enjo
+Disallow: /enjo/
+Disallow: /#enjo
+Disallow: /*enjo
+Allow: /
+
+Sitemap: https://tupodervirtual.pages.dev/sitemap.xml

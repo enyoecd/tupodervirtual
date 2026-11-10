@@ -2,6 +2,7 @@ import React from 'react';
 import { Sliders, Monitor, ArrowRight, Check } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { translations } from '../data/translations';
+import { RecordlyReveal } from './ui/RecordlyReveal';
 
 export const ServicesOverview: React.FC = () => {
   const { language, navigateTo } = useApp();
@@ -68,7 +69,7 @@ export const ServicesOverview: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <RecordlyReveal variant="blur-up" className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-pink-50 dark:bg-pink-950/60 text-pink-700 dark:text-pink-300 text-xs font-bold uppercase tracking-wider mb-3 border border-pink-200/80 dark:border-pink-800/60">
             {t.kicker}
           </div>
@@ -78,12 +79,13 @@ export const ServicesOverview: React.FC = () => {
           <p className="mt-3 text-base sm:text-lg text-slate-600 dark:text-slate-300">
             {t.subtitle}
           </p>
-        </div>
+        </RecordlyReveal>
 
         {/* 2 Big Category Overview Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Soporte Técnico Card */}
-          <div className="bg-slate-50 dark:bg-[#0F172A] rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-xl transition-all flex flex-col justify-between group">
+          <RecordlyReveal variant="fade-up" delay={0.1} className="h-full">
+            <div className="h-full bg-slate-50 dark:bg-[#0F172A] rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-xl transition-all flex flex-col justify-between group">
             <div>
               <div className="flex items-center justify-between mb-6">
                 <div className="w-14 h-14 rounded-2xl bg-blue-500/10 text-blue-600 dark:bg-blue-900/30 dark:text-sky-400 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
@@ -150,10 +152,12 @@ export const ServicesOverview: React.FC = () => {
                 {t.supportAction}
               </button>
             </div>
-          </div>
+            </div>
+          </RecordlyReveal>
 
           {/* Desarrollo y Soluciones Web Card */}
-          <div className="bg-slate-50 dark:bg-[#0F172A] rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-xl transition-all flex flex-col justify-between group">
+          <RecordlyReveal variant="fade-up" delay={0.25} className="h-full">
+            <div className="h-full bg-slate-50 dark:bg-[#0F172A] rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-slate-200 dark:border-[#1E293B] shadow-sm hover:shadow-xl transition-all flex flex-col justify-between group">
             <div>
               <div className="flex items-center justify-between mb-6">
                 <div className="w-14 h-14 rounded-2xl bg-pink-50 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 flex items-center justify-center group-hover:bg-pink-600 group-hover:text-white transition-colors">
@@ -220,7 +224,8 @@ export const ServicesOverview: React.FC = () => {
                 {t.webAction}
               </button>
             </div>
-          </div>
+            </div>
+          </RecordlyReveal>
         </div>
       </div>
     </section>

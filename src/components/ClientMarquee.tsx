@@ -1,5 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
+import { RecordlyReveal } from './ui/RecordlyReveal';
 import falabellaLogo from '../assets/falabella.svg';
 import tricotLogo from '../assets/tricot.svg';
 import bancoEstadoLogo from '../assets/banco-estado.svg';
@@ -385,7 +386,7 @@ export const ClientMarquee: React.FC = () => {
 
   return (
     <section className="py-12 bg-slate-50 dark:bg-[#0F172A] border-y border-slate-200 dark:border-[#1E293B] overflow-hidden transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center">
+      <RecordlyReveal variant="fade-up" delay={0.1} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-50 dark:bg-pink-950/60 text-pink-700 dark:text-pink-300 text-xs font-bold uppercase tracking-wider mb-2 border border-pink-200/80 dark:border-pink-800/60">
           Alianzas & Clientes Corporativos
         </div>
@@ -395,9 +396,9 @@ export const ClientMarquee: React.FC = () => {
         <p className="mt-1.5 text-sm sm:text-base text-slate-600 dark:text-slate-400">
           {subtitle}
         </p>
-      </div>
+      </RecordlyReveal>
 
-      <div className="marquee-container space-y-4 relative w-full overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
+      <RecordlyReveal variant="fade-up" delay={0.2} className="marquee-container space-y-4 relative w-full overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
         {/* Línea 1 (Arriba) */}
         <div className="marquee-track flex items-center gap-4 sm:gap-6 py-1 animate-marquee">
           {marqueeRow1.map((item, index) => (
@@ -427,7 +428,7 @@ export const ClientMarquee: React.FC = () => {
             </div>
           ))}
         </div>
-      </div>
+      </RecordlyReveal>
     </section>
   );
 };
