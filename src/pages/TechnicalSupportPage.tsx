@@ -607,20 +607,20 @@ export const TechnicalSupportPage: React.FC = () => {
                 {/* Capacity Chips */}
                 <div className="flex flex-wrap gap-2 pt-2">
                   <span className="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-100 dark:bg-[#1E293B] text-slate-600 dark:text-slate-400">
-                    {isEs ? 'Control Remoto' : 'Remote Control'}
+                    {isEs ? 'Asistencia Remota' : 'Remote Assistance'}
                   </span>
                   <span className="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-100 dark:bg-[#1E293B] text-slate-600 dark:text-slate-400">
                     {isEs ? 'Aceleración del Sistema' : 'System Acceleration'}
                   </span>
                   <span className="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-100 dark:bg-[#1E293B] text-slate-600 dark:text-slate-400">
-                    {isEs ? 'Ajuste del Sistema' : 'System Tuning'}
+                    {isEs ? 'Configuraciones' : 'Configurations'}
                   </span>
                 </div>
               </div>
 
               <div className="pt-6 mt-6 border-t border-slate-200 dark:border-[#1E293B] flex items-center justify-between">
                 <span className="text-xs font-mono text-sky-600 dark:text-sky-400 font-semibold">
-                  {isEs ? 'Modalidad: Remoto' : 'Modality: Remote'}
+                  {isEs ? 'Modalidad: Remoto Global' : 'Modality: Global Remote'}
                 </span>
                 <button
                   type="button"
