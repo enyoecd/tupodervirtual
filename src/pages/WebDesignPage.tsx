@@ -100,7 +100,7 @@ export const WebDesignPage: React.FC = () => {
             </button>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
             <span className="text-pink-600 dark:text-pink-400 font-semibold">
-              {isEs ? 'Diseño y Desarrollo Web' : 'Web Design & Development'}
+              {isEs ? 'Desarrollo Web' : 'Web Development'}
             </span>
           </nav>
 
@@ -109,11 +109,7 @@ export const WebDesignPage: React.FC = () => {
             <div className="flex items-center flex-wrap gap-2.5 mb-6">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pink-50 dark:bg-pink-950/60 border border-pink-200 dark:border-pink-800/80 text-pink-700 dark:text-pink-300 text-xs font-bold tracking-wider uppercase">
                 <span className="w-2 h-2 rounded-full bg-pink-500 animate-pulse" />
-                {isEs ? 'Desarrollo a Medida // Software & Presencia Digital' : 'Custom Web Development // Software & Digital Presence'}
-              </div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300 text-xs font-mono font-semibold">
-                <Sparkles className="w-3.5 h-3.5" />
-                STACK V4.9 FAST-EDGE
+                {isEs ? 'Desarrollo a Medida y Presencia Digital' : 'Custom Development & Digital Presence'}
               </div>
             </div>
           </RecordlyReveal>

@@ -267,7 +267,7 @@ export const TechnicalSupportPage: React.FC = () => {
             </button>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
             <span className="text-blue-600 dark:text-sky-400 font-semibold">
-              {isEs ? 'Soporte Técnico y Optimización' : 'Technical Support & Optimization'}
+              {isEs ? 'Soporte Técnico' : 'Technical Support'}
             </span>
           </nav>
 
@@ -568,7 +568,7 @@ export const TechnicalSupportPage: React.FC = () => {
       {/* LOS 3 SERVICIOS PRINCIPALES DE SOFTWARE */}
       <section className="py-20 bg-slate-50/70 dark:bg-[#070B12]/80 border-b border-slate-200 dark:border-[#1E293B]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <RecordlyReveal variant="blur-up" className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+          <RecordlyReveal variant="blur-up" className="mb-14">
             <div>
               <span className="text-xs font-mono font-bold text-blue-600 dark:text-sky-400 uppercase tracking-widest">
                 {isEs ? 'CATÁLOGO OPERATIVO ESPECIALIZADO' : 'SPECIALIZED OPERATIONAL CATALOG'}
@@ -577,11 +577,6 @@ export const TechnicalSupportPage: React.FC = () => {
                 {isEs ? 'Los 3 Servicios Principales de Software' : 'Top 3 Software Services'}
               </h2>
             </div>
-            <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base max-w-md">
-              {isEs
-                ? 'Intervenciones de máxima precisión orientadas exclusivamente a la arquitectura lógica, integridad de datos y velocidad del sistema.'
-                : 'High-precision technical interventions exclusively focused on logical system architecture, data safety, and raw speed.'}
-            </p>
           </RecordlyReveal>
 
           {/* 3 Symmetrical Bento Cards */}
@@ -612,13 +607,13 @@ export const TechnicalSupportPage: React.FC = () => {
                 {/* Capacity Chips */}
                 <div className="flex flex-wrap gap-2 pt-2">
                   <span className="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-100 dark:bg-[#1E293B] text-slate-600 dark:text-slate-400">
-                    AnyDesk / RustDesk
+                    {isEs ? 'Control Remoto' : 'Remote Control'}
                   </span>
                   <span className="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-100 dark:bg-[#1E293B] text-slate-600 dark:text-slate-400">
-                    Solución de Lentitud
+                    {isEs ? 'Aceleración del Sistema' : 'System Acceleration'}
                   </span>
                   <span className="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-100 dark:bg-[#1E293B] text-slate-600 dark:text-slate-400">
-                    Depuración RAM & SO
+                    {isEs ? 'Ajuste del Sistema' : 'System Tuning'}
                   </span>
                 </div>
               </div>
