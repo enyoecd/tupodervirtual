@@ -293,7 +293,9 @@ export const WebDesignPage: React.FC = () => {
                   <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-slate-900/85 backdrop-blur-md border border-slate-700/60 text-white text-xs">
                     <div className="flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-pink-500 animate-pulse shrink-0" />
-                      <span className="font-mono font-semibold">PORTFOLIO // RESPONSIVE SUITE</span>
+                      <span className="font-mono font-semibold">
+                        {isEs ? 'WEB INFORMATIVA // DISEÑO RESPONSIVO' : 'INFORMATIVE WEB // RESPONSIVE DESIGN'}
+                      </span>
                     </div>
                     <span className="font-mono text-pink-400">
                       {isEs ? 'Adaptable a PC y Móvil' : 'PC & Mobile Ready'}
@@ -527,9 +529,13 @@ export const WebDesignPage: React.FC = () => {
                   <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-slate-900/85 backdrop-blur-md border border-slate-700/60 text-white text-xs">
                     <div className="flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse shrink-0" />
-                      <span className="font-mono font-semibold">ENTERPRISE // B2B READY</span>
+                      <span className="font-mono font-semibold">
+                        {isEs ? 'WEB CORPORATIVA // EMPRESAS' : 'CORPORATE WEB // BUSINESS'}
+                      </span>
                     </div>
-                    <span className="font-mono text-sky-400">TLS 1.3 / ISO-SEC</span>
+                    <span className="font-mono text-sky-400">
+                      {isEs ? 'Seguridad SSL y Cifrado' : 'SSL & Encrypted Security'}
+                    </span>
                   </div>
                 </div>
               </div>
