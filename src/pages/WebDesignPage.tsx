@@ -322,7 +322,9 @@ export const WebDesignPage: React.FC = () => {
                   <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-slate-900/85 backdrop-blur-md border border-slate-700/60 text-white text-xs">
                     <div className="flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse shrink-0" />
-                      <span className="font-mono font-semibold">QR GOURMET // DINE-IN & TAKE-AWAY</span>
+                      <span className="font-mono font-semibold">
+                        {isEs ? 'QR GOURMET // EN LOCAL Y PARA LLEVAR' : 'QR GOURMET // DINE-IN & TAKE-AWAY'}
+                      </span>
                     </div>
                     <span className="font-mono text-amber-400">
                       {isEs ? 'Sin descargar apps' : 'No App Needed'}
