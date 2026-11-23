@@ -34,6 +34,13 @@ import {
 import { useApp } from '../context/AppContext';
 import { TerminalMatrixRain } from '../components/matrix/TerminalMatrixRain';
 import { RecordlyReveal } from '../components/ui/RecordlyReveal';
+import {
+  detectPhoneRule,
+  sanitizeWhatsappPhone,
+  validateWhatsappPhone,
+} from '../utils/phoneValidation';
+
+const MAX_NAME_LENGTH = 30;
 
 interface ConsoleHistoryItem {
   prompt?: string;
@@ -50,11 +57,12 @@ export const TechnicalSupportPage: React.FC = () => {
   const [formData, setFormData] = useState({
     nombre: '',
     telefono: '',
-    modalidad: 'remoto',
-    tipoRequerimiento: 'optimizacion',
+    modalidad: '',
+    tipoRequerimiento: '',
     detalle: '',
   });
 
+  const [phoneError, setPhoneError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [ticketId, setTicketId] = useState('');
@@ -205,7 +213,15 @@ export const TechnicalSupportPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.nombre || !formData.telefono) return;
+    const trimmedName = formData.nombre.trim();
+    if (!trimmedName || !formData.modalidad || !formData.tipoRequerimiento) return;
+
+    const telError = validateWhatsappPhone(formData.telefono, isEs);
+    if (telError) {
+      setPhoneError(telError);
+      return;
+    }
+    setPhoneError('');
 
     setIsSubmitting(true);
     triggerSpill(window.innerHeight / 2, true);
@@ -219,8 +235,8 @@ export const TechnicalSupportPage: React.FC = () => {
       setFormData({
         nombre: '',
         telefono: '',
-        modalidad: 'remoto',
-        tipoRequerimiento: 'optimizacion',
+        modalidad: '',
+        tipoRequerimiento: '',
         detalle: '',
       });
       setTimeout(() => setShowSuccess(false), 8000);
@@ -341,7 +357,7 @@ export const TechnicalSupportPage: React.FC = () => {
                 <div className="flex flex-wrap items-center gap-4 pt-2">
                   <button
                     type="button"
-                    onClick={() => scrollToContact('optimizacion', 'remoto')}
+                    onClick={() => scrollToContact('soporte-remoto', 'remoto')}
                     className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-blue-600/30 hover:scale-105 cursor-pointer"
                   >
                     <Zap className="w-4 h-4" />
@@ -350,7 +366,7 @@ export const TechnicalSupportPage: React.FC = () => {
 
                   <button
                     type="button"
-                    onClick={() => scrollToContact('optimizacion', 'antofagasta')}
+                    onClick={() => scrollToContact('reparacion-software', 'antofagasta')}
                     className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-[#1E293B] dark:hover:bg-[#283852] text-slate-900 dark:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 dark:border-slate-700 transition-all hover:scale-105 cursor-pointer"
                   >
                     <MapPin className="w-4 h-4 text-pink-500" />
@@ -757,7 +773,7 @@ export const TechnicalSupportPage: React.FC = () => {
             </h2>
             <p className="mt-3 text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
               {isEs
-                ? 'Brindamos soporte técnico in situ para empresas, comercios e industrias de Antofagasta. Atendemos requerimientos críticos de informática, sistemas, infraestructura de red, tótems y seguridad con total garantía y respuesta oportuna.'
+                ? 'Brindamos soporte técnico presencial para empresas, comercios e industrias de Antofagasta. Atendemos requerimientos críticos de informática, sistemas, infraestructura de red, tótems y seguridad con total garantía y respuesta oportuna.'
                 : 'We provide on-site technical support for companies, retail, and industry across Antofagasta. We resolve critical IT, systems, network cabling, kiosk, and electronic security needs with full warranty.'}
             </p>
           </RecordlyReveal>
@@ -781,8 +797,8 @@ export const TechnicalSupportPage: React.FC = () => {
                 </h3>
                 <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                   {isEs
-                    ? 'Soporte y diagnóstico in situ para estaciones operativas, entornos de trabajo corporativos, configuración de sistema para empresas y continuidad de sistemas.'
-                    : 'On-site diagnosis and support for workstations, corporate environments, enterprise system configuration, and operational continuity.'}
+                    ? 'Soporte y diagnóstico para estaciones operativas, entornos de trabajo corporativos, configuración de sistema para empresas y continuidad de sistemas.'
+                    : 'Diagnosis and support for workstations, corporate environments, enterprise system configuration, and operational continuity.'}
                 </p>
               </div>
               <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-mono text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
@@ -809,8 +825,8 @@ export const TechnicalSupportPage: React.FC = () => {
                 </h3>
                 <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                   {isEs
-                    ? 'Tendido y ordenamiento de cableado estructurado (Cat 6/6A), armado de racks, patch panels, switches, routers y antenas Wi-Fi comerciales.'
-                    : 'Structured cabling installation (Cat 6/6A), rack dressing, patch panels, switches, routers, and commercial Wi-Fi APs.'}
+                    ? 'Tendido y ordenamiento de cableado estructurado (Cat 6/6A), racks, switches, routers, instalación de AP, redes Wi-Fi, antenas y Starlink.'
+                    : 'Structured cabling installation (Cat 6/6A), racks, switches, routers, AP deployment, Wi-Fi networks, antennas, and Starlink.'}
                 </p>
               </div>
               <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-mono text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
@@ -1161,18 +1177,37 @@ export const TechnicalSupportPage: React.FC = () => {
 
                 <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                   {isEs
-                    ? 'Atención personalizada recibiendo tu equipo en nuestro local para evaluación detallada, desinfección profunda de virus y malware, formateos integrales con respaldo seguro de información y diagnósticos de software in situ.'
+                    ? 'Atención personalizada recibiendo tu equipo en nuestro local para evaluación detallada, desinfección profunda de virus y malware, formateos integrales con respaldo seguro de información y diagnósticos de software.'
                     : 'Personalized service receiving your computer at our local lab for detailed checks, deep virus & malware disinfection, clean reinstalls with secure data backup, and software diagnostics.'}
                 </p>
 
                 <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#0B0F17] border border-slate-200 dark:border-slate-800 space-y-2 text-xs font-mono">
-                  <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold">
-                    <MapPin className="w-4 h-4 text-pink-500" />
-                    <span>Calle Ecuador 1438, Antofagasta</span>
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <a
+                      href="#contenedor-mapa"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigateTo('home', 'contenedor-mapa');
+                      }}
+                      className="flex items-center gap-2 text-slate-900 dark:text-white hover:text-pink-600 dark:hover:text-pink-400 font-bold transition-colors group/map cursor-pointer"
+                      title={isEs ? 'Ver ubicación en el mapa' : 'View location on map'}
+                    >
+                      <MapPin className="w-4 h-4 text-pink-500 shrink-0 group-hover/map:scale-110 transition-transform" />
+                      <span className="group-hover/map:underline">Calle Ecuador 1438, Antofagasta</span>
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => navigateTo('home', 'contenedor-mapa')}
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-pink-50 hover:bg-pink-100 dark:bg-pink-950/60 dark:hover:bg-pink-900/70 text-pink-600 dark:text-pink-300 border border-pink-200/80 dark:border-pink-800/70 text-[11px] font-bold transition-colors cursor-pointer shrink-0"
+                      title={isEs ? 'Ir al mapa en la página principal' : 'Go to map on home page'}
+                    >
+                      <span>{isEs ? 'Ver mapa' : 'View map'}</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </button>
                   </div>
                   <p className="text-slate-500 dark:text-slate-400 pl-6">Sector Centro-Norte · Fácil acceso</p>
                   <div className="flex items-center gap-2 text-sky-600 dark:text-sky-400 pl-6 pt-1">
-                    <Clock className="w-3.5 h-3.5" />
+                    <Clock className="w-3.5 h-3.5 shrink-0" />
                     <span>Lunes a Sábado: 09:30 - 19:30 hrs</span>
                   </div>
                 </div>
@@ -1190,42 +1225,41 @@ export const TechnicalSupportPage: React.FC = () => {
             </div>
             </RecordlyReveal>
 
-            {/* Bloque Soporte Remoto Todo Chile */}
+            {/* Bloque Conexión Remota Global */}
             <RecordlyReveal variant="fade-up" delay={0.25} className="h-full">
             <div className="h-full p-8 rounded-3xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-[#1E293B] shadow-xl flex flex-col justify-between">
               <div className="space-y-5">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-sky-400 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-sky-400 flex items-center justify-center shrink-0">
                       <Globe className="w-5 h-5" />
                     </div>
                     <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-                      {isEs ? 'Soporte Remoto en Todo Chile' : 'Remote Support Across Chile'}
+                      {isEs ? 'Conexión Remota en Todo el Mundo' : 'Worldwide Remote Connection'}
                     </h3>
                   </div>
-                  <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-[#1E293B] text-blue-600 dark:text-sky-300 border border-slate-200 dark:border-slate-700">
-                    TELEASISTENCIA
+                  <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-[#1E293B] text-blue-600 dark:text-sky-300 border border-slate-200 dark:border-slate-700 shrink-0">
+                    GLOBAL
                   </span>
                 </div>
 
                 <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                   {isEs
-                    ? 'Teleasistencia instantánea cifrada para Santiago, Concepción, Valparaíso, regiones extremas y faenas mineras. Resolución inmediata sin traslados con control encriptado de extremo a extremo.'
-                    : 'Instant encrypted teleassistance for Santiago, Concepción, Valparaíso, mining operations, and remote locations. Quick fix with zero travel.'}
+                    ? 'Acceso remoto en cualquier lugar del mundo. Atención inmediata, sin traslados y con control encriptado de extremo a extremo.'
+                    : 'Remote access anywhere in the world. Immediate assistance, zero travel, with end-to-end encrypted control.'}
                 </p>
 
                 <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#0B0F17] border border-slate-200 dark:border-slate-800 space-y-2 text-xs font-mono">
-                  <div className="flex items-center justify-between text-slate-900 dark:text-white font-bold">
-                    <span className="flex items-center gap-2">
-                      <Lock className="w-4 h-4 text-sky-400" />
-                      <span>Conexión Inmediata TLS / 256-bit</span>
-                    </span>
-                    <span className="text-emerald-500">&lt; 15 min</span>
+                  <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold">
+                    <Lock className="w-4 h-4 text-sky-400 shrink-0" />
+                    <span>{isEs ? 'Conexión Remota: AnyDesk, TeamViewer, RustDesk' : 'Remote Connection: AnyDesk, TeamViewer, RustDesk'}</span>
                   </div>
-                  <p className="text-slate-500 dark:text-slate-400 pl-6">Compatible con Windows 10, 11 y Linux</p>
+                  <p className="text-slate-500 dark:text-slate-400 pl-6">
+                    {isEs ? 'Compatible con Windows 10, 11, Linux, Android y macOS' : 'Compatible with Windows 10, 11, Linux, Android & macOS'}
+                  </p>
                   <div className="flex items-center gap-2 text-sky-600 dark:text-sky-400 pl-6 pt-1">
-                    <Laptop className="w-3.5 h-3.5" />
-                    <span>Supervisión en tu pantalla en todo momento</span>
+                    <Laptop className="w-3.5 h-3.5 shrink-0" />
+                    <span>{isEs ? 'Supervisión en tu pantalla en todo momento' : 'Live supervision on your screen at all times'}</span>
                   </div>
                 </div>
               </div>
@@ -1381,32 +1415,70 @@ export const TechnicalSupportPage: React.FC = () => {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-bold font-mono uppercase text-slate-700 dark:text-slate-300">
-                        {isEs ? 'Nombre Completo *' : 'Full Name *'}
-                      </label>
+                      <div className="flex items-center justify-between gap-2">
+                        <label className="text-xs font-bold font-mono uppercase text-slate-700 dark:text-slate-300">
+                          {isEs ? 'Nombre Completo *' : 'Full Name *'}
+                        </label>
+                        <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500">
+                          {formData.nombre.length}/{MAX_NAME_LENGTH}
+                        </span>
+                      </div>
                       <input
                         type="text"
                         required
+                        maxLength={MAX_NAME_LENGTH}
                         value={formData.nombre}
-                        onChange={e => setFormData({ ...formData, nombre: e.target.value })}
+                        onChange={e =>
+                          setFormData({ ...formData, nombre: e.target.value.slice(0, MAX_NAME_LENGTH) })
+                        }
                         placeholder={isEs ? 'Ej: Marcela González' : 'e.g. Michael Scott'}
                         className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-[#0B0F17] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white text-sm focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none transition-colors"
                       />
                     </div>
 
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-bold font-mono uppercase text-slate-700 dark:text-slate-300">
-                        {isEs ? 'WhatsApp de Contacto *' : 'Contact WhatsApp *'}
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        value={formData.telefono}
-                        onChange={e => setFormData({ ...formData, telefono: e.target.value })}
-                        placeholder="+56 9 8767 6879"
-                        className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-[#0B0F17] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white text-sm font-mono focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none transition-colors"
-                      />
-                    </div>
+                    {(() => {
+                      const phoneInfo = detectPhoneRule(formData.telefono);
+                      return (
+                        <div className="flex flex-col gap-1.5">
+                          <div className="flex items-center justify-between gap-2">
+                            <label className="text-xs font-bold font-mono uppercase text-slate-700 dark:text-slate-300">
+                              {isEs ? 'WhatsApp de Contacto *' : 'Contact WhatsApp *'}
+                            </label>
+                            {phoneInfo.rule ? (
+                              <span className="text-[10px] font-mono text-sky-600 dark:text-sky-400 font-semibold truncate">
+                                {isEs ? phoneInfo.rule.countryEs : phoneInfo.rule.countryEn} (+{phoneInfo.rule.code}) · {phoneInfo.localDigitsCount}/{phoneInfo.rule.maxLocal}
+                              </span>
+                            ) : (
+                              <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500">
+                                {phoneInfo.digits.length}/{phoneInfo.maxTotalDigits}
+                              </span>
+                            )}
+                          </div>
+                          <input
+                            type="tel"
+                            inputMode="tel"
+                            required
+                            value={formData.telefono}
+                            onChange={e => {
+                              const cleaned = sanitizeWhatsappPhone(e.target.value);
+                              setFormData({ ...formData, telefono: cleaned });
+                              if (phoneError) setPhoneError('');
+                            }}
+                            placeholder="+56987676879"
+                            className={`w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-[#0B0F17] border text-slate-900 dark:text-white text-sm font-mono focus:ring-1 outline-none transition-colors ${
+                              phoneError
+                                ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500'
+                                : 'border-slate-300 dark:border-slate-700 focus:border-sky-500 focus:ring-sky-500'
+                            }`}
+                          />
+                          {phoneError && (
+                            <p className="text-[11px] text-rose-600 dark:text-rose-400 font-medium">
+                              {phoneError}
+                            </p>
+                          )}
+                        </div>
+                      );
+                    })()}
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1415,10 +1487,18 @@ export const TechnicalSupportPage: React.FC = () => {
                         {isEs ? 'Ubicación / Modalidad *' : 'Location / Modality *'}
                       </label>
                       <select
+                        required
                         value={formData.modalidad}
                         onChange={e => setFormData({ ...formData, modalidad: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-[#0B0F17] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white text-sm focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none transition-colors cursor-pointer"
+                        className={`w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-[#0B0F17] border border-slate-300 dark:border-slate-700 text-sm focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none transition-colors cursor-pointer ${
+                          formData.modalidad
+                            ? 'text-slate-900 dark:text-white'
+                            : 'text-slate-500 dark:text-slate-400'
+                        }`}
                       >
+                        <option value="" disabled>
+                          {isEs ? 'Seleccionar' : 'Select'}
+                        </option>
                         <option value="remoto">{isEs ? 'Soporte Remoto Online (Cualquier ubicación)' : 'Remote Support Online (Any location)'}</option>
                         <option value="antofagasta">{isEs ? 'Presencial en Laboratorio (Ecuador 1438, Antofagasta)' : 'On-Site Lab (Ecuador 1438, Antofagasta)'}</option>
                         <option value="terreno-empresas">{isEs ? 'Ticket en Terreno para Empresas (Antofagasta)' : 'On-Site Corporate Ticket (Antofagasta)'}</option>
@@ -1430,10 +1510,18 @@ export const TechnicalSupportPage: React.FC = () => {
                         {isEs ? 'Tipo de Requerimiento *' : 'Requirement Type *'}
                       </label>
                       <select
+                        required
                         value={formData.tipoRequerimiento}
                         onChange={e => setFormData({ ...formData, tipoRequerimiento: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-[#0B0F17] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white text-sm focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none transition-colors cursor-pointer"
+                        className={`w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-[#0B0F17] border border-slate-300 dark:border-slate-700 text-sm focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none transition-colors cursor-pointer ${
+                          formData.tipoRequerimiento
+                            ? 'text-slate-900 dark:text-white'
+                            : 'text-slate-500 dark:text-slate-400'
+                        }`}
                       >
+                        <option value="" disabled>
+                          {isEs ? 'Seleccionar' : 'Select'}
+                        </option>
                         <option value="reparacion-software">{isEs ? 'Reparación de Software y Respaldo Seguro' : 'Software Repair & Secure Backup'}</option>
                         <option value="soporte-remoto">{isEs ? 'Soporte Remoto Inmediato (Problemas en Equipos / Lentitud)' : 'Immediate Remote Support (Computer Lag / Crashes)'}</option>
                         <option value="ticket-empresas">{isEs ? 'Ticket Presencial Empresas: Informática & Sistemas' : 'Corporate Ticket: IT & Systems'}</option>
