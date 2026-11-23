@@ -35,12 +35,20 @@ const COUNTRY_PHONE_RULES: CountryPhoneRule[] = [
   { code: '39', countryEs: 'Italia', countryEn: 'Italy', minLocal: 9, maxLocal: 10 },
   { code: '44', countryEs: 'Reino Unido', countryEn: 'United Kingdom', minLocal: 10, maxLocal: 10 },
   { code: '49', countryEs: 'Alemania', countryEn: 'Germany', minLocal: 10, maxLocal: 11 },
+  { code: '31', countryEs: 'Países Bajos', countryEn: 'Netherlands', minLocal: 9, maxLocal: 9 },
+  { code: '32', countryEs: 'Bélgica', countryEn: 'Belgium', minLocal: 9, maxLocal: 9 },
+  { code: '41', countryEs: 'Suiza', countryEn: 'Switzerland', minLocal: 9, maxLocal: 9 },
+  { code: '61', countryEs: 'Australia', countryEn: 'Australia', minLocal: 9, maxLocal: 9 },
+  { code: '81', countryEs: 'Japón', countryEn: 'Japan', minLocal: 10, maxLocal: 10 },
+  { code: '86', countryEs: 'China', countryEn: 'China', minLocal: 11, maxLocal: 11 },
+  { code: '91', countryEs: 'India', countryEn: 'India', minLocal: 10, maxLocal: 10 },
   // 1-digit codes
   { code: '1', countryEs: 'EE.UU. / Canadá', countryEn: 'US / Canada', minLocal: 10, maxLocal: 10 },
 ];
 
 export const DEFAULT_MIN_DIGITS = 8;
-export const DEFAULT_MAX_DIGITS = 12;
+export const DEFAULT_LOCAL_MAX_DIGITS = 12;
+export const GLOBAL_E164_MAX_DIGITS = 15;
 
 export interface PhoneInspection {
   hasPlus: boolean;
@@ -82,7 +90,7 @@ export function detectPhoneRule(value: string): PhoneInspection {
     rule: null,
     localDigitsCount: digits.length,
     minTotalDigits: DEFAULT_MIN_DIGITS,
-    maxTotalDigits: DEFAULT_MAX_DIGITS,
+    maxTotalDigits: hasPlus ? GLOBAL_E164_MAX_DIGITS : DEFAULT_LOCAL_MAX_DIGITS,
   };
 }
 
