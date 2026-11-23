@@ -24,6 +24,9 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { RecordlyReveal, RecordlyScrollDepthCard } from '../components/ui/RecordlyReveal';
+import portfolioShowcaseImg from '../assets/images/web_portfolio_showcase_1795404069428.jpg';
+import qrMenuRestaurantImg from '../assets/images/qr_menu_restaurant_1795404067873.jpg';
+import corporateWebOfficeImg from '../assets/images/corporate_web_office_1795404068075.jpg';
 
 export const WebDesignPage: React.FC = () => {
   const { language, navigateTo, triggerSpill } = useApp();
@@ -283,15 +286,18 @@ export const WebDesignPage: React.FC = () => {
                   <img
                     alt="Portafolio y diseño web informativo multidispositivo"
                     className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    src="https://lh3.googleusercontent.com/aida/AEtjO1WJVdW9kqFTb2VI5W2evWoaW1GW6m_mS5dEzO7AFf6E5AruaimoHkznE0YfPa-BnS7sQNTGoYlOMJw6JydvgrPPzmGCQlHC7KaR4CkxlxJtQoWSflXqUfKeT5l4uefB3VOEMrvCB9ZMue0a1XP_CJSQm26rmdMrSVBfzdLesKrz79Ns9J8qsiIorZpzGxaShCDvPcPT92ZNT4YcyyfBmMyFVu3bgh8nFH7ed15OuXzwSW0A_Fm02vXESUE"
+                    src={portfolioShowcaseImg}
+                    referrerPolicy="no-referrer"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between p-3 rounded-xl bg-slate-900/85 backdrop-blur-md border border-slate-700/60 text-white text-xs">
+                  <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-slate-900/85 backdrop-blur-md border border-slate-700/60 text-white text-xs">
                     <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-pink-500 animate-pulse" />
+                      <span className="w-2 h-2 rounded-full bg-pink-500 animate-pulse shrink-0" />
                       <span className="font-mono font-semibold">PORTFOLIO // RESPONSIVE SUITE</span>
                     </div>
-                    <span className="font-mono text-pink-400">Multi-Device Ready</span>
+                    <span className="font-mono text-pink-400">
+                      {isEs ? 'Adaptable a PC y Móvil' : 'PC & Mobile Ready'}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -309,15 +315,18 @@ export const WebDesignPage: React.FC = () => {
                   <img
                     alt="Menú digital interactivo QR para restaurantes"
                     className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    src="https://lh3.googleusercontent.com/aida/AEtjO1WWLDBJdkfk7_J8jRjaO3ILWthE2dJFbwz1KnecRfTaqLqrQzaN675q8xVJvNrVkAMvWK4kX3HFaysl7bELQaPiBivXomJxsK_YIAAY17m0zM2LNQY5S9ftXbjwKcvQ16OtlJZtOeyZ6AfnY3AcUoqtm-VzScIWQ2AcMnC1iM6mPz-cv-dBGF87WFCArMf9daqvwNiae_gR7xnrxKQl-lw3B8mNaco0GyaGR4i28U7c1vJSonvSqNuCWgw"
+                    src={qrMenuRestaurantImg}
+                    referrerPolicy="no-referrer"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between p-3 rounded-xl bg-slate-900/85 backdrop-blur-md border border-slate-700/60 text-white text-xs">
+                  <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-slate-900/85 backdrop-blur-md border border-slate-700/60 text-white text-xs">
                     <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                      <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse shrink-0" />
                       <span className="font-mono font-semibold">QR GOURMET // DINE-IN & TAKE-AWAY</span>
                     </div>
-                    <span className="font-mono text-amber-400">Zero App Download</span>
+                    <span className="font-mono text-amber-400">
+                      {isEs ? 'Sin descargar apps' : 'No App Needed'}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -509,12 +518,13 @@ export const WebDesignPage: React.FC = () => {
                   <img
                     alt="Plataforma web empresarial en monitor de oficina ejecutiva"
                     className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    src="https://lh3.googleusercontent.com/aida/AEtjO1WXLzr6zW-kiJ7wfSPp7s9DeFi0RBdXKzreYP1qPyAUjwsDwm59-TxQSSel3ifc0C2CKEY0uiUsDj9uHxXlruKW8CoORUL0v6Qj8aTUciCdhOGo_EYC3-4HO17NJgzPRE7cJJUgWkSzxHM0eHfzdK20eWnQzOrAloHxkhgP8olgwkMxQej5tX22umSy06zSQ-kEvy2sW5sY0fIcv5byws5qwsPX9Vqrk-hwMGQS9b7bK57YZrySUo9pLQ"
+                    src={corporateWebOfficeImg}
+                    referrerPolicy="no-referrer"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between p-3 rounded-xl bg-slate-900/85 backdrop-blur-md border border-slate-700/60 text-white text-xs">
+                  <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-slate-900/85 backdrop-blur-md border border-slate-700/60 text-white text-xs">
                     <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
+                      <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse shrink-0" />
                       <span className="font-mono font-semibold">ENTERPRISE // B2B READY</span>
                     </div>
                     <span className="font-mono text-sky-400">TLS 1.3 / ISO-SEC</span>
